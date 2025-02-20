@@ -11,7 +11,7 @@ import SwiftUI
 struct Privacy_FortressApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            SplashScreenView()
         }
     }
 }
