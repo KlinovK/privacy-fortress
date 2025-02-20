@@ -13,6 +13,13 @@ enum StartScreenViewState {
     case isFinishedAnalyzing
 }
 
+enum StartScreenIssueType {
+    case wifiSecurity
+    case personalDataProtection
+    case systemSecurity
+    case safeStorage
+}
+
 enum ResultsScreenViewState {
     case issuesNotFound
     case issuesFound

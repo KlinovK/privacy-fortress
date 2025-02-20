@@ -13,8 +13,8 @@ struct SplashScreenView: View {
     @State private var topIconIsHidden = true
     @State private var bottomIconIsHidden = true
     @State private var logoSize: (CGFloat, CGFloat) = (224, 270)
-    @State private var topIcon: String = IconsManager.icWifiSecuritySplash.image
-    @State private var bottomIcon: String = IconsManager.icPersonalSataSecuritySplash.image
+    @State private var topIcon: String = IconsManager.icWifiSecurity.image
+    @State private var bottomIcon: String = IconsManager.icPersonalDataSecurity.image
     
     private let kAnimationDuration: TimeInterval = 0.5
     
@@ -43,7 +43,7 @@ struct SplashScreenView: View {
             }
             
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(LinearGradient(gradient: Gradient(colors: [Color("SplashScreenBackground1"), Color("SplashScreenBackground2")]),
+            .background(LinearGradient(gradient: Gradient(colors: [ColorManager.splashScreenBackground1.color, ColorManager.splashScreenBackground2.color]),
                                        startPoint: .top,
                                        endPoint: .bottom))
             .ignoresSafeArea()
@@ -53,7 +53,7 @@ struct SplashScreenView: View {
         }
     }
     
-    func animateIcons() {
+    private func animateIcons() {
 
         withAnimation(.easeOut(duration: kAnimationDuration).delay(0.5)) {
             topIconIsHidden = false
@@ -67,7 +67,7 @@ struct SplashScreenView: View {
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            topIcon = IconsManager.icSystemSecuritySplash.image
+            topIcon = IconsManager.icSystemSecurity.image
             withAnimation(.easeOut(duration: kAnimationDuration)) {
                 topIconIsHidden = false
                 bottomIconIsHidden = true
@@ -75,7 +75,7 @@ struct SplashScreenView: View {
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            bottomIcon = IconsManager.icPersonalStorageSplash.image
+            bottomIcon = IconsManager.icPersonalStorage.image
             withAnimation(.easeOut(duration: kAnimationDuration)) {
                 topIconIsHidden = true
                 bottomIconIsHidden = false

@@ -7,10 +7,13 @@
 
 public enum IconsManager: String {
     case appLogo = "ic_app_logo"
-    case icWifiSecuritySplash = "ic_wifi_security_splash_screen_logo"
-    case icSystemSecuritySplash = "ic_system_security_splash_screen"
-    case icPersonalSataSecuritySplash = "ic_personal_data_security_splash"
-    case icPersonalStorageSplash = "ic_personal_storage_splash"
+    case icWifiSecurity = "ic_wifi_security"
+    case icSystemSecurity = "ic_system_security"
+    case icPersonalDataSecurity = "ic_personal_data_security"
+    case icPersonalStorage = "ic_personal_storage"
+    case icAppLogoStartScreen = "ic_app_logo_start_screen"
+    case icAnalyzing = "ic_analyzing"
+    case icCheckmark = "ic_checkmark"
     
     var image: String {
         self.rawValue
