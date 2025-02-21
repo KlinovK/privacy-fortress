@@ -22,7 +22,7 @@ class SafeStorageManager: SafeStorageManagerProtocol {
     }
     
     public func checkIsMediaSafe() async {
-        UserSessionManager.shared.isAnyPasswordsSavedToSafeStorage = false
+        UserSessionManager.shared.isMediaSafe = false
         print("✅ No passwords yet saved to safe storage.")
     }
     

@@ -31,12 +31,13 @@ struct StartCardViewView: View {
                 
                 VStack(alignment: .leading, spacing: 10) {
                     Text(title)
-                        .font(.custom(FontsManager.SFbold.font, size: 18))
+                        .font(.custom(FontsManager.SFRegular.font, size: 18))
                         .frame(alignment: .leading)
+                        .foregroundColor(ColorManager.textDefaultColor.color)
                     Text(subtitle)
-                        .font(.custom(FontsManager.SFbold.font, size: 18))
-                        .foregroundColor(.gray)
+                        .font(.custom(FontsManager.SFlight.font, size: 16))
                         .frame(alignment: .leading)
+                        .foregroundColor(ColorManager.textDefaultColor.color)
                 }
                 .padding(.top, 20)
             }

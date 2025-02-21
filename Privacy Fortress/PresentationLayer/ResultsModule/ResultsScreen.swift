@@ -8,68 +8,56 @@
 import SwiftUI
 
 struct ResultsScreen: View {
-    
-    @State private var viewState: ResultsScreenViewState = .issuesNotFound
-    
+        
     var body: some View {
         NavigationStack {
-            ScrollView {
-                
-                updatedHeaderView()
-                
-                NavigationLink(destination: PaywallScreen()) {
-                    Text("Resolve All Issues")
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.green)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
+            GeometryReader { geometry in
+                ScrollView {
+                    updatedHeaderView()
+                    NavigationLink(destination: PaywallScreen()) {
+                        Text("Resolve All Issues")
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.green)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
                 }
-                
-                .padding(EdgeInsets(top: 22, leading: 0, bottom: 24, trailing: 0))
+                .padding(.top, Constants.isIPad ? 88 : 21)
+                .padding(.horizontal, Constants.isIPad ? 190 : 16)
+                .frame(height: geometry.size.height)
             }
-            
             .scrollIndicators(.hidden)
-            .padding(.horizontal, 24)
-            .background(Color.gray.opacity(0.1))
+            .background(ColorManager.mainBackground.color)            
             .toolbar(.hidden, for: .navigationBar)
         }
     }
     
-    private func changeState(state: ResultsScreenViewState) {
-        viewState = state
-    }
-    
     private func setupResultsCardViews() -> some View {
         VStack(spacing: 12) {
-            ResultCardViewView(title: "Wi-Fi Security", subtitle: "Ensure your Wi-Fi connection is safe and secure", imageName: "swift")
-            ResultCardViewView(title: "Personal Data Protection", subtitle: "Monitor and protect your personal information", imageName: "iphone")
-            ResultCardViewView(title: "System Security", subtitle: "Check your device settings for optimal security", imageName: "waveform.path.ecg")
-            ResultCardViewView(title: "Safe Storage", subtitle: "Securely store your media and passwords.", imageName: "waveform.path.ecg")
+            ResultCardViewView(title: "Wi-Fi Security", firstIssueTitle: "Malicious Sites Protection:", secondIssueTitle: "Wi-Fi Security Check:", imageName: IconsManager.icWifiSecurity.image, firstIssueType: .maliciousSitesProtection, secondIssueType: .wifiSecurityCheck)
+            ResultCardViewView(title: "Personal Data Protection", firstIssueTitle: "Data Breach Monitoring:", secondIssueTitle: "Find My:", imageName: IconsManager.icPersonalDataSecurity.image, firstIssueType: .dataBreachMonitoring, secondIssueType: .findMy)
+            ResultCardViewView(title: "System Security", firstIssueTitle: "Device Lock:", secondIssueTitle: "iOS Version Check:", imageName: IconsManager.icSystemSecurity.image, firstIssueType: .deviceLock, secondIssueType: .iOSVersionCheck)
+            ResultCardViewView(title: "Safe Storage", firstIssueTitle: "Media Safe:", secondIssueTitle: "Password Vault:", imageName: IconsManager.icPersonalStorage.image, firstIssueType: .mediaSafe, secondIssueType: .passwordVaul)
         }
-        .padding(.top, 24)
+        .padding(.top, 16)
     }
     
     private func updatedHeaderView() -> some View {
         VStack(spacing: 12) {
-            switch viewState {
-            case .issuesNotFound:
-                Image(systemName: "applelogo")
+                Image(UserSessionManager.shared.issuesArray.contains(false) ? IconsManager.icIssuesFound.image : IconsManager.icSssuesNotFound.image)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 116, height: 116)
-                Text("Issues not found")
-                Text("Your device is fully protected and secure!")
+                Text(UserSessionManager.shared.issuesArray.contains(false) ? "\(UserSessionManager.shared.issuesArray.filter { $0 == false }.count) issues found" : "Issues not found")
+                .font(.custom(FontsManager.SFbold.font, size: 20))
+                .foregroundColor(ColorManager.textDefaultColor.color)
+            
+                Text(UserSessionManager.shared.issuesArray.contains(false) ? "Resolve issues to optimize your device's security." : "Your device is fully protected and secure!")
+                .font(.custom(FontsManager.SFbold.font, size: 16))
+                .foregroundColor(ColorManager.textDefaultColor.color)
+            
                 setupResultsCardViews()
-            case .issuesFound:
-                Image(systemName: "applelogo")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 116, height: 116)
-                Text("8 issues found")
-                Text("Resolve issues to optimize your device's security.")
-                setupResultsCardViews()
-            }
         }
     }
 }
@@ -78,46 +66,48 @@ struct ResultsScreen: View {
     ResultsScreen()
 }
 
-
 struct ResultCardViewView: View {
     
     let title: String
-    let subtitle: String
+    let firstIssueTitle: String
+    let secondIssueTitle: String
     let imageName: String
+    let firstIssueType: IssueType
+    let secondIssueType: IssueType
 
     var body: some View {
         ZStack(alignment: .topLeading) {
-            
             Color.white
-                .frame(height: 164)
+                .frame(height: 148)
                 .cornerRadius(16)
-
             HStack(spacing: 5.5) {
-                Image(systemName: imageName)
+                Image(imageName)
+                    .renderingMode(.template)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 32, height: 32)
+                    .foregroundColor(Color.black)
                 Text(title)
                     .font(.headline)
             }
-            .padding(EdgeInsets(top: 24, leading: 16, bottom: 0, trailing: 0))
+            .padding(EdgeInsets(top: 16, leading: 12, bottom: 0, trailing: 0))
             
             VStack(spacing: 12) {
                 HStack {
-                    Text(title)
+                    Text(firstIssueTitle)
                         .font(.system(size: 12, weight: .light))
                     Spacer()
-                    BadgeView()
+                    BadgeView(issueType: firstIssueType)
                 }
                 
                 HStack {
-                    Text(title)
+                    Text(secondIssueTitle)
                         .font(.system(size: 12, weight: .light))
                     Spacer()
-                    BadgeView()
+                    BadgeView(issueType: secondIssueType)
                 }
             }
-            .padding(EdgeInsets(top: 72, leading: 16, bottom: 0, trailing: 16))
+            .padding(EdgeInsets(top: 64, leading: 12, bottom: 0, trailing: 12))
 
 
         }

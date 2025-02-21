@@ -59,7 +59,7 @@ class StartScreenViewModel: ObservableObject {
         isLoading = true
         isRequestComplete = false
 
-        await personalDataProtectionManager.checkisICloudAccountAvailableAndSaveToUserSessionManager()
+        await personalDataProtectionManager.checkIsCloudAccountAvailableAndSaveToUserSessionManager()
         await personalDataProtectionManager.checkDataBreach(for: "kost9klinov@gmail.com")
 
         for i in 1...25 {

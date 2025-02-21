@@ -10,17 +10,14 @@ import SwiftUI
 struct AnalyzingCardView: View {
     
     let title: String
-    let subtitle: String
     let imageName: String
     var progress: CGFloat
     
-    @State var type: StartScreenIssueType = .wifiSecurity
-
     var body: some View {
         ZStack(alignment: .leading) {
             
             Color.white
-                .frame(height: type == .systemSecurity ? 101 : 77)
+                .frame(height: 77)
                 .cornerRadius(16)
 
             Image(imageName)
@@ -34,17 +31,12 @@ struct AnalyzingCardView: View {
             HStack(spacing: 0) {
                 VStack(alignment: .leading) {
                     Text(title)
-                        .font(.custom(FontsManager.SFbold.font, size: 18))
+                        .font(.custom(FontsManager.SFRegular.font, size: 18))
                         .frame(maxWidth: .infinity, alignment: .leading)
+                        .foregroundColor(ColorManager.textDefaultColor.color)
                     
                     HorizontalProgressView(progress: progress)
                         .frame(alignment: .leading)
-                    
-                    Text(subtitle)
-                        .font(.custom(FontsManager.SFbold.font, size: 12))
-                        .foregroundColor(.gray)
-                        .lineLimit(1)
-                        .frame(maxWidth: 234, alignment: .leading)
                 }
                 
                 Spacer()

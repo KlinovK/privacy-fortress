@@ -16,6 +16,7 @@ enum ColorManager: String {
     case buttonActiveColor = "ButtonActiveColor"
     case analyzingCircleBorderColor = "AnalyzingCircleBorderColor"
     case buttonDisabledColor = "ButtonDisabledColor"
+    case protectionIsOffColor = "ProtectionIsOffColor"
 
     var color: Color {
         Color(self.rawValue)

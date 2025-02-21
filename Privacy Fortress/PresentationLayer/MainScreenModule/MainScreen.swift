@@ -118,7 +118,7 @@ struct MainCardViewView: View {
                 Text(firstRowTitle)
                     .font(.system(size: 12, weight: .light))
 
-                BadgeView()
+                BadgeView(issueType: .dataBreachMonitoring)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             
@@ -137,7 +137,7 @@ struct MainCardViewView: View {
             HStack {
                 Text(secondRowTitle)
                     .font(.system(size: 12, weight: .light))
-                BadgeView()
+                BadgeView(issueType: .dataBreachMonitoring)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
 

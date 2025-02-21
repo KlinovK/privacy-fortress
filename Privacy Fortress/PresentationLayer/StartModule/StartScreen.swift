@@ -25,7 +25,7 @@ struct StartScreenView: View {
                                 .frame(width: 114, height: 138)
                             
                             Text("Your Privacy & Security Check")
-                                .font(.custom(FontsManager.SFbold.font, size: 20))
+                                .font(.custom(FontsManager.SFSemibold.font, size: 20))
                                 .foregroundColor(ColorManager.textDefaultColor.color)
                             presentCardViews()
                             Spacer()
@@ -41,7 +41,7 @@ struct StartScreenView: View {
                                 Text("Start Scan")
                                     .padding()
                                     .frame(maxWidth: .infinity)
-                                    .font(.custom(FontsManager.SFbold.font, size: 20))
+                                    .font(.custom(FontsManager.SFSemibold.font, size: 20))
                                     .background(ColorManager.buttonActiveColor.color)
                                     .foregroundColor(.white)
                                     .cornerRadius(10)
@@ -51,7 +51,7 @@ struct StartScreenView: View {
                             CircularProgressView(progress: viewModel.progress)
                                 .padding(.bottom, 14)
                             Text("Analyzing Your Device...")
-                                .font(.custom(FontsManager.SFbold.font, size: 20))
+                                .font(.custom(FontsManager.SFSemibold.font, size: 20))
                                 .padding(.bottom, 24)
                             presentAnalyzingCardViews()
                             
@@ -60,7 +60,7 @@ struct StartScreenView: View {
                                 Text("View Results")
                                     .padding()
                                     .frame(maxWidth: .infinity)
-                                    .font(.custom(FontsManager.SFbold.font, size: 20))
+                                    .font(.custom(FontsManager.SFSemibold.font, size: 20))
                                     .background(viewModel.progress < 1 ? ColorManager.buttonDisabledColor.color : ColorManager.buttonActiveColor.color)
                                     .foregroundColor(.white)
                                     .cornerRadius(10)
@@ -96,10 +96,10 @@ struct StartScreenView: View {
     
     private func presentAnalyzingCardViews() -> some View {
         VStack(spacing: 8) {
-            AnalyzingCardView(title: "Wi-Fi Security", subtitle: "", imageName: IconsManager.icWifiSecurity.image, progress: viewModel.wifiSecurityProgress, type: .wifiSecurity)
-            AnalyzingCardView(title: "Personal Data Protection", subtitle: "", imageName: IconsManager.icPersonalDataSecurity.image, progress: viewModel.personalDataProtectionProgress, type: .personalDataProtection)
-            AnalyzingCardView(title: "System Security", subtitle: "Internal storage/addon/system file.idf", imageName: IconsManager.icSystemSecurity.image, progress: viewModel.systemSecurityProgress, type: .systemSecurity)
-            AnalyzingCardView(title: "Safe Storage", subtitle: "", imageName: IconsManager.icPersonalStorage.image, progress: viewModel.safeStorageProgress, type: .safeStorage)
+            AnalyzingCardView(title: "Wi-Fi Security", imageName: IconsManager.icWifiSecurity.image, progress: viewModel.wifiSecurityProgress)
+            AnalyzingCardView(title: "Personal Data Protection", imageName: IconsManager.icPersonalDataSecurity.image, progress: viewModel.personalDataProtectionProgress)
+            AnalyzingCardView(title: "System Security", imageName: IconsManager.icSystemSecurity.image, progress: viewModel.systemSecurityProgress)
+            AnalyzingCardView(title: "Safe Storage", imageName: IconsManager.icPersonalStorage.image, progress: viewModel.safeStorageProgress)
         }
     }
 }

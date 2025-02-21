@@ -7,7 +7,7 @@
 
 import Foundation
 
-actor UserSessionManager {
+class UserSessionManager {
     
     static let shared = UserSessionManager()
     
@@ -87,5 +87,9 @@ actor UserSessionManager {
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.UserDefaultsKeys.kIsSecureNetwork)
         }
+    }
+    
+    var issuesArray: [Bool] {
+        return [findMyEnabled, !dataBreachesFound, isAnyPasswordsSavedToSafeStorage, isMediaSafe, isDeviceLockEnabled, !isDeviceVersionLowerThan13, isMaliciousSitesProtectionEnabled, isSecureNetwork]
     }
 }

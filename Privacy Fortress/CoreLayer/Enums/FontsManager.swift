@@ -10,6 +10,9 @@ import Foundation
 enum FontsManager: String {
     
     case SFbold = "SFProDisplay-Bold"
+    case SFSemibold = "SFProDisplay-Semibold"
+    case SFlight = "SFProDisplay-Light"
+    case SFRegular = "SFProDisplay-Regular"
 
     var font: String {
         self.rawValue

@@ -34,3 +34,14 @@ enum WifiCheckResultScreenViewState {
     case wifiIsSecure
     case wifiIsNotSecure
 }
+
+enum IssueType {
+    case maliciousSitesProtection
+    case wifiSecurityCheck
+    case dataBreachMonitoring
+    case findMy
+    case deviceLock
+    case iOSVersionCheck
+    case mediaSafe
+    case passwordVaul
+}
