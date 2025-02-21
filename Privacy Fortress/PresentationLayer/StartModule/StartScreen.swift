@@ -9,7 +9,7 @@ import SwiftUI
 
 struct StartScreenView: View {
     
-    @State private var viewState: StartScreenViewState = .isAnalyzing
+    @State private var viewState: StartScreenViewState = .start
     @StateObject private var viewModel = StartScreenViewModel()
 
     var body: some View {
@@ -31,6 +31,12 @@ struct StartScreenView: View {
                             Spacer()
                             Button(action: {
                                 changeViewState(state: .isAnalyzing)
+                                Task {
+                                    await viewModel.startWiFiSecurityCheck()
+                                    await viewModel.startPersonalDataProtectionCheck()
+                                    await viewModel.startSystemSecurityCheck()
+                                    await viewModel.startSafeStorageCheck()
+                                }
                             }) {
                                 Text("Start Scan")
                                     .padding()
@@ -55,10 +61,11 @@ struct StartScreenView: View {
                                     .padding()
                                     .frame(maxWidth: .infinity)
                                     .font(.custom(FontsManager.SFbold.font, size: 20))
-                                    .background(ColorManager.buttonActiveColor.color)
+                                    .background(viewModel.progress < 1 ? ColorManager.buttonDisabledColor.color : ColorManager.buttonActiveColor.color)
                                     .foregroundColor(.white)
                                     .cornerRadius(10)
                             }
+                            .disabled(viewModel.progress < 1)
                             
                         case .isFinishedAnalyzing:
                             Text("")
@@ -72,11 +79,6 @@ struct StartScreenView: View {
             .scrollIndicators(.hidden)
             .background(ColorManager.mainBackground.color)
         }
-        .onAppear(perform: {
-            Task {
-                await viewModel.startMockRequest()
-            }
-        })
     }
     
     private func changeViewState(state: StartScreenViewState) {
@@ -94,10 +96,10 @@ struct StartScreenView: View {
     
     private func presentAnalyzingCardViews() -> some View {
         VStack(spacing: 8) {
-            AnalyzingCardView(title: "Wi-Fi Security", subtitle: "", imageName: IconsManager.icWifiSecurity.image, progress: viewModel.progress, type: .wifiSecurity)
-            AnalyzingCardView(title: "Personal Data Protection", subtitle: "", imageName: IconsManager.icPersonalDataSecurity.image, progress: viewModel.progress, type: .personalDataProtection)
-            AnalyzingCardView(title: "System Security", subtitle: "Internal storage/addon/system file.idf", imageName: IconsManager.icSystemSecurity.image, progress: viewModel.progress, type: .systemSecurity)
-            AnalyzingCardView(title: "Safe Storage", subtitle: "", imageName: IconsManager.icPersonalStorage.image, progress: viewModel.progress, type: .safeStorage)
+            AnalyzingCardView(title: "Wi-Fi Security", subtitle: "", imageName: IconsManager.icWifiSecurity.image, progress: viewModel.wifiSecurityProgress, type: .wifiSecurity)
+            AnalyzingCardView(title: "Personal Data Protection", subtitle: "", imageName: IconsManager.icPersonalDataSecurity.image, progress: viewModel.personalDataProtectionProgress, type: .personalDataProtection)
+            AnalyzingCardView(title: "System Security", subtitle: "Internal storage/addon/system file.idf", imageName: IconsManager.icSystemSecurity.image, progress: viewModel.systemSecurityProgress, type: .systemSecurity)
+            AnalyzingCardView(title: "Safe Storage", subtitle: "", imageName: IconsManager.icPersonalStorage.image, progress: viewModel.safeStorageProgress, type: .safeStorage)
         }
     }
 }
