@@ -20,6 +20,7 @@ struct ResultsScreen: View {
                             .frame(maxWidth: .infinity)
                             .background(Color.green)
                             .foregroundColor(.white)
+                            .font(.custom(FontsManager.SFSemibold.font, size: 20))
                             .cornerRadius(10)
                     }
                 }
@@ -50,11 +51,12 @@ struct ResultsScreen: View {
                     .scaledToFit()
                     .frame(width: 116, height: 116)
                 Text(UserSessionManager.shared.issuesArray.contains(false) ? "\(UserSessionManager.shared.issuesArray.filter { $0 == false }.count) issues found" : "Issues not found")
-                .font(.custom(FontsManager.SFbold.font, size: 20))
-                .foregroundColor(ColorManager.textDefaultColor.color)
+                .font(.custom(FontsManager.SFbold.font, size: 24))
+            
+                .foregroundColor(UserSessionManager.shared.issuesArray.contains(false) ? ColorManager.attentionTextColor.color : ColorManager.buttonActiveColor.color)
             
                 Text(UserSessionManager.shared.issuesArray.contains(false) ? "Resolve issues to optimize your device's security." : "Your device is fully protected and secure!")
-                .font(.custom(FontsManager.SFbold.font, size: 16))
+                .font(.custom(FontsManager.SFRegular.font, size: 16))
                 .foregroundColor(ColorManager.textDefaultColor.color)
             
                 setupResultsCardViews()
@@ -66,52 +68,3 @@ struct ResultsScreen: View {
     ResultsScreen()
 }
 
-struct ResultCardViewView: View {
-    
-    let title: String
-    let firstIssueTitle: String
-    let secondIssueTitle: String
-    let imageName: String
-    let firstIssueType: IssueType
-    let secondIssueType: IssueType
-
-    var body: some View {
-        ZStack(alignment: .topLeading) {
-            Color.white
-                .frame(height: 148)
-                .cornerRadius(16)
-            HStack(spacing: 5.5) {
-                Image(imageName)
-                    .renderingMode(.template)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 32, height: 32)
-                    .foregroundColor(Color.black)
-                Text(title)
-                    .font(.headline)
-            }
-            .padding(EdgeInsets(top: 16, leading: 12, bottom: 0, trailing: 0))
-            
-            VStack(spacing: 12) {
-                HStack {
-                    Text(firstIssueTitle)
-                        .font(.system(size: 12, weight: .light))
-                    Spacer()
-                    BadgeView(issueType: firstIssueType)
-                }
-                
-                HStack {
-                    Text(secondIssueTitle)
-                        .font(.system(size: 12, weight: .light))
-                    Spacer()
-                    BadgeView(issueType: secondIssueType)
-                }
-            }
-            .padding(EdgeInsets(top: 64, leading: 12, bottom: 0, trailing: 12))
-
-
-        }
-        .frame(maxWidth: .infinity)
-        
-    }
-}

@@ -52,8 +52,9 @@ struct StartScreenView: View {
                                 .padding(.bottom, 14)
                             Text("Analyzing Your Device...")
                                 .font(.custom(FontsManager.SFSemibold.font, size: 20))
+                                .foregroundColor(ColorManager.textDefaultColor.color)
                                 .padding(.bottom, 24)
-                            presentAnalyzingCardViews()
+                            presentAnalyzingCardViews(isNoIssuesState: false)
                             
                             Spacer()
                             NavigationLink(destination: ResultsScreen()) {
@@ -67,8 +68,71 @@ struct StartScreenView: View {
                             }
                             .disabled(viewModel.progress < 1)
                             
-                        case .isFinishedAnalyzing:
-                            Text("")
+                        case .isNoIssuesState:
+                            Image(IconsManager.icAppLogoStartScreen.image)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 114, height: 138)
+                            Text("We found no critical security bugs")
+                                .font(.custom(FontsManager.SFSemibold.font, size: 24))
+                                .padding(.bottom, 24)
+                                .foregroundColor(ColorManager.buttonActiveColor.color)
+                            
+                            presentAnalyzingCardViews(isNoIssuesState: true)
+                            
+                            Spacer()
+                            Button(action: {
+                                changeViewState(state: .isAnalyzing)
+                                Task {
+                                    await viewModel.startWiFiSecurityCheck()
+                                    await viewModel.startPersonalDataProtectionCheck()
+                                    await viewModel.startSystemSecurityCheck()
+                                    await viewModel.startSafeStorageCheck()
+                                }
+                            }) {
+                                Text("Scan Again")
+                                    .padding()
+                                    .frame(maxWidth: .infinity)
+                                    .font(.custom(FontsManager.SFSemibold.font, size: 20))
+                                    .background(ColorManager.buttonActiveColor.color)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(10)
+                            }
+                        case .longTimeNoScan:
+                            Image(IconsManager.icAppLogoWarning.image)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 114, height: 138)
+                            VStack {
+                                Text("Long time no scan!")
+                                    .font(.custom(FontsManager.SFbold.font, size: 26))
+                                    .foregroundColor(ColorManager.warningTextColor.color)
+                                Text("Your device is at risk")
+                                    .font(.custom(FontsManager.SFSemibold.font, size: 22))
+                                    .foregroundColor(ColorManager.warningTextColor.color)
+                            }
+                            .padding(.bottom, 24)
+                          
+                            presentCardViews()
+
+                            Spacer()
+                            Button(action: {
+                                changeViewState(state: .isAnalyzing)
+                                Task {
+                                    await viewModel.startWiFiSecurityCheck()
+                                    await viewModel.startPersonalDataProtectionCheck()
+                                    await viewModel.startSystemSecurityCheck()
+                                    await viewModel.startSafeStorageCheck()
+                                }
+                            }) {
+                                Text("Scan Now")
+                                    .padding()
+                                    .frame(maxWidth: .infinity)
+                                    .font(.custom(FontsManager.SFSemibold.font, size: 20))
+                                    .background(ColorManager.buttonActiveColor.color)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(10)
+                            }
                         }
                     }
                     .padding(.top, Constants.isIPad ? 88 : 21)
@@ -94,12 +158,12 @@ struct StartScreenView: View {
         }
     }
     
-    private func presentAnalyzingCardViews() -> some View {
+    private func presentAnalyzingCardViews(isNoIssuesState: Bool) -> some View {
         VStack(spacing: 8) {
-            AnalyzingCardView(title: "Wi-Fi Security", imageName: IconsManager.icWifiSecurity.image, progress: viewModel.wifiSecurityProgress)
-            AnalyzingCardView(title: "Personal Data Protection", imageName: IconsManager.icPersonalDataSecurity.image, progress: viewModel.personalDataProtectionProgress)
-            AnalyzingCardView(title: "System Security", imageName: IconsManager.icSystemSecurity.image, progress: viewModel.systemSecurityProgress)
-            AnalyzingCardView(title: "Safe Storage", imageName: IconsManager.icPersonalStorage.image, progress: viewModel.safeStorageProgress)
+            AnalyzingCardView(title: "Wi-Fi Security", imageName: IconsManager.icWifiSecurity.image, progress: viewModel.wifiSecurityProgress, isNoIssuesState: isNoIssuesState)
+            AnalyzingCardView(title: "Personal Data Protection", imageName: IconsManager.icPersonalDataSecurity.image, progress: viewModel.personalDataProtectionProgress, isNoIssuesState: isNoIssuesState)
+            AnalyzingCardView(title: "System Security", imageName: IconsManager.icSystemSecurity.image, progress: viewModel.systemSecurityProgress, isNoIssuesState: isNoIssuesState)
+            AnalyzingCardView(title: "Safe Storage", imageName: IconsManager.icPersonalStorage.image, progress: viewModel.safeStorageProgress, isNoIssuesState: isNoIssuesState)
         }
     }
 }

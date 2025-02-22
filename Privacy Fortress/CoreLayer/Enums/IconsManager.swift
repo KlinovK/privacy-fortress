@@ -25,6 +25,7 @@ public enum IconsManager: String {
     case icIosUpToDate = "ic_ios_up_to_date"
     case icFilesSecure = "ic_files_secure"
     case icPasswordSecure = "ic_password_secure"
+    case icAppLogoWarning = "ic_app_logo_warning"
     
     var image: String {
         self.rawValue

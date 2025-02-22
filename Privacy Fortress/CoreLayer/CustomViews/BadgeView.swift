@@ -35,21 +35,21 @@ struct BadgeView: View {
     private func getBackgroundColor() -> Color {
         switch issueType {
         case .maliciousSitesProtection:
-            return UserSessionManager.shared.isMaliciousSitesProtectionEnabled ? ColorManager.buttonActiveColor.color : ColorManager.protectionIsOffColor.color
+            return UserSessionManager.shared.isMaliciousSitesProtectionEnabled ? ColorManager.buttonActiveColor.color : ColorManager.attentionTextColor.color
         case .wifiSecurityCheck:
-            return UserSessionManager.shared.isSecureNetwork ? ColorManager.buttonActiveColor.color : ColorManager.protectionIsOffColor.color
+            return UserSessionManager.shared.isSecureNetwork ? ColorManager.buttonActiveColor.color : ColorManager.attentionTextColor.color
         case .dataBreachMonitoring:
-            return UserSessionManager.shared.dataBreachesFound ? ColorManager.protectionIsOffColor.color :  ColorManager.buttonActiveColor.color
+            return UserSessionManager.shared.dataBreachesFound ? ColorManager.attentionTextColor.color :  ColorManager.buttonActiveColor.color
         case .findMy:
-            return UserSessionManager.shared.findMyEnabled ? ColorManager.buttonActiveColor.color : ColorManager.protectionIsOffColor.color
+            return UserSessionManager.shared.findMyEnabled ? ColorManager.buttonActiveColor.color : ColorManager.attentionTextColor.color
         case .deviceLock:
-            return UserSessionManager.shared.isDeviceLockEnabled ? ColorManager.buttonActiveColor.color : ColorManager.protectionIsOffColor.color
+            return UserSessionManager.shared.isDeviceLockEnabled ? ColorManager.buttonActiveColor.color : ColorManager.attentionTextColor.color
         case .iOSVersionCheck:
-            return UserSessionManager.shared.isDeviceVersionLowerThan13 ? ColorManager.protectionIsOffColor.color : ColorManager.buttonActiveColor.color
+            return UserSessionManager.shared.isDeviceVersionLowerThan13 ? ColorManager.attentionTextColor.color : ColorManager.buttonActiveColor.color
         case .mediaSafe:
-            return UserSessionManager.shared.isMediaSafe ? ColorManager.buttonActiveColor.color : ColorManager.protectionIsOffColor.color
+            return UserSessionManager.shared.isMediaSafe ? ColorManager.buttonActiveColor.color : ColorManager.attentionTextColor.color
         case .passwordVaul:
-            return UserSessionManager.shared.isAnyPasswordsSavedToSafeStorage ? ColorManager.buttonActiveColor.color : ColorManager.protectionIsOffColor.color
+            return UserSessionManager.shared.isAnyPasswordsSavedToSafeStorage ? ColorManager.buttonActiveColor.color : ColorManager.attentionTextColor.color
         }
     }
 

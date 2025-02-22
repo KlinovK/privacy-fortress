@@ -10,7 +10,8 @@ import Foundation
 enum StartScreenViewState {
     case start
     case isAnalyzing
-    case isFinishedAnalyzing
+    case isNoIssuesState
+    case longTimeNoScan
 }
 
 enum StartScreenIssueType {
