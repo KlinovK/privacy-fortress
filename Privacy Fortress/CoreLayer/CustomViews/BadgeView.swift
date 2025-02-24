@@ -10,6 +10,7 @@ import SwiftUI
 struct BadgeView: View {
     
     let issueType: IssueType
+    let badgeType: BadgeType
     
     var body: some View {
         fillBadgeForIssueType()
@@ -19,14 +20,19 @@ struct BadgeView: View {
     private func fillBadgeForIssueType() -> some View {
         HStack {
             Text(getBadgeText())
-                .font(.system(size: 12, weight: .light))
-                .foregroundColor(.white)
+                .font(.custom(FontsManager.SFSemibold.font, size: 12))
+                .foregroundColor(Color.white)
                 .fixedSize()
-            Image(getBadgeImage())
-                .resizable()
-                .scaledToFit()
-                .frame(width: 20, height: 20)
-                .foregroundColor(.yellow)
+            
+            switch badgeType {
+            case .main:
+                EmptyView()
+            case .results:
+                Image(getBadgeImage())
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 20, height: 20)
+            }
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 6)
@@ -54,23 +60,45 @@ struct BadgeView: View {
     }
 
     private func getBadgeText() -> String {
-        switch issueType {
-        case .maliciousSitesProtection:
-            return UserSessionManager.shared.isMaliciousSitesProtectionEnabled ? "Sites blocked" : "Protection is off"
-        case .wifiSecurityCheck:
-            return UserSessionManager.shared.isSecureNetwork ? "Wi-Fi is secure" : "Insecure Wi-Fi"
-        case .dataBreachMonitoring:
-            return UserSessionManager.shared.dataBreachesFound ? "Data breach detected" : "No breaches detected"
-        case .findMy:
-            return UserSessionManager.shared.findMyEnabled ? "iPhone is enabled" : "iPhone disabled"
-        case .deviceLock:
-            return UserSessionManager.shared.isDeviceLockEnabled ? "Device lock is enabled" : "Your data at risk"
-        case .iOSVersionCheck:
-            return UserSessionManager.shared.isDeviceVersionLowerThan13 ? "iOS is outdated" : "iOS is up to date"
-        case .mediaSafe:
-            return UserSessionManager.shared.isMediaSafe ? "Files are securely" : "Files are not secure"
-        case .passwordVaul:
-            return UserSessionManager.shared.isAnyPasswordsSavedToSafeStorage ? "Password  is secured" : "Password is unprotected"
+        switch badgeType {
+        case .main:
+            switch issueType {
+            case .maliciousSitesProtection:
+                return UserSessionManager.shared.isMaliciousSitesProtectionEnabled ? "Sites blocked" : "Needs check"
+            case .wifiSecurityCheck:
+                return UserSessionManager.shared.isSecureNetwork ? "Wi-Fi is secure" : "Needs check"
+            case .dataBreachMonitoring:
+                return UserSessionManager.shared.dataBreachesFound ? "Data breach detected" : "Needs check"
+            case .findMy:
+                return UserSessionManager.shared.findMyEnabled ? "iPhone is enabled" : "Needs check"
+            case .deviceLock:
+                return UserSessionManager.shared.isDeviceLockEnabled ? "Device lock is enabled" : "Needs check"
+            case .iOSVersionCheck:
+                return UserSessionManager.shared.isDeviceVersionLowerThan13 ? "Needs check" : "iOS is up to date"
+            case .mediaSafe:
+                return UserSessionManager.shared.isMediaSafe ? "Files are securely" : "Needs check"
+            case .passwordVaul:
+                return UserSessionManager.shared.isAnyPasswordsSavedToSafeStorage ? "Password  is secured" : "Needs check"
+            }
+        case .results:
+            switch issueType {
+            case .maliciousSitesProtection:
+                return UserSessionManager.shared.isMaliciousSitesProtectionEnabled ? "Sites blocked" : "Protection is off"
+            case .wifiSecurityCheck:
+                return UserSessionManager.shared.isSecureNetwork ? "Wi-Fi is secure" : "Insecure Wi-Fi"
+            case .dataBreachMonitoring:
+                return UserSessionManager.shared.dataBreachesFound ? "Data breach detected" : "No breaches detected"
+            case .findMy:
+                return UserSessionManager.shared.findMyEnabled ? "iPhone is enabled" : "iPhone disabled"
+            case .deviceLock:
+                return UserSessionManager.shared.isDeviceLockEnabled ? "Device lock is enabled" : "Your data at risk"
+            case .iOSVersionCheck:
+                return UserSessionManager.shared.isDeviceVersionLowerThan13 ? "iOS is outdated" : "iOS is up to date"
+            case .mediaSafe:
+                return UserSessionManager.shared.isMediaSafe ? "Files are securely" : "Files are not secure"
+            case .passwordVaul:
+                return UserSessionManager.shared.isAnyPasswordsSavedToSafeStorage ? "Password  is secured" : "Password is unprotected"
+            }
         }
     }
 

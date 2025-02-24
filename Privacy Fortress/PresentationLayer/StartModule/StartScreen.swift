@@ -151,19 +151,19 @@ struct StartScreenView: View {
     
     private func presentCardViews() -> some View {
         VStack(spacing: 8) {
-            StartCardViewView(title: "Wi-Fi Security", subtitle: "Ensure your Wi-Fi connection is safe and secure", imageName: IconsManager.icWifiSecurity.image)
-            StartCardViewView(title: "Personal Data Protection", subtitle: "Monitor and protect your personal information", imageName: IconsManager.icPersonalDataSecurity.image)
-            StartCardViewView(title: "System Security", subtitle: "Check your device settings for optimal security", imageName: IconsManager.icSystemSecurity.image)
-            StartCardViewView(title: "Safe Storage", subtitle: "Securely store your media and passwords.", imageName: IconsManager.icPersonalStorage.image)
+            StartCardViewView(issueType: .wifiSecurity)
+            StartCardViewView(issueType: .personalDataProtection)
+            StartCardViewView(issueType: .systemSecurity)
+            StartCardViewView(issueType: .safeStorage)
         }
     }
     
     private func presentAnalyzingCardViews(isNoIssuesState: Bool) -> some View {
         VStack(spacing: 8) {
-            AnalyzingCardView(title: "Wi-Fi Security", imageName: IconsManager.icWifiSecurity.image, progress: viewModel.wifiSecurityProgress, isNoIssuesState: isNoIssuesState)
-            AnalyzingCardView(title: "Personal Data Protection", imageName: IconsManager.icPersonalDataSecurity.image, progress: viewModel.personalDataProtectionProgress, isNoIssuesState: isNoIssuesState)
-            AnalyzingCardView(title: "System Security", imageName: IconsManager.icSystemSecurity.image, progress: viewModel.systemSecurityProgress, isNoIssuesState: isNoIssuesState)
-            AnalyzingCardView(title: "Safe Storage", imageName: IconsManager.icPersonalStorage.image, progress: viewModel.safeStorageProgress, isNoIssuesState: isNoIssuesState)
+            AnalyzingCardView(issueType: .wifiSecurity, isNoIssuesState: isNoIssuesState, progress: viewModel.wifiSecurityProgress)
+            AnalyzingCardView(issueType: .personalDataProtection, isNoIssuesState: isNoIssuesState, progress: viewModel.personalDataProtectionProgress)
+            AnalyzingCardView(issueType: .systemSecurity, isNoIssuesState: isNoIssuesState, progress: viewModel.systemSecurityProgress)
+            AnalyzingCardView(issueType: .safeStorage, isNoIssuesState: isNoIssuesState, progress: viewModel.safeStorageProgress)
         }
     }
 }

@@ -26,6 +26,16 @@ public enum IconsManager: String {
     case icFilesSecure = "ic_files_secure"
     case icPasswordSecure = "ic_password_secure"
     case icAppLogoWarning = "ic_app_logo_warning"
+    case icDiamond = "ic_diamond"
+    case icSettings = "ic_settings"
+    case icUnlockPremium = "ic_unlock_premium"
+    case icChevronRight = "ic_chevron_right"
+    case icRateUs = "ic_rate_us"
+    case icShareApp = "ic_share_app"
+    case icPrivacyPolicy = "ic_privacy_policy"
+    case icTermsOfService = "ic_terms_of_service"
+    case icChangePassword = "ic_change_password"
+    case icSubscription = "ic_subscription"
     
     var image: String {
         self.rawValue

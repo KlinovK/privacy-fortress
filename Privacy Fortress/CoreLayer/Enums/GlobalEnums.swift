@@ -14,7 +14,16 @@ enum StartScreenViewState {
     case longTimeNoScan
 }
 
-enum StartScreenIssueType {
+enum SettingsCellType {
+    case rateUs
+    case shareApp
+    case privacyPolicy
+    case termsOfService
+    case changePassword
+    case subscriptions
+}
+
+enum GeneralIssueType {
     case wifiSecurity
     case personalDataProtection
     case systemSecurity
@@ -24,11 +33,6 @@ enum StartScreenIssueType {
 enum ResultsScreenViewState {
     case issuesNotFound
     case issuesFound
-}
-
-enum CheckIssueEntryPoint {
-    case maliciousSitesProtection
-    case wifiSecurityCheck
 }
 
 enum WifiCheckResultScreenViewState {
@@ -45,4 +49,9 @@ enum IssueType {
     case iOSVersionCheck
     case mediaSafe
     case passwordVaul
+}
+
+enum BadgeType {
+    case main
+    case results
 }

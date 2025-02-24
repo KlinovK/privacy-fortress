@@ -36,10 +36,10 @@ struct ResultsScreen: View {
     
     private func setupResultsCardViews() -> some View {
         VStack(spacing: 12) {
-            ResultCardViewView(title: "Wi-Fi Security", firstIssueTitle: "Malicious Sites Protection:", secondIssueTitle: "Wi-Fi Security Check:", imageName: IconsManager.icWifiSecurity.image, firstIssueType: .maliciousSitesProtection, secondIssueType: .wifiSecurityCheck)
-            ResultCardViewView(title: "Personal Data Protection", firstIssueTitle: "Data Breach Monitoring:", secondIssueTitle: "Find My:", imageName: IconsManager.icPersonalDataSecurity.image, firstIssueType: .dataBreachMonitoring, secondIssueType: .findMy)
-            ResultCardViewView(title: "System Security", firstIssueTitle: "Device Lock:", secondIssueTitle: "iOS Version Check:", imageName: IconsManager.icSystemSecurity.image, firstIssueType: .deviceLock, secondIssueType: .iOSVersionCheck)
-            ResultCardViewView(title: "Safe Storage", firstIssueTitle: "Media Safe:", secondIssueTitle: "Password Vault:", imageName: IconsManager.icPersonalStorage.image, firstIssueType: .mediaSafe, secondIssueType: .passwordVaul)
+            ResultCardView(generalIssueType: .wifiSecurity)
+            ResultCardView(generalIssueType: .personalDataProtection)
+            ResultCardView(generalIssueType: .systemSecurity)
+            ResultCardView(generalIssueType: .safeStorage)
         }
         .padding(.top, 16)
     }

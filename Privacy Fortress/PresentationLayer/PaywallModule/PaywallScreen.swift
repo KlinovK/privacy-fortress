@@ -16,12 +16,14 @@ struct PaywallScreen: View {
                     VStack {
                         HStack {
                             Spacer()
-                            NavigationLink(destination: MainScreen()) {
+                            Button(action: {
+                                // TODO: - apphud implementation
+                            }) {
                                 Text("Restore")
                                     .frame(width: 60, height: 20, alignment: .trailing)
                                     .background(Color.clear)
-                                    .foregroundColor(ColorManager.buttonActiveColor.color)
                                     .font(.custom(FontsManager.SFRegular.font, size: 18))
+                                    .foregroundColor(ColorManager.buttonActiveColor.color)
                             }
                         }
                         .padding(.bottom, 14)
@@ -44,52 +46,11 @@ struct PaywallScreen: View {
                                 .cornerRadius(16)
                             
                             VStack(alignment: .leading, spacing: 12) {
-                                HStack {
-                                    Image(systemName: "applelogo")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 24, height: 24)
-                                    Text("Advanced Wi-Fi Protection")
-                                        .foregroundColor(ColorManager.textDefaultColor.color)
-                                        .font(.custom(FontsManager.SFRegular.font, size: 18))
-                                }
-                                
-                                HStack {
-                                    Image(systemName: "applelogo")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 24, height: 24)
-                                    Text("Malicious Sites Filter")
-                                        .foregroundColor(ColorManager.textDefaultColor.color)
-                                        .font(.custom(FontsManager.SFRegular.font, size: 18))
-                                }
-                                HStack {
-                                    Image(systemName: "applelogo")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 24, height: 24)
-                                    Text("Data Breach Monitoring")
-                                        .foregroundColor(ColorManager.textDefaultColor.color)
-                                        .font(.custom(FontsManager.SFRegular.font, size: 18))
-                                }
-                                HStack {
-                                    Image(systemName: "applelogo")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 24, height: 24)
-                                    Text("Hidden File Storage")
-                                        .foregroundColor(ColorManager.textDefaultColor.color)
-                                        .font(.custom(FontsManager.SFRegular.font, size: 18))
-                                }
-                                HStack {
-                                    Image(systemName: "applelogo")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 24, height: 24)
-                                    Text("Password Vault")
-                                        .foregroundColor(ColorManager.textDefaultColor.color)
-                                        .font(.custom(FontsManager.SFRegular.font, size: 18))
-                                }
+                                createPaywallViewCell(generalIssueType: .wifiSecurity)
+                                createPaywallViewCell(generalIssueType: .safeStorage)
+                                createPaywallViewCell(generalIssueType: .personalDataProtection)
+                                createPaywallViewCell(generalIssueType: .systemSecurity)
+                                createPaywallViewCell(generalIssueType: nil)
                             }
                             .frame(height: 183)
                             .padding(EdgeInsets(top: 20, leading: 16, bottom: 20, trailing: 16))
@@ -99,38 +60,49 @@ struct PaywallScreen: View {
                         .padding(.bottom, 32)
                         
                         Text("3 days free then $9.99/week")
-                            .font(.system(size: 14, weight: .light))
+                            .font(.custom(FontsManager.SFlight.font, size: 14))
+                            .foregroundColor(ColorManager.textDefaultColor.color)
                         Text("Auto-renewable, cancel anytime")
-                            .font(.system(size: 14, weight: .light))
+                            .font(.custom(FontsManager.SFlight.font, size: 14))
                             .padding(.bottom, 32)
+                            .foregroundColor(ColorManager.textDefaultColor.color)
                         
                         Spacer()
-                        
-                        NavigationLink(destination: MainScreen()) {
-                            Text("Resolve All Issues")
+                        Button(action: {
+                            // TODO: - apphud implementation
+                        }) {
+                            Text("Protect Now")
                                 .padding()
                                 .frame(maxWidth: .infinity)
-                                .background(Color.green)
+                                .font(.custom(FontsManager.SFSemibold.font, size: 20))
+                                .background(ColorManager.attentionTextColor.color)
                                 .foregroundColor(.white)
                                 .cornerRadius(10)
                         }
                         .padding(.bottom, 0)
                         
                         HStack(spacing: 50) {
+                            
+                            // TODO: - Terms of Use
                             NavigationLink(destination: MainScreen()) {
                                 Text("Terms of Use")
-                                    .font(.system(size: 14, weight: .light))
-                                    .foregroundColor(.blue)
+                                    .font(.custom(FontsManager.SFlight.font, size: 14))
+                                    .foregroundColor(ColorManager.textSubtitleDefaultColor.color)
+                                    .underline()
                             }
+                            // TODO: - Privacy policy
+
                             NavigationLink(destination: MainScreen()) {
                                 Text("Privacy Policy")
-                                    .font(.system(size: 14, weight: .light))
-                                    .foregroundColor(.blue)
+                                    .font(.custom(FontsManager.SFlight.font, size: 14))
+                                    .foregroundColor(ColorManager.textSubtitleDefaultColor.color)
+                                    .underline()
                             }
                             NavigationLink(destination: MainScreen()) {
                                 Text("Skip")
-                                    .font(.system(size: 14, weight: .light))
-                                    .foregroundColor(.blue)
+                                    .font(.custom(FontsManager.SFlight.font, size: 14))
+                                    .foregroundColor(ColorManager.textSubtitleDefaultColor.color)
+                                    .underline()
                             }
                             
                         }
@@ -143,6 +115,34 @@ struct PaywallScreen: View {
             }
             .scrollIndicators(.hidden)
             .background(ColorManager.mainBackground.color)
+            .toolbar(.hidden, for: .navigationBar)
+        }
+    }
+    
+    private func createPaywallViewCell(generalIssueType: GeneralIssueType?) -> some View {
+        HStack {
+            Image(IconsManager.icDiamond.image)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 24, height: 24)
+            Text(gerCellTitle(issueType: generalIssueType))
+                .foregroundColor(ColorManager.textDefaultColor.color)
+                .font(.custom(FontsManager.SFRegular.font, size: 18))
+        }
+    }
+    
+    private func gerCellTitle(issueType: GeneralIssueType?) -> String {
+        switch issueType {
+        case .wifiSecurity:
+            return "Advanced Wi-Fi Protection"
+        case .safeStorage:
+            return "Malicious Sites Filter"
+        case .personalDataProtection:
+            return "Data Breach Monitoring"
+        case .systemSecurity:
+            return "Hidden File Storage"
+        default:
+            return "Password Vault"
         }
     }
 }
