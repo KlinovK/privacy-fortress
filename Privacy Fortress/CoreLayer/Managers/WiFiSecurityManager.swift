@@ -8,10 +8,10 @@
 import Foundation
 import Network
 import SafariServices
+import NetworkExtension
 
 protocol WiFiSecurityManagerProtocol {
-    func checkSecureConnection() async -> Bool
-    func checkNetworkType() async
+    func isWifiSafe() async -> Bool
     func reloadContentBlocker()
 }
 
@@ -19,47 +19,61 @@ class WiFiSecurityManager: WiFiSecurityManagerProtocol {
             
     // MARK: - Methods
     
-    public func checkSecureConnection() async -> Bool {
-        let url = URL(string: "https://www.apple.com")!
-        var request = URLRequest(url: url)
-        request.timeoutInterval = 5
-
-        do {
-            let (_, response) = try await URLSession.shared.data(for: request)
-            
-            if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
-                print("✅ Secure connection verified (Network allows HTTPS)")
-                UserSessionManager.shared.isSecureNetwork = true
-                return true
-            } else {
-                print("⚠️ Warning: Network might be insecure")
-                UserSessionManager.shared.isSecureNetwork = false
-                return false
-            }
-        } catch {
-            print("❌ Error checking secure connection: \(error.localizedDescription)")
+    public func isWifiSafe() async -> Bool {
+        let captivePortalStatus = await checkForCaptivePortal()
+        let wifiSecurityStatus = await checkWiFiSecurity()
+        
+        if captivePortalStatus == true || wifiSecurityStatus == .unsecured {
             UserSessionManager.shared.isSecureNetwork = false
             return false
+        } else {
+            UserSessionManager.shared.isSecureNetwork = true
+            return true
         }
     }
     
-    public func checkNetworkType() async {
-        let monitor = NWPathMonitor()
-        
-        monitor.pathUpdateHandler = { path in
-            if path.usesInterfaceType(.wifi) {
-                print("✅ Connected to Wi-Fi")
-            } else if path.usesInterfaceType(.cellular) {
-                print("📶 Using Cellular Data")
+    
+    private func checkForCaptivePortal() async -> Bool {
+        return await withCheckedContinuation { continuation in
+            let monitor = NWPathMonitor()
+            let queue = DispatchQueue(label: "NetworkMonitor")
+
+            monitor.pathUpdateHandler = { path in
+                if path.usesInterfaceType(.wifi) {
+                    print("📡 Connected to Wi-Fi")
+                    
+                    if path.isExpensive {
+                        print("⚠️ Possible Captive Portal Detected (Unsecured Wi-Fi)")
+                        continuation.resume(returning: true)
+                    } else {
+                        print("✅ Likely a normal Wi-Fi network")
+                        continuation.resume(returning: false)
+                    }
+                    
+                    monitor.cancel()
+                }
             }
+            
+            monitor.start(queue: queue)
         }
-        
-        let queue = DispatchQueue.global(qos: .background)
-        monitor.start(queue: queue)
+    }
+
+    private func checkWiFiSecurity() async -> WiFiSecurityStatus {
+        if let currentNetwork = await NEHotspotNetwork.fetchCurrent() {
+            if currentNetwork.isSecure {
+                print("✅ Connected to a secure Wi-Fi network")
+                return .secure
+            } else {
+                print("⚠️ Connected to an **unsecured** Wi-Fi network")
+                return .unsecured
+            }
+        } else {
+            print("❌ Unable to retrieve Wi-Fi details. Ensure app has the required entitlements and permissions.")
+            return .unknown
+        }
     }
     
     public func reloadContentBlocker() {
-        
         SFContentBlockerManager.reloadContentBlocker(withIdentifier: Constants.contentBlockerIdentifier) { error in
             if let error = error {
                 UserSessionManager.shared.isMaliciousSitesProtectionEnabled = false

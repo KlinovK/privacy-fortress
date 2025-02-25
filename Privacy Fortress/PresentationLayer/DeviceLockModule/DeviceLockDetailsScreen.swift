@@ -149,7 +149,7 @@ struct DeviceLockDetailsScreen: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.bottom, 12)
-            Text("On your device's home screen, find and tap the ")
+            Text("On your device's home screen, find and tap the")
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.custom(FontsManager.SFRegular.font, size: 14))
                 .foregroundColor(ColorManager.textSubtitleDefaultColor.color)
@@ -171,12 +171,86 @@ struct DeviceLockDetailsScreen: View {
             HStack(spacing: 10) {
                 Image(IconsManager.icSecond.image)
                     .frame(width: 24, height: 24)
-                Text("Navigate to General Settings")
+                Text("Tap on your Apple ID (your name at the top)")
                     .font(.custom(FontsManager.SFSemibold.font, size: 14))
                     .foregroundColor(ColorManager.textDefaultColor.color)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.bottom, 12)
+            
+            Text("On your device's home screen, go to Settings and tap the on your Apple ID (your name at the top)")
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .font(.custom(FontsManager.SFRegular.font, size: 14))
+                .foregroundColor(ColorManager.textSubtitleDefaultColor.color)
+                .padding(.bottom, 16)
+            
+            Separator()
+                .padding(.bottom, 16)
+            
+            HStack(spacing: 10) {
+                Image(IconsManager.icThird.image)
+                    .frame(width: 24, height: 24)
+                Text("Go to Password & Security")
+                    .font(.custom(FontsManager.SFSemibold.font, size: 14))
+                    .foregroundColor(ColorManager.textDefaultColor.color)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.bottom, 16)
+            
+            Separator()
+                .padding(.bottom, 16)
+            
+            HStack(spacing: 10) {
+                Image(IconsManager.icFourth.image)
+                    .frame(width: 24, height: 24)
+                Text("Scroll down and select Recovery Key")
+                    .font(.custom(FontsManager.SFSemibold.font, size: 14))
+                    .foregroundColor(ColorManager.textDefaultColor.color)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.bottom, 16)
+            
+            Separator()
+                .padding(.bottom, 16)
+            
+            
+            HStack(spacing: 10) {
+                Image(IconsManager.icFifth.image)
+                    .frame(width: 24, height: 24)
+                Text("Toggle the switch to On to enable the feature")
+                    .font(.custom(FontsManager.SFSemibold.font, size: 14))
+                    .foregroundColor(ColorManager.textDefaultColor.color)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.bottom, 16)
+            
+            Separator()
+                .padding(.bottom, 16)
+            
+            
+            HStack(spacing: 10) {
+                Image(IconsManager.icSixth.image)
+                    .frame(width: 24, height: 24)
+                Text("Follow the on-screen instructions to generate a Recovery Key")
+                    .font(.custom(FontsManager.SFSemibold.font, size: 14))
+                    .foregroundColor(ColorManager.textDefaultColor.color)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.bottom, 16)
+            
+            Separator()
+                .padding(.bottom, 16)
+            
+            
+            HStack(spacing: 10) {
+                Image(IconsManager.icSeventh.image)
+                    .frame(width: 24, height: 24)
+                Text("Save the 28-character key in a secure place")
+                    .font(.custom(FontsManager.SFSemibold.font, size: 14))
+                    .foregroundColor(ColorManager.textDefaultColor.color)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.bottom, 16)
         }
     }
     

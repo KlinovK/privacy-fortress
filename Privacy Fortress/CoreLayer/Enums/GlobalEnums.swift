@@ -7,6 +7,12 @@
 
 import Foundation
 
+enum WiFiSecurityStatus {
+    case secure
+    case unsecured
+    case unknown
+}
+
 enum DeviceLockViewState {
     case enabled
     case disabled

@@ -36,8 +36,7 @@ class StartScreenViewModel: ObservableObject {
         isLoading = true
         isRequestComplete = false
 
-        await wiFiSecurityManager.checkSecureConnection()
-        await wiFiSecurityManager.checkNetworkType()
+        _ = await wiFiSecurityManager.isWifiSafe()
         wiFiSecurityManager.reloadContentBlocker()
         
         for i in 1...25 {

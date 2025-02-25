@@ -53,6 +53,13 @@ public enum IconsManager: String {
     case icDeviceLockEnabled = "ic_device_lock_enabled"
     case icDeviceLockDisabled = "ic_device_lock_disabled"
     case icFaceIDPasscode = "ic_faceID_passcode"
+    case icSixth = "ic_sixth"
+    case icSeventh = "ic_seventh"
+    case icFindMySmall = "ic_find_my_small"
+    case icFindMyTutorial = "ic_find_my_tutorial"
+    case icPublicWifi = "ic_public_wifi"
+    case icHomeWifi = "ic_home_wifi"
+    case icWifiAttention = "ic_wifi_attention"
     
     var image: String {
         self.rawValue

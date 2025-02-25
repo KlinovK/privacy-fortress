@@ -17,7 +17,7 @@ class WifiSecurityCheckViewModel: ObservableObject {
     }
     
     func startWiFiSecurityCheck() async -> Bool {
-        let connectionIsSecure = await wiFiSecurityManager.checkSecureConnection()
+        let connectionIsSecure = await wiFiSecurityManager.isWifiSafe()
         return connectionIsSecure
     }
     

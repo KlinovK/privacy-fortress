@@ -164,7 +164,7 @@ struct MainCardView: View {
         case .wifiSecurity:
             return (AnyView(MaliciousSitesProtectionScreen()), AnyView(WifiSecurityCheckScreen()))
         case .personalDataProtection:
-            return (AnyView(MaliciousSitesProtectionScreen()), AnyView(WifiSecurityCheckScreen()))
+            return (AnyView(MaliciousSitesProtectionScreen()), AnyView(FindMyScreen()))
         case .systemSecurity:
             return (AnyView(DeviceLockStatusScreen()), AnyView(IOSVersionCkeckModule()))
         case .safeStorage:
@@ -175,9 +175,15 @@ struct MainCardView: View {
     private func getDetailsButtonIsHiddenState(issueType: GeneralIssueType) -> (Bool, Bool)  {
         switch issueType {
         case .wifiSecurity:
-            return (false, true)
+            
+            let maliciousSitesProtectionEnabled: Bool = UserSessionManager.shared.isMaliciousSitesProtectionEnabled
+            
+            return (maliciousSitesProtectionEnabled, false)
         case .personalDataProtection:
-            return (false, true)
+            
+            let isFindMyEnabled = UserSessionManager.shared.findMyEnabled
+            
+            return (false, isFindMyEnabled)
         case .systemSecurity:
             
             let deviceLockEnabled = UserSessionManager.shared.isDeviceLockEnabled

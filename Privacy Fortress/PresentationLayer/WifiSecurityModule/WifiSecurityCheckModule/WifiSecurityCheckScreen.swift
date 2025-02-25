@@ -40,11 +40,11 @@ struct WifiSecurityCheckScreen: View {
                             .foregroundColor(.white)
                             .cornerRadius(10)
                     }
-                    NavigationLink(
-                        destination: WifiCheckResultScreen(),
-                        isActive: $navigateToResult
-                    ) { EmptyView() }
+                    .navigationDestination(isPresented: $navigateToResult) {
+                        WifiCheckResultScreen()
+                    }
                 }
+                .padding(.bottom, 40)
                 .padding(.top, Constants.isIPad ? 391 : 143)
                 .padding(.horizontal, Constants.isIPad ? 190 : 24)
                 .frame(height: geometry.size.height)
