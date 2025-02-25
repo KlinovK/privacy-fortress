@@ -36,6 +36,23 @@ public enum IconsManager: String {
     case icTermsOfService = "ic_terms_of_service"
     case icChangePassword = "ic_change_password"
     case icSubscription = "ic_subscription"
+    case icFirst = "ic_first"
+    case icSettingsSmall = "ic_settings_small"
+    case icSecond = "ic_second"
+    case icApplications = "ic_applications"
+    case icThird = "ic_third"
+    case icSafari = "ic_safari"
+    case icFourth = "ic_fourth"
+    case icFifth = "ic_fifth"
+    case icAppiconSmall = "ic_appicon_small"
+    case icSwitcher = "ic_switcher"
+    case icModem = "ic_modem"
+    case icSettingsCell = "ic_settings_cell"
+    case icGeneralSettings = "ic_general_settings"
+    case icAvailableUpdate = "ic_available_update"
+    case icDeviceLockEnabled = "ic_device_lock_enabled"
+    case icDeviceLockDisabled = "ic_device_lock_disabled"
+    case icFaceIDPasscode = "ic_faceID_passcode"
     
     var image: String {
         self.rawValue

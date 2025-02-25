@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Network
 
 @MainActor
 class StartScreenViewModel: ObservableObject {

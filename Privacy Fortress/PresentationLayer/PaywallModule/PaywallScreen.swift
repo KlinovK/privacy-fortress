@@ -83,28 +83,28 @@ struct PaywallScreen: View {
                         
                         HStack(spacing: 50) {
                             
-                            // TODO: - Terms of Use
-                            NavigationLink(destination: MainScreen()) {
-                                Text("Terms of Use")
-                                    .font(.custom(FontsManager.SFlight.font, size: 14))
-                                    .foregroundColor(ColorManager.textSubtitleDefaultColor.color)
-                                    .underline()
-                            }
-                            // TODO: - Privacy policy
+                            Text("Terms of Use")
+                                .font(.custom(FontsManager.SFlight.font, size: 14))
+                                .foregroundColor(ColorManager.textSubtitleDefaultColor.color)
+                                .underline()
+                                .onTapGesture {
+                                    openURL("https://yourwebsite.com/terms-of-use")
+                                }
 
-                            NavigationLink(destination: MainScreen()) {
-                                Text("Privacy Policy")
-                                    .font(.custom(FontsManager.SFlight.font, size: 14))
-                                    .foregroundColor(ColorManager.textSubtitleDefaultColor.color)
-                                    .underline()
-                            }
+                            Text("Privacy Policy")
+                                .font(.custom(FontsManager.SFlight.font, size: 14))
+                                .foregroundColor(ColorManager.textSubtitleDefaultColor.color)
+                                .underline()
+                                .onTapGesture {
+                                    openURL("https://yourwebsite.com/privacy-policy")
+                                }
+                            
                             NavigationLink(destination: MainScreen()) {
                                 Text("Skip")
                                     .font(.custom(FontsManager.SFlight.font, size: 14))
                                     .foregroundColor(ColorManager.textSubtitleDefaultColor.color)
                                     .underline()
                             }
-                            
                         }
                         .padding(EdgeInsets(top: 3, leading: 26, bottom: 16, trailing: 26))
                     }
@@ -144,6 +144,11 @@ struct PaywallScreen: View {
         default:
             return "Password Vault"
         }
+    }
+    
+    private func openURL(_ urlString: String) {
+        guard let url = URL(string: urlString) else { return }
+        UIApplication.shared.open(url)
     }
 }
 

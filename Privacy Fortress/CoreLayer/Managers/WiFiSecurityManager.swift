@@ -10,31 +10,38 @@ import Network
 import SafariServices
 
 protocol WiFiSecurityManagerProtocol {
-    func checkSecureConnection() async
+    func checkSecureConnection() async -> Bool
     func checkNetworkType() async
     func reloadContentBlocker()
 }
 
 class WiFiSecurityManager: WiFiSecurityManagerProtocol {
-        
+            
     // MARK: - Methods
     
-    public func checkSecureConnection() async {
+    public func checkSecureConnection() async -> Bool {
         let url = URL(string: "https://www.apple.com")!
         var request = URLRequest(url: url)
         request.timeoutInterval = 5
-        
-        URLSession.shared.dataTask(with: request) { _, response, error in
+
+        do {
+            let (_, response) = try await URLSession.shared.data(for: request)
+            
             if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
                 print("✅ Secure connection verified (Network allows HTTPS)")
                 UserSessionManager.shared.isSecureNetwork = true
+                return true
             } else {
-                UserSessionManager.shared.isSecureNetwork = false
                 print("⚠️ Warning: Network might be insecure")
+                UserSessionManager.shared.isSecureNetwork = false
+                return false
             }
-        }.resume()
+        } catch {
+            print("❌ Error checking secure connection: \(error.localizedDescription)")
+            UserSessionManager.shared.isSecureNetwork = false
+            return false
+        }
     }
-    
     
     public func checkNetworkType() async {
         let monitor = NWPathMonitor()

@@ -62,12 +62,12 @@ class UserSessionManager {
         }
     }
     
-    var isDeviceVersionLowerThan13: Bool {
+    var isDeviceVersionLowerThanRequired: Bool {
         get {
-            UserDefaults.standard.bool(forKey: Constants.UserDefaultsKeys.kIsDeviceVersionLowerThan13)
+            UserDefaults.standard.bool(forKey: Constants.UserDefaultsKeys.isDeviceVersionLowerThanRequired)
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaultsKeys.kIsDeviceVersionLowerThan13)
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaultsKeys.isDeviceVersionLowerThanRequired)
         }
     }
     
@@ -90,6 +90,6 @@ class UserSessionManager {
     }
     
     var issuesArray: [Bool] {
-        return [findMyEnabled, !dataBreachesFound, isAnyPasswordsSavedToSafeStorage, isMediaSafe, isDeviceLockEnabled, !isDeviceVersionLowerThan13, isMaliciousSitesProtectionEnabled, isSecureNetwork]
+        return [findMyEnabled, !dataBreachesFound, isAnyPasswordsSavedToSafeStorage, isMediaSafe, isDeviceLockEnabled, !isDeviceVersionLowerThanRequired, isMaliciousSitesProtectionEnabled, isSecureNetwork]
     }
 }

@@ -20,7 +20,7 @@ struct MainCardView: View {
             createCellWithType()
 
         }
-        .frame(maxWidth: .infinity, maxHeight: 283)
+        .frame(maxWidth: .infinity, maxHeight: 290)
         
     }
     
@@ -62,8 +62,7 @@ struct MainCardView: View {
                         .font(.custom(FontsManager.SFRegular.font, size: 14))
                 }
                 .frame(maxWidth: .infinity, alignment: .trailing)
-            }
-            .onTapGesture {
+                .hidden(getDetailsButtonIsHiddenState(issueType: issueType).0)
             }
             
             Separator()
@@ -89,9 +88,7 @@ struct MainCardView: View {
                         .font(.custom(FontsManager.SFRegular.font, size: 14))
                 }
                 .frame(maxWidth: .infinity, alignment: .trailing)
-            }
-            .onTapGesture {
-                
+                .hidden(getDetailsButtonIsHiddenState(issueType: issueType).1)
             }
         }
         .padding(EdgeInsets(top: 24, leading: 16, bottom: 24, trailing: 16))
@@ -169,9 +166,31 @@ struct MainCardView: View {
         case .personalDataProtection:
             return (AnyView(MaliciousSitesProtectionScreen()), AnyView(WifiSecurityCheckScreen()))
         case .systemSecurity:
-            return (AnyView(MaliciousSitesProtectionScreen()), AnyView(WifiSecurityCheckScreen()))
+            return (AnyView(DeviceLockStatusScreen()), AnyView(IOSVersionCkeckModule()))
         case .safeStorage:
             return (AnyView(MaliciousSitesProtectionScreen()), AnyView(WifiSecurityCheckScreen()))
+        }
+    }
+    
+    private func getDetailsButtonIsHiddenState(issueType: GeneralIssueType) -> (Bool, Bool)  {
+        switch issueType {
+        case .wifiSecurity:
+            return (false, true)
+        case .personalDataProtection:
+            return (false, true)
+        case .systemSecurity:
+            
+            let deviceLockEnabled = UserSessionManager.shared.isDeviceLockEnabled
+            let iOSVersionCheckResult: Bool = !UserSessionManager.shared.isDeviceVersionLowerThanRequired
+            
+            if #available(iOS 17.0, *) {
+                return (false, iOSVersionCheckResult)
+            } else {
+                return (deviceLockEnabled, iOSVersionCheckResult)
+            }
+            
+        case .safeStorage:
+            return (false, true)
         }
     }
 }

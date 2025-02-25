@@ -51,7 +51,7 @@ struct BadgeView: View {
         case .deviceLock:
             return UserSessionManager.shared.isDeviceLockEnabled ? ColorManager.buttonActiveColor.color : ColorManager.attentionTextColor.color
         case .iOSVersionCheck:
-            return UserSessionManager.shared.isDeviceVersionLowerThan13 ? ColorManager.attentionTextColor.color : ColorManager.buttonActiveColor.color
+            return UserSessionManager.shared.isDeviceVersionLowerThanRequired ? ColorManager.attentionTextColor.color : ColorManager.buttonActiveColor.color
         case .mediaSafe:
             return UserSessionManager.shared.isMediaSafe ? ColorManager.buttonActiveColor.color : ColorManager.attentionTextColor.color
         case .passwordVaul:
@@ -74,7 +74,7 @@ struct BadgeView: View {
             case .deviceLock:
                 return UserSessionManager.shared.isDeviceLockEnabled ? "Device lock is enabled" : "Needs check"
             case .iOSVersionCheck:
-                return UserSessionManager.shared.isDeviceVersionLowerThan13 ? "Needs check" : "iOS is up to date"
+                return UserSessionManager.shared.isDeviceVersionLowerThanRequired ? "Needs check" : "iOS is up to date"
             case .mediaSafe:
                 return UserSessionManager.shared.isMediaSafe ? "Files are securely" : "Needs check"
             case .passwordVaul:
@@ -93,7 +93,7 @@ struct BadgeView: View {
             case .deviceLock:
                 return UserSessionManager.shared.isDeviceLockEnabled ? "Device lock is enabled" : "Your data at risk"
             case .iOSVersionCheck:
-                return UserSessionManager.shared.isDeviceVersionLowerThan13 ? "iOS is outdated" : "iOS is up to date"
+                return UserSessionManager.shared.isDeviceVersionLowerThanRequired ? "iOS is outdated" : "iOS is up to date"
             case .mediaSafe:
                 return UserSessionManager.shared.isMediaSafe ? "Files are securely" : "Files are not secure"
             case .passwordVaul:

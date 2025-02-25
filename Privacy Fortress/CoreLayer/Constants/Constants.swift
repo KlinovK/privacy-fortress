@@ -12,6 +12,12 @@ public struct Constants {
     
     public static let isIPad = UIDevice.current.userInterfaceIdiom == .pad
     public static let contentBlockerIdentifier = "com.Bridigi.Privacy-Fortress.PrivacyFortressContentBlocker"
+    public static let termsAndConditionsURLString = "https://privacyfortress.com/terms-and-conditions/"
+    public static let privacyPolicyURLString = "https://privacyfortress.com/privacy-policy/"
+    public static let appID = "itms-apps://itunes.apple.com/app/idYOUR_APP_ID?action=write-review"
+    
+    // MARK: - Change in future
+    public static let lowestIOSVersion = 16
 
     // MARK: - User Defaults
 
@@ -21,7 +27,7 @@ public struct Constants {
         static let kIsAnyPasswordsSavedToSafeStorage = "kIsAnyPasswordsSavedToSafeStorage"
         static let kIsMediaSafe = "kIsMediaSafe"
         static let kIsDeviceLockEnabled = "kIsDeviceLockEnabled"
-        static let kIsDeviceVersionLowerThan13 = "kIsDeviceVersionLowerThan13"
+        static let isDeviceVersionLowerThanRequired = "isDeviceVersionLowerThanRequired"
         static let kIsMaliciousSitesProtectionEnabled = "kIsMaliciousSitesProtectionEnabled"
         static let kIsSecureNetwork = "kIsSecureNetwork"
     }

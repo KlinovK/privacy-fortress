@@ -18,7 +18,7 @@ struct ResultsScreen: View {
                         Text("Resolve All Issues")
                             .padding()
                             .frame(maxWidth: .infinity)
-                            .background(Color.green)
+                            .background(ColorManager.buttonActiveColor.color)
                             .foregroundColor(.white)
                             .font(.custom(FontsManager.SFSemibold.font, size: 20))
                             .cornerRadius(10)

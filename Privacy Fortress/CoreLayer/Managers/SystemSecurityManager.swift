@@ -37,18 +37,17 @@ class SystemSecurityManager: SystemSecurityManagerProtocol {
     }
     
     public func saveIsDeviceLockStatusResult() async {
-        UserSessionManager.shared.isDeviceVersionLowerThan13 = isDeviceLockEnabled()
+        UserSessionManager.shared.isDeviceLockEnabled = isDeviceLockEnabled()
     }
     
     public func saveDeviceVersionCheckResult() async {
         let iOSVersion = ProcessInfo.processInfo.operatingSystemVersion
-        let isLowerThan14 = iOSVersion.majorVersion < 14
-
-        UserSessionManager.shared.isDeviceVersionLowerThan13 = isLowerThan14
-        if isLowerThan14 {
-            print("✅ Device version is lower than iOS 14.0.")
+        let isLowerThanRequired = iOSVersion.majorVersion < Constants.lowestIOSVersion
+        UserSessionManager.shared.isDeviceVersionLowerThanRequired = isLowerThanRequired
+        if isLowerThanRequired {
+            print("✅ Device version is lower than iOS \(Constants.lowestIOSVersion)")
         } else {
-            print("✅ Device version is iOS 14.0 or higher.")
+            print("✅ Device version is iOS \(Constants.lowestIOSVersion) or higher.")
         }
     }
     

@@ -7,6 +7,16 @@
 
 import Foundation
 
+enum DeviceLockViewState {
+    case enabled
+    case disabled
+}
+
+enum DeviceLockDetailsViewState {
+    case iOS17Tutorial
+    case defaultTutorial
+}
+
 enum StartScreenViewState {
     case start
     case isAnalyzing
