@@ -9,7 +9,7 @@ import SwiftUI
 
 struct StartScreenView: View {
     
-    @State private var viewState: StartScreenViewState = .start
+    @State private var viewState: StartScreenViewState = UserSessionManager.shared.isLongTimeNotScanned ? .longTimeNoScan : .start
     @StateObject private var viewModel = StartScreenViewModel()
 
     var body: some View {
@@ -37,6 +37,7 @@ struct StartScreenView: View {
                                     await viewModel.startSystemSecurityCheck()
                                     await viewModel.startSafeStorageCheck()
                                 }
+                                UserSessionManager.shared.updateLastScanDate()
                             }) {
                                 Text("Start Scan")
                                     .padding()
@@ -113,8 +114,8 @@ struct StartScreenView: View {
                             }
                             .padding(.bottom, 24)
                           
-                            presentCardViews()
-
+                            setupLongTimeNotScanCardViews()
+                            
                             Spacer()
                             Button(action: {
                                 changeViewState(state: .isAnalyzing)
@@ -124,8 +125,9 @@ struct StartScreenView: View {
                                     await viewModel.startSystemSecurityCheck()
                                     await viewModel.startSafeStorageCheck()
                                 }
+                                UserSessionManager.shared.updateLastScanDate()
                             }) {
-                                Text("Scan Now")
+                                Text("Scan Again")
                                     .padding()
                                     .frame(maxWidth: .infinity)
                                     .font(.custom(FontsManager.SFSemibold.font, size: 20))
@@ -137,7 +139,6 @@ struct StartScreenView: View {
                     }
                     .padding(.top, Constants.isIPad ? 88 : 21)
                     .padding(.horizontal, Constants.isIPad ? 190 : 16)
-                    .frame(height: geometry.size.height)
                 }
             }
             .scrollIndicators(.hidden)
@@ -147,6 +148,16 @@ struct StartScreenView: View {
     
     private func changeViewState(state: StartScreenViewState) {
         viewState = state
+    }
+    
+    
+    private func setupLongTimeNotScanCardViews() -> some View {
+        VStack(spacing: 12) {
+            LongTimeNotScanView(issueType: .wifiSecurity)
+            LongTimeNotScanView(issueType: .personalDataProtection)
+            LongTimeNotScanView(issueType: .systemSecurity)
+            LongTimeNotScanView(issueType: .safeStorage)
+        }
     }
     
     private func presentCardViews() -> some View {

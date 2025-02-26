@@ -1,13 +1,13 @@
 //
-//  MainCardView.swift
+//  LongTimeNotScanView.swift
 //  Privacy Fortress
 //
-//  Created by Константин Клинов on 24/02/25.
+//  Created by Константин Клинов on 26/02/25.
 //
 
 import SwiftUI
 
-struct MainCardView: View {
+struct LongTimeNotScanView: View {
     
     let issueType: GeneralIssueType
 

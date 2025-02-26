@@ -14,9 +14,30 @@ class UserSessionManager {
     private init() {
         // Private initializer to prevent multiple instances
     }
+        
+    var isLongTimeNotScanned: Bool {
+        guard let lastScanTimestamp = lastScanTimestamp else {
+            return false 
+        }
+        return Date().timeIntervalSince(lastScanTimestamp) > 60 * 60 * 24 
+    }
     
-    // MARK: - Update App Configuration
-    
+    var lastScanTimestamp: Date? {
+        get {
+            if let timestamp = UserDefaults.standard.object(forKey: Constants.UserDefaultsKeys.kLastScanTimestamp) as? TimeInterval {
+                return Date(timeIntervalSince1970: timestamp)
+            }
+            return nil
+        }
+        set {
+            if let newValue = newValue {
+                UserDefaults.standard.set(newValue.timeIntervalSince1970, forKey: Constants.UserDefaultsKeys.kLastScanTimestamp)
+            } else {
+                UserDefaults.standard.removeObject(forKey: Constants.UserDefaultsKeys.kLastScanTimestamp)
+            }
+        }
+    }
+        
     var findMyEnabled: Bool {
         get {
             UserDefaults.standard.bool(forKey: Constants.UserDefaultsKeys.kFindMyEnabled)
@@ -91,5 +112,9 @@ class UserSessionManager {
     
     var issuesArray: [Bool] {
         return [findMyEnabled, !dataBreachesFound, isAnyPasswordsSavedToSafeStorage, isMediaSafe, isDeviceLockEnabled, !isDeviceVersionLowerThanRequired, isMaliciousSitesProtectionEnabled, isSecureNetwork]
+    }
+    
+    public func updateLastScanDate() {
+        UserSessionManager.shared.lastScanTimestamp = Date()
     }
 }
