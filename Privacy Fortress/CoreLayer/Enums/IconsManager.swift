@@ -60,6 +60,18 @@ public enum IconsManager: String {
     case icPublicWifi = "ic_public_wifi"
     case icHomeWifi = "ic_home_wifi"
     case icWifiAttention = "ic_wifi_attention"
+    case icRouterPassword = "ic_router_password"
+    case icNetworkName = "ic_network_name"
+    case icSwitchToWPA3 = "ic_switch_to_WPA3"
+    case icUpdateRouterFirmware = "ic_update_router_firmware"
+    case icCreateGuestNetwork = "ic_create_guest_network"
+    case icDisableWPS = "ic_disable_WPS"
+    case icAvoidAccessing = "ic_avoid_accessing"
+    case icUseVPN = "ic_use_VPN"
+    case icTurnOffSharing = "ic_turn_off_sharing"
+    case icStickToSecureWebsites = "ic_stick_to_secure_websites"
+    case icDisconnect = "ic_disconnect"
+    case icWifiIsSecureBig = "ic_wifi_is_secure_big"
     
     var image: String {
         self.rawValue

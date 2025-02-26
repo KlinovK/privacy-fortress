@@ -27,7 +27,6 @@ struct WifiSecurityCheckScreen: View {
                     Spacer()
                     Button(action: {
                         Task {
-                            // TODO - logic
                             _ = await viewModel.startWiFiSecurityCheck()
                             navigateToResult = true
                         }

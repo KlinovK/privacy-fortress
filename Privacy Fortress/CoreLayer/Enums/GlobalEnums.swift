@@ -7,6 +7,20 @@
 
 import Foundation
 
+enum TutorialCellType {
+    case routerPassword
+    case networkName
+    case switchToWPA3
+    case updateRouterFirmware
+    case createGuestNetwork
+    case disableWPS
+    case avoidAccessingSensitiveData
+    case useVPN
+    case turnOffSharing
+    case stickToSecureNetworks
+    case disconnect
+}
+
 enum WiFiSecurityStatus {
     case secure
     case unsecured
