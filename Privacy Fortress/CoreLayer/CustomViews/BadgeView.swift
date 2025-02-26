@@ -68,7 +68,7 @@ struct BadgeView: View {
             case .wifiSecurityCheck:
                 return UserSessionManager.shared.isSecureNetwork ? "Wi-Fi is secure" : "Needs check"
             case .dataBreachMonitoring:
-                return UserSessionManager.shared.dataBreachesFound ? "Data breach detected" : "Needs check"
+                return UserSessionManager.shared.dataBreachesFound ? "Needs check" : "No data breach detected"
             case .findMy:
                 return UserSessionManager.shared.findMyEnabled ? "iPhone is enabled" : "Needs check"
             case .deviceLock:

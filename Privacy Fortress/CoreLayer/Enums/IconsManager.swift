@@ -72,6 +72,7 @@ public enum IconsManager: String {
     case icStickToSecureWebsites = "ic_stick_to_secure_websites"
     case icDisconnect = "ic_disconnect"
     case icWifiIsSecureBig = "ic_wifi_is_secure_big"
+    case icDataBreachesLogo = "ic_data_breaches_logo"
     
     var image: String {
         self.rawValue

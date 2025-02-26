@@ -30,7 +30,7 @@ class PersonalDataProtectionManager: PersonalDataProtectionManagerProtocol {
     }
     
     public func checkDataBreach(for email: String) async {
-        let apiKey = "YOUR_HIBP_API_KEY"  // Replace with your real API key
+        let apiKey = "YOUR_HIBP_API_KEY"
         let encodedEmail = email.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
         let url = URL(string: "https://haveibeenpwned.com/api/v3/breachedaccount/\(encodedEmail)")!
         

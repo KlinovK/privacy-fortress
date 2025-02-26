@@ -7,6 +7,11 @@
 
 import Foundation
 
+enum DataBreachesCheckViewState {
+    case checking
+    case notDetected
+}
+
 enum TutorialCellType {
     case routerPassword
     case networkName

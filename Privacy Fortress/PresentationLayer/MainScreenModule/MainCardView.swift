@@ -164,7 +164,7 @@ struct MainCardView: View {
         case .wifiSecurity:
             return (AnyView(MaliciousSitesProtectionScreen()), AnyView(WifiSecurityCheckScreen()))
         case .personalDataProtection:
-            return (AnyView(MaliciousSitesProtectionScreen()), AnyView(FindMyScreen()))
+            return (AnyView(DataBreachesCheckScreen()), AnyView(FindMyScreen()))
         case .systemSecurity:
             return (AnyView(DeviceLockStatusScreen()), AnyView(IOSVersionCkeckModule()))
         case .safeStorage:
