@@ -168,7 +168,7 @@ struct MainCardView: View {
         case .systemSecurity:
             return (AnyView(DeviceLockStatusScreen()), AnyView(IOSVersionCkeckModule()))
         case .safeStorage:
-            return (AnyView(MaliciousSitesProtectionScreen()), AnyView(WifiSecurityCheckScreen()))
+            return (AnyView(DataProtectionScreen(dataProtection: .mediaSafe)), AnyView(DataProtectionScreen(dataProtection: .passwordVault)))
         }
     }
     
@@ -196,7 +196,7 @@ struct MainCardView: View {
             }
             
         case .safeStorage:
-            return (false, true)
+            return (false, false)
         }
     }
 }

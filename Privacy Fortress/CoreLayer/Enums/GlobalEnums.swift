@@ -7,6 +7,18 @@
 
 import Foundation
 
+enum DataProtectionEntryPoint {
+    case mediaSafe
+    case passwordVault
+}
+
+enum LeakCellType {
+    case data
+    case compromised
+    case description
+    case recommendations
+}
+
 enum DataBreachesCheckViewState {
     case checking
     case notDetected

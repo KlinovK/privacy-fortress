@@ -115,7 +115,6 @@ struct MaliciousSitesProtectionScreen: View {
                             Image(IconsManager.icChevronRight.image)
                                 .frame(width: 24, height: 24)
                                 .padding(.trailing, 16)
-                            
                         }
                         .frame(maxWidth: .infinity, minHeight: 44, maxHeight: 44)
                         .background(Color.white)
