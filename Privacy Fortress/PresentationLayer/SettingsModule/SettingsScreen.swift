@@ -123,14 +123,13 @@ struct SettingsScreen: View {
     }
     
     private func rateApp() {
-        // TODO: -
-        guard let url = URL(string: "itms-apps://itunes.apple.com/app/idYOUR_APP_ID?action=write-review") else { return }
+        let reviewURL = "itms-apps://itunes.apple.com/app/id\(Constants.appStoreID)?action=write-review"
+        guard let url = URL(string: reviewURL) else { return }
         UIApplication.shared.open(url)
     }
 
     private func shareApp() {
-        // TODO: -
-        let appURL = "https://apps.apple.com/app/idYOUR_APP_ID"
+        let appURL = "https://apps.apple.com/app/id\(Constants.appStoreID)"
         let activityVC = UIActivityViewController(activityItems: [appURL], applicationActivities: nil)
 
         if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,

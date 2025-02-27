@@ -10,18 +10,17 @@ import SwiftUI
 struct DataBreachesCheckScreen: View {
     
     @Environment(\.dismiss) var dismiss
-    @State private var dataBreackesViewState: DataBreachesCheckViewState = .checking
     @StateObject private var viewModel = DataBreachesCheckViewModel()
     @State private var navigateToResult = false
 
     var body: some View {
         GeometryReader { geometry in
             ScrollView {
-                switch dataBreackesViewState {
+                switch viewModel.state {
                 case .checking:
-                    createDataBreackesCheckView(geometry: geometry)
+                    createDataBreachesCheckView(geometry: geometry)
                 case .notDetected:
-                    createNotDetectedDataBreackesCheckView(geometry: geometry)
+                    createNotDetectedDataBreachesCheckView(geometry: geometry)
                 }
             }
             .scrollIndicators(.hidden)
@@ -43,7 +42,7 @@ struct DataBreachesCheckScreen: View {
         }
     }
     
-    private func createNotDetectedDataBreackesCheckView(geometry: GeometryProxy) -> some View {
+    private func createNotDetectedDataBreachesCheckView(geometry: GeometryProxy) -> some View {
        VStack {
            Image(IconsManager.icAppLogoStartScreen.image)
                    .resizable()
@@ -54,7 +53,7 @@ struct DataBreachesCheckScreen: View {
                    .frame(maxWidth: .infinity)
                    .foregroundColor(ColorManager.buttonActiveColor.color)
                    .font(.custom(FontsManager.SFbold.font, size: 28))
-                Text("No data breaches were detected. ")
+                Text("No data breaches were detected.")
                     .frame(maxWidth: .infinity)
                     .foregroundColor(ColorManager.buttonActiveColor.color)
                     .font(.custom(FontsManager.SFSemibold.font, size: 24))
@@ -65,14 +64,13 @@ struct DataBreachesCheckScreen: View {
                .font(.custom(FontsManager.SFRegular.font, size: 18))
                .multilineTextAlignment(.center)
                .padding(.bottom, 12)
-
         }
         .padding(.top, Constants.isIPad ? 367 : 40)
         .padding(.horizontal, Constants.isIPad ? 190 : 16)
         .frame(height: geometry.size.height)
     }
     
-    private func createDataBreackesCheckView(geometry: GeometryProxy) -> some View {
+    private func createDataBreachesCheckView(geometry: GeometryProxy) -> some View {
         VStack {
             VStack {
                 Text("Protect Your Data from \n Breaches")
@@ -99,6 +97,9 @@ struct DataBreachesCheckScreen: View {
                     TextField("Enter your email", text: $viewModel.email)
                         .textFieldStyle(PlainTextFieldStyle())
                         .padding(10)
+                        .autocapitalization(.none)
+                        .keyboardType(.emailAddress)
+                        .textContentType(.emailAddress)
                 }
                 .background(Color.white)
                 .frame(maxWidth: .infinity)
@@ -110,14 +111,13 @@ struct DataBreachesCheckScreen: View {
             }
             
             Spacer()
-            
             Button(action: {
                 Task {
-                    let isDataBreachesDetected = await viewModel.startDataBreachesCheck()
-                    if isDataBreachesDetected {
+                    let breaches = await viewModel.geDataBreaches()
+                    if !breaches.isEmpty {
                         navigateToResult = true
                     } else {
-                        dataBreackesViewState = .notDetected
+                        viewModel.state = .notDetected
                     }
                 }
             }) {
@@ -129,10 +129,10 @@ struct DataBreachesCheckScreen: View {
                     .foregroundColor(.white)
                     .cornerRadius(10)
             }
+            
             .navigationDestination(isPresented: $navigateToResult) {
-                LeaksListScreen()
+                LeaksListScreen(breaches: viewModel.breaches)
             }
-
         }
         .padding(.top, Constants.isIPad ? 284 : 40)
         .padding(.horizontal, Constants.isIPad ? 284 : 16)

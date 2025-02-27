@@ -58,8 +58,8 @@ class StartScreenViewModel: ObservableObject {
         isRequestComplete = false
 
         await personalDataProtectionManager.checkIsCloudAccountAvailableAndSaveToUserSessionManager()
-        await personalDataProtectionManager.checkDataBreach(for: "kost9klinov@gmail.com")
-
+        let _ = await personalDataProtectionManager.checkDataBreach(for: "")
+        
         for i in 1...25 {
             try? await Task.sleep(nanoseconds: 100_000_000)
             progress = (Double(i) / 100) + 0.25

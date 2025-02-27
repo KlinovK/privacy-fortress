@@ -15,7 +15,6 @@ struct WifiCheckResultScreen: View {
     @State private var showPublicWifiOverlay = false
 
     var body: some View {
-        
         GeometryReader { geometry in
             switch viewState {
             case .wifiIsSecure:
@@ -37,42 +36,40 @@ struct WifiCheckResultScreen: View {
                 }
             }
         }
-    
     }
     
     private func showWifiIsNotSecureViewState() -> some View {
-        
         ZStack {
-                VStack() {
-                    Text("Your Wi-Fi is insecure")
-                        .font(.custom(FontsManager.SFSemibold.font, size: 24))
-                        .foregroundColor(ColorManager.attentionTextColor.color)
-                        .padding(.bottom, 36)
-                    Text("Select the type of network you used during the check:")
-                        .font(.custom(FontsManager.SFSemibold.font, size: 18))
-                        .foregroundColor(ColorManager.textDefaultColor.color)
-                        .multilineTextAlignment(.center)
-                        .padding(.bottom, 59)
+            VStack() {
+                Text("Your Wi-Fi is insecure")
+                    .font(.custom(FontsManager.SFSemibold.font, size: 24))
+                    .foregroundColor(ColorManager.attentionTextColor.color)
+                    .padding(.bottom, 36)
+                Text("Select the type of network you used during the check:")
+                    .font(.custom(FontsManager.SFSemibold.font, size: 18))
+                    .foregroundColor(ColorManager.textDefaultColor.color)
+                    .multilineTextAlignment(.center)
+                    .padding(.bottom, 59)
+                
+                HStack(spacing: 16) {
+                    Image(IconsManager.icHomeWifi.image)
+                        .frame(width: 110, height: 110)
+                        .cornerRadius(10)
+                        .onTapGesture {
+                            showHomeWifiOverlay.toggle()
+                        }
                     
-                    HStack(spacing: 16) {
-                        Image(IconsManager.icHomeWifi.image)
-                            .frame(width: 110, height: 110)
-                            .cornerRadius(10)
-                            .onTapGesture {
-                                showHomeWifiOverlay.toggle()
-                            }
-                        
-                        Image(IconsManager.icPublicWifi.image)
-                            .frame(width: 110, height: 110)
-                            .cornerRadius(10)
-                            .onTapGesture {
-                                showPublicWifiOverlay.toggle()
-                            }
-                    }
-                    
-                    Spacer()
-                    addBackAction()
+                    Image(IconsManager.icPublicWifi.image)
+                        .frame(width: 110, height: 110)
+                        .cornerRadius(10)
+                        .onTapGesture {
+                            showPublicWifiOverlay.toggle()
+                        }
                 }
+                
+                Spacer()
+                addBackAction()
+            }
         }
         
         .padding(.horizontal, Constants.isIPad ? 190 : 16)

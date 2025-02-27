@@ -36,6 +36,7 @@
 
 /* Begin PBXFileReference section */
 		A97BEB092D66C87700D14E08 /* Privacy Fortress.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Privacy Fortress.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9C08FE92D701AEB0077FAF0 /* HaveIBeenPwned.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HaveIBeenPwned.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9D58C692D68259E009089F6 /* PrivacyFortressContentBlocker.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PrivacyFortressContentBlocker.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -95,6 +96,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4E3E21F6B7B1A659F52C1711 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		A97BEB002D66C87700D14E08 = {
 			isa = PBXGroup;
 			children = (
@@ -102,6 +110,8 @@
 				A9D58C472D6822BD009089F6 /* PrivacyFortressContentBlocker */,
 				A9D58C6A2D68259E009089F6 /* PrivacyFortressContentBlocker */,
 				A97BEB0A2D66C87700D14E08 /* Products */,
+				4E3E21F6B7B1A659F52C1711 /* Pods */,
+				BF635DF7A83944C9E3CBBE6A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -112,6 +122,14 @@
 				A9D58C692D68259E009089F6 /* PrivacyFortressContentBlocker.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		BF635DF7A83944C9E3CBBE6A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A9C08FE92D701AEB0077FAF0 /* HaveIBeenPwned.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -135,8 +153,6 @@
 				A97BEB0B2D66C87700D14E08 /* Privacy Fortress */,
 			);
 			name = "Privacy Fortress";
-			packageProductDependencies = (
-			);
 			productName = "Privacy Fortress";
 			productReference = A97BEB092D66C87700D14E08 /* Privacy Fortress.app */;
 			productType = "com.apple.product-type.application";
@@ -157,8 +173,6 @@
 				A9D58C6A2D68259E009089F6 /* PrivacyFortressContentBlocker */,
 			);
 			name = PrivacyFortressContentBlocker;
-			packageProductDependencies = (
-			);
 			productName = PrivacyFortressContentBlocker;
 			productReference = A9D58C692D68259E009089F6 /* PrivacyFortressContentBlocker.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -381,6 +395,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -416,6 +431,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

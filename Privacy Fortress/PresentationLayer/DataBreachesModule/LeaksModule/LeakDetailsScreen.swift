@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LeakDetailsScreen: View {
     
-    let leak: Leak
+    let leak: Breach
     
     @Environment(\.dismiss) var dismiss
 
@@ -19,10 +19,10 @@ struct LeakDetailsScreen: View {
                 ScrollView {
                     VStack(spacing: 12) {
                         
-                        createNotDetectedDataBreackesCheckView(leakCellType: .data)
-                        createNotDetectedDataBreackesCheckView(leakCellType: .compromised)
-                        createNotDetectedDataBreackesCheckView(leakCellType: .description)
-                        createNotDetectedDataBreackesCheckView(leakCellType: .recommendations)
+                        createNotDetectedDataBreackesCheckView(leakCellType: .data, leak: leak)
+                        createNotDetectedDataBreackesCheckView(leakCellType: .compromised, leak: leak)
+                        createNotDetectedDataBreackesCheckView(leakCellType: .description, leak: leak)
+                        createNotDetectedDataBreackesCheckView(leakCellType: .recommendations, leak: leak)
 
                         Spacer()
                         Text("Don’t ignore these breaches. Acting quickly can help minimize the risk of unauthorized access and data misuse.")
@@ -31,9 +31,11 @@ struct LeakDetailsScreen: View {
                             .foregroundColor(ColorManager.textDefaultColor.color)
                             .multilineTextAlignment(.center)
                             .padding(.bottom, 4)
-                        // TODO: - ASK
-                        NavigationLink(destination: DeviceLockDetailsScreen()) {
-                            Text("Change Password")
+                        
+                        Button(action: {
+                            dismiss()
+                        }) {
+                            Text("Close")
                                 .padding()
                                 .frame(maxWidth: .infinity)
                                 .background(ColorManager.buttonActiveColor.color)
@@ -67,7 +69,7 @@ struct LeakDetailsScreen: View {
         }
     }
     
-    private func createNotDetectedDataBreackesCheckView(leakCellType: LeakCellType) -> some View {
+    private func createNotDetectedDataBreackesCheckView(leakCellType: LeakCellType, leak: Breach) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
                 Image(getCellImage(leakCellType: leakCellType))
@@ -75,13 +77,13 @@ struct LeakDetailsScreen: View {
                     .scaledToFit()
                     .frame(width: 24, height: 24)
                     .foregroundColor(.green)
-                Text(getCellTitleAndSubtitle(leakCellType: leakCellType).0)
+                Text(getCellTitleAndSubtitle(leakCellType: leakCellType, leak: leak).0)
                     .foregroundColor(ColorManager.textDefaultColor.color)
                     .font(.custom(FontsManager.SFSemibold.font, size: 14))
             }
             
             HStack {
-                Text(getCellTitleAndSubtitle(leakCellType: leakCellType).1)
+                Text(getCellTitleAndSubtitle(leakCellType: leakCellType, leak: leak).1)
                     .foregroundColor(ColorManager.textDefaultColor.color)
                     .font(.custom(FontsManager.SFRegular.font, size: 12))
             }
@@ -93,14 +95,14 @@ struct LeakDetailsScreen: View {
         .cornerRadius(10)
     }
     
-    private func getCellTitleAndSubtitle(leakCellType: LeakCellType) -> (title: String, subtitle: String) {
+    private func getCellTitleAndSubtitle(leakCellType: LeakCellType, leak: Breach) -> (title: String, subtitle: String) {
         switch leakCellType {
         case .data:
-            return ("Data:", "2025-01-14")
+            return ("Data:", "\(leak.breachDate)")
         case .compromised:
-            return ("Compromised:", "Email addresses | Passwords")
+            return ("Compromised:", "\(leak.title)")
         case .description:
-            return ("Description", "In February 2024, a massive collection of almost 3000 alleged data branches was found online. Whilst some of the data had previously been seen in Have I Been Pwnedm 2844 of the files consisting of more than 80 million unique email addresses had not previously been seen.")
+            return ("Description", "\(leak.description)")
         case .recommendations:
             return ("Recommendations", "- Сhange your password for these accounts immediately. \n - Enable two-factor authentication to add an extra layer of security.")
         }
@@ -120,7 +122,3 @@ struct LeakDetailsScreen: View {
     }
     
 }
-
-//#Preview {
-//    LeakDetailsScreen()
-//}

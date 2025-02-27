@@ -14,11 +14,13 @@ public struct Constants {
     public static let contentBlockerIdentifier = "com.Bridigi.Privacy-Fortress.PrivacyFortressContentBlocker"
     public static let termsAndConditionsURLString = "https://privacyfortress.com/terms-and-conditions/"
     public static let privacyPolicyURLString = "https://privacyfortress.com/privacy-policy/"
-    public static let appID = "itms-apps://itunes.apple.com/app/idYOUR_APP_ID?action=write-review"
-    public static let thirtyDays: TimeInterval = 30 * 24 * 60 * 60
     
-    // MARK: - Change in future
+    // MARK: - Change after release
+    
+    public static let appStoreID = "YOUR_APP_ID"
     public static let lowestIOSVersion = 16
+    public static let appDomenName = "pwnd.privacyfortressapp.com"
+    public static let hibpKey = "88fa34a9-1453-43ed-a773-80d7b792e670"
 
     // MARK: - User Defaults
 
