@@ -9,6 +9,8 @@ import SwiftUI
 
 struct MainScreen: View {
     
+    @State private var showAlert = false
+    
     var body: some View {
         NavigationStack {
             GeometryReader { geometry in
@@ -32,6 +34,9 @@ struct MainScreen: View {
             .background(ColorManager.mainBackground.color)
             .toolbar(.hidden, for: .navigationBar)
         }
+        .overlay(
+            SubscriptionAlertView(isPresented: $showAlert)
+        )
     }
     
     private func setupResultsCardViews() -> some View {

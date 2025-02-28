@@ -14,6 +14,15 @@ class UserSessionManager {
     private init() {
         // Private initializer to prevent multiple instances
     }
+    
+    var isUserSubscribed: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: Constants.UserDefaultsKeys.kIsUserSubscribed)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaultsKeys.kIsUserSubscribed)
+        }
+    }
         
     var isLongTimeNotScanned: Bool {
         guard let lastScanTimestamp = lastScanTimestamp else {

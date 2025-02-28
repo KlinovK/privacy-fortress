@@ -18,31 +18,7 @@ struct LeaksListScreen: View {
         List {
             ForEach(breaches.indices, id: \.self) { index in
                 VStack(alignment: .leading, spacing: 0) {
-                    HStack(spacing: 12) {
-                        Image(systemName: "exclamationmark.triangle.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 24, height: 24)
-                            .foregroundColor(.green)
-                        
-                        Text(breaches[index].title)
-                            .foregroundColor(ColorManager.textDefaultColor.color)
-                            .font(.custom(FontsManager.SFRegular.font, size: 14))
-                        Spacer()
-                        
-                        Image(IconsManager.icChevronRight.image)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 24, height: 24)
-                    }
-                    .padding(EdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(Color.white)
-                    .cornerRadius(10)
-                    .onTapGesture {
-                                                selectedLeak = breaches[index]
-                        navigateToResult = true
-                    }
+                    setupCellView(index: index)
                 }
                 .listRowSeparator(.hidden)
                 .listRowBackground(Color.clear)
@@ -74,10 +50,60 @@ struct LeaksListScreen: View {
             }
         }
     }
-}
+    
+    private func setupCellView(index: Int) -> some View {
+        HStack(spacing: 12) {
+            setCellImage(index: index)
+            
+            Text(breaches[index].title)
+                .foregroundColor(ColorManager.textDefaultColor.color)
+                .font(.custom(FontsManager.SFRegular.font, size: 14))
+            Spacer()
+            
+            Image(IconsManager.icChevronRight.image)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 24, height: 24)
+        }
+        .padding(EdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8))
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color.white)
+        .cornerRadius(10)
+        .onTapGesture {
+            selectedLeak = breaches[index]
+            navigateToResult = true
+        }
+    }
+    
+    @ViewBuilder
+    private func setCellImage(index: Int) -> some View {
+        if let imageURL = breaches[index].logoPath, let url = URL(string: imageURL) {
+            AsyncImage(url: url) { phase in
+                switch phase {
+                case .empty:
+                    ProgressView()
+                case .success(let image):
+                    image.resizable()
+                        .scaledToFit()
+                        .frame(width: 24, height: 24)
+                        .clipShape(RoundedRectangle(cornerRadius: 5))
+                case .failure:
+                    fallbackImage
+                @unknown default:
+                    EmptyView()
+                }
+            }
+        } else {
+            fallbackImage
+        }
+    }
 
-//#Preview {
-//    LeaksListScreen()
-//}
+    private var fallbackImage: some View {
+        Image(systemName: "exclamationmark.triangle.fill")
+            .resizable()
+            .scaledToFit()
+            .frame(width: 24, height: 24)
+            .foregroundColor(.green)
+    }}
 
 

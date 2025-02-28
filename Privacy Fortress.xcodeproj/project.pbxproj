@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A94DF67A2D7154E800E433E9 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = A94DF6792D7154E800E433E9 /* SwiftKeychainWrapper */; };
 		A9D58C7F2D68259E009089F6 /* PrivacyFortressContentBlocker.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A9D58C692D68259E009089F6 /* PrivacyFortressContentBlocker.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
@@ -83,6 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A94DF67A2D7154E800E433E9 /* SwiftKeychainWrapper in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -204,6 +206,9 @@
 			);
 			mainGroup = A97BEB002D66C87700D14E08;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				A94DF6782D7154E700E433E9 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A97BEB0A2D66C87700D14E08 /* Products */;
 			projectDirPath = "";
@@ -540,6 +545,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A94DF6782D7154E700E433E9 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jrendel/SwiftKeychainWrapper";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A94DF6792D7154E800E433E9 /* SwiftKeychainWrapper */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A94DF6782D7154E700E433E9 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */;
+			productName = SwiftKeychainWrapper;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A97BEB012D66C87700D14E08 /* Project object */;
 }

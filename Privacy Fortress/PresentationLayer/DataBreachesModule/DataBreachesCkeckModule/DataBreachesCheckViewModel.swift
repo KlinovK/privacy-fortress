@@ -21,7 +21,7 @@ class DataBreachesCheckViewModel: ObservableObject {
     }
         
     func geDataBreaches() async -> [Breach] {
-        let foundBreaches = await personalDataProtectionManager.checkDataBreach(for: email)
+        let foundBreaches = await personalDataProtectionManager.checkDataBreach(for: email, isItFirstLaunch: false)
         DispatchQueue.main.async {
             self.breaches = foundBreaches
         }

@@ -10,6 +10,9 @@ import SwiftUI
 struct MainCardView: View {
     
     let issueType: GeneralIssueType
+    
+    @State private var showAlert = false
+    @State private var shouldNavigate = false
 
     var body: some View {
         ZStack(alignment: .topLeading) {
@@ -21,7 +24,6 @@ struct MainCardView: View {
 
         }
         .frame(maxWidth: .infinity, maxHeight: 290)
-        
     }
     
     private func createCellWithType() -> some View {

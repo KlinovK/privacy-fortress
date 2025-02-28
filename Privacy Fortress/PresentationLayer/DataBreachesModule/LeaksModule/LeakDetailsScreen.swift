@@ -102,9 +102,9 @@ struct LeakDetailsScreen: View {
         case .compromised:
             return ("Compromised:", "\(leak.title)")
         case .description:
-            return ("Description", "\(leak.description)")
+            return ("Description", "\(leak.getFormattedDescription())")
         case .recommendations:
-            return ("Recommendations", "- Сhange your password for these accounts immediately. \n - Enable two-factor authentication to add an extra layer of security.")
+            return ("Recommendations", "- Сhange your password for these accounts immediately. \n- Enable two-factor authentication to add an extra layer of security.")
         }
     }
     

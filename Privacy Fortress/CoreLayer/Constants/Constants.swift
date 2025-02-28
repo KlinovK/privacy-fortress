@@ -20,7 +20,7 @@ public struct Constants {
     public static let appStoreID = "YOUR_APP_ID"
     public static let lowestIOSVersion = 16
     public static let appDomenName = "pwnd.privacyfortressapp.com"
-    public static let hibpKey = "88fa34a9-1453-43ed-a773-80d7b792e670"
+    public static let apiClientApp = "com.Bridigi.Privacy-Fortress"
 
     // MARK: - User Defaults
 
@@ -34,6 +34,7 @@ public struct Constants {
         static let kIsMaliciousSitesProtectionEnabled = "kIsMaliciousSitesProtectionEnabled"
         static let kIsSecureNetwork = "kIsSecureNetwork"
         static let kLastScanTimestamp = "kLastScanTimestamp"
+        static let kIsUserSubscribed = "kFindMyEnabled"
     }
 
 }

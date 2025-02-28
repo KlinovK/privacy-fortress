@@ -9,7 +9,7 @@ import Foundation
 
 protocol PersonalDataProtectionManagerProtocol {
     func checkIsCloudAccountAvailableAndSaveToUserSessionManager() async
-    func checkDataBreach(for email: String) async -> [Breach]
+    func checkDataBreach(for email: String, isItFirstLaunch: Bool) async -> [Breach]
 }
 
 class PersonalDataProtectionManager: PersonalDataProtectionManagerProtocol {
@@ -29,62 +29,56 @@ class PersonalDataProtectionManager: PersonalDataProtectionManagerProtocol {
         }
     }
     
-    public func checkDataBreach(for email: String) async -> [Breach] {
+    public func checkDataBreach(for email: String, isItFirstLaunch: Bool = true) async -> [Breach] {
         
-        if email.isEmpty {
+        if isItFirstLaunch {
             UserSessionManager.shared.dataBreachesFound = true
             return []
         }
         
-        let baseURL = "https://\(Constants.appDomenName)/api/v3/breachedaccount/"
-        let apiKey = Constants.hibpKey
-        
-        guard let encodedEmail = email.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed),
-              let url = URL(string: "\(baseURL)/\(encodedEmail)?truncateResponse=false") else {
-            print("❌ Invalid URL")
+        guard let apiKey = KeychainWrapperManager.shared.getAPIHIBPKey(),
+              let encodedEmail = email.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed),
+              let url = URL(string: "https://\(Constants.appDomenName)/breachedaccount/\(encodedEmail)?truncateResponse=false") else {
+            print("❌ Invalid API Key or URL")
             return []
         }
         
         var request = URLRequest(url: url)
-        
         request.setValue(apiKey, forHTTPHeaderField: "hibp-api-key")
         request.setValue("application/json", forHTTPHeaderField: "Accept")
+        request.setValue(Constants.apiClientApp, forHTTPHeaderField: "API-CLIENT-APP")
+        request.setValue(Constants.apiClientApp, forHTTPHeaderField: "User-Agent")
 
         do {
             let (data, response) = try await URLSession.shared.data(for: request)
             
             guard let httpResponse = response as? HTTPURLResponse else {
-                UserSessionManager.shared.dataBreachesFound = false
-                print("❌ No valid response")
-                return []
+                throw URLError(.badServerResponse)
             }
-
-            if httpResponse.statusCode == 200 {
-                do {
-                    let breaches = try JSONDecoder().decode([Breach].self, from: data)
-                    if !breaches.isEmpty {
-                        print("⚠️ Email found in breaches: \(breaches.map { $0.name })")
-                        UserSessionManager.shared.dataBreachesFound = true
-                        return breaches
-                    }
-                } catch {
-                    print("❌ JSON Decoding error: \(error.localizedDescription)")
+            
+            switch httpResponse.statusCode {
+            case 200:
+                guard !data.isEmpty else {
+                    print("❌ Empty response data")
+                    return []
                 }
-            } else if httpResponse.statusCode == 404 {
-                UserSessionManager.shared.dataBreachesFound = false
-                print("✅ Email is safe. No breaches found.")
+                let breaches = try JSONDecoder().decode([Breach].self, from: data)
+                UserSessionManager.shared.dataBreachesFound = !breaches.isEmpty
+                return breaches
+                
+            case 404:
+                print("✅ No breaches found for this email.")
                 return []
-            } else {
-                UserSessionManager.shared.dataBreachesFound = false
-                print("❌ Unexpected response: \(httpResponse.statusCode)")
+                
+            default:
+                print("❌ Unexpected HTTP status: \(httpResponse.statusCode)")
                 return []
             }
+            
         } catch {
-            UserSessionManager.shared.dataBreachesFound = false
-            print("❌ Error: \(error.localizedDescription)")
+            print("❌ Network/Error: \(error.localizedDescription)")
             return []
         }
-        return []
     }
 }
 
