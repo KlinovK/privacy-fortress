@@ -48,7 +48,7 @@ class PersonalDataProtectionManager: PersonalDataProtectionManagerProtocol {
         request.setValue("application/json", forHTTPHeaderField: "Accept")
         request.setValue(Constants.apiClientApp, forHTTPHeaderField: "API-CLIENT-APP")
         request.setValue(Constants.apiClientApp, forHTTPHeaderField: "User-Agent")
-
+        
         do {
             let (data, response) = try await URLSession.shared.data(for: request)
             
