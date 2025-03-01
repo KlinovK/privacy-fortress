@@ -15,6 +15,15 @@ class UserSessionManager {
         // Private initializer to prevent multiple instances
     }
     
+    var fcmToken: String? {
+      get {
+          return KeychainWrapperManager.shared.getValue(forKey: Constants.KeychainConstants.kFCMTokenKeychainKey)
+      }
+      set {
+          KeychainWrapperManager.shared.setSecure(value: newValue, forKey: Constants.KeychainConstants.kFCMTokenKeychainKey)
+      }
+    }
+    
     var isUserSubscribed: Bool {
         get {
             UserDefaults.standard.bool(forKey: Constants.UserDefaultsKeys.kIsUserSubscribed)

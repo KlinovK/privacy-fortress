@@ -36,7 +36,7 @@ class PersonalDataProtectionManager: PersonalDataProtectionManagerProtocol {
             return []
         }
         
-        guard let apiKey = KeychainWrapperManager.shared.getAPIHIBPKey(),
+        guard let apiKey = KeychainWrapperManager.shared.getHIBPAPIKey(),
               let encodedEmail = email.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed),
               let url = URL(string: "https://\(Constants.appDomenName)/breachedaccount/\(encodedEmail)?truncateResponse=false") else {
             print("❌ Invalid API Key or URL")

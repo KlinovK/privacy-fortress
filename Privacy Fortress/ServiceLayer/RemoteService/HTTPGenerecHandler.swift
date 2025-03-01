@@ -7,25 +7,24 @@
 
 import Foundation
 
-enum HTTPMethod: String {
-    case GET
-    case POST
-    case PUT
-    case DELETE
-}
-
-enum HTTPError: Error {
-    case invalidURL
-    case requestFailed
-    case responseError
-    case decodingError
-}
-
-class HTTPHandler {
-
-    static let shared = HTTPHandler()
+class APIClient {
+    
+    static let shared = APIClient()
+    private let baseURL = Constants.appDomenName
 
     private init() {}
+    
+    func sendFCMToken(_ token: String) async {
+        let url = "\(baseURL)"
+        let parameters: [String: Any] = ["token": token]
+        
+        do {
+            _ = try await request(url: url, method: .POST, parameters: parameters) as Data
+            print("✅ Successfully sent FCM token")
+        } catch {
+            print("❌ Error sending FCM token: \(error)")
+        }
+    }
 
     func request<T: Decodable>(
         url: String,

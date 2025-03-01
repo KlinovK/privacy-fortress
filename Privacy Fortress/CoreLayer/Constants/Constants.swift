@@ -14,12 +14,13 @@ public struct Constants {
     public static let contentBlockerIdentifier = "com.Bridigi.Privacy-Fortress.PrivacyFortressContentBlocker"
     public static let termsAndConditionsURLString = "https://privacyfortress.com/terms-and-conditions/"
     public static let privacyPolicyURLString = "https://privacyfortress.com/privacy-policy/"
+    public static let addDomenURLString = "https://api.privacyfortressapp.com/"
     
     // MARK: - Change after release
     
     public static let appStoreID = "YOUR_APP_ID"
     public static let lowestIOSVersion = 16
-    public static let appDomenName = "pwnd.privacyfortressapp.com"
+    public static let appDomainName = "pwnd.privacyfortressapp.com"
     public static let apiClientApp = "com.Bridigi.Privacy-Fortress"
 
     // MARK: - User Defaults
@@ -35,6 +36,15 @@ public struct Constants {
         static let kIsSecureNetwork = "kIsSecureNetwork"
         static let kLastScanTimestamp = "kLastScanTimestamp"
         static let kIsUserSubscribed = "kFindMyEnabled"
+    }
+    
+    // MARK: - User Defaults
+    
+    enum KeychainConstants {
+        static let kAnalyticsDomain = "api.privacyfortressapp.com"
+        static let kFCMTokenKeychainKey = "kFCMTokenKeychainKey"
+        static let kHibpApiKey = "HIBP_API_KEY"
+
     }
 
 }

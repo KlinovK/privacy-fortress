@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2D119896C52E42CBE4482A87 /* Pods_Privacy_Fortress.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 247983106F7D1F06FAB3092B /* Pods_Privacy_Fortress.framework */; };
+		663D648DF853E6A3B126F96B /* Pods_PrivacyFortressContentBlocker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE993E9D681FDBB2364147 /* Pods_PrivacyFortressContentBlocker.framework */; };
 		A9579DA72D71B83D00957869 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = A9579DA62D71B83D00957869 /* SwiftKeychainWrapper */; };
 		A9D58C7F2D68259E009089F6 /* PrivacyFortressContentBlocker.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A9D58C692D68259E009089F6 /* PrivacyFortressContentBlocker.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -36,9 +38,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		071C6A0E75B2E22FEEEE06E7 /* Pods-Privacy Fortress.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Privacy Fortress.release.xcconfig"; path = "Target Support Files/Pods-Privacy Fortress/Pods-Privacy Fortress.release.xcconfig"; sourceTree = "<group>"; };
+		247983106F7D1F06FAB3092B /* Pods_Privacy_Fortress.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Privacy_Fortress.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3770613DA959D7C00F8E87EC /* Pods-PrivacyFortressContentBlocker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PrivacyFortressContentBlocker.debug.xcconfig"; path = "Target Support Files/Pods-PrivacyFortressContentBlocker/Pods-PrivacyFortressContentBlocker.debug.xcconfig"; sourceTree = "<group>"; };
+		927FC37EB6705739A0B9BCC7 /* Pods-Privacy Fortress.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Privacy Fortress.debug.xcconfig"; path = "Target Support Files/Pods-Privacy Fortress/Pods-Privacy Fortress.debug.xcconfig"; sourceTree = "<group>"; };
+		A3FCA3DB2CCE37D207A92958 /* Pods-PrivacyFortressContentBlocker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PrivacyFortressContentBlocker.release.xcconfig"; path = "Target Support Files/Pods-PrivacyFortressContentBlocker/Pods-PrivacyFortressContentBlocker.release.xcconfig"; sourceTree = "<group>"; };
 		A97BEB092D66C87700D14E08 /* Privacy Fortress.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Privacy Fortress.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9C08FE92D701AEB0077FAF0 /* HaveIBeenPwned.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HaveIBeenPwned.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9D58C692D68259E009089F6 /* PrivacyFortressContentBlocker.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PrivacyFortressContentBlocker.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		CEEE993E9D681FDBB2364147 /* Pods_PrivacyFortressContentBlocker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PrivacyFortressContentBlocker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -85,6 +93,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A9579DA72D71B83D00957869 /* SwiftKeychainWrapper in Frameworks */,
+				2D119896C52E42CBE4482A87 /* Pods_Privacy_Fortress.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,6 +101,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				663D648DF853E6A3B126F96B /* Pods_PrivacyFortressContentBlocker.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,6 +111,10 @@
 		4E3E21F6B7B1A659F52C1711 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
+				927FC37EB6705739A0B9BCC7 /* Pods-Privacy Fortress.debug.xcconfig */,
+				071C6A0E75B2E22FEEEE06E7 /* Pods-Privacy Fortress.release.xcconfig */,
+				3770613DA959D7C00F8E87EC /* Pods-PrivacyFortressContentBlocker.debug.xcconfig */,
+				A3FCA3DB2CCE37D207A92958 /* Pods-PrivacyFortressContentBlocker.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -130,6 +144,8 @@
 			isa = PBXGroup;
 			children = (
 				A9C08FE92D701AEB0077FAF0 /* HaveIBeenPwned.framework */,
+				247983106F7D1F06FAB3092B /* Pods_Privacy_Fortress.framework */,
+				CEEE993E9D681FDBB2364147 /* Pods_PrivacyFortressContentBlocker.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -141,10 +157,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A97BEB172D66C87700D14E08 /* Build configuration list for PBXNativeTarget "Privacy Fortress" */;
 			buildPhases = (
+				D5428CFCFBEE13016CF755A5 /* [CP] Check Pods Manifest.lock */,
 				A97BEB052D66C87700D14E08 /* Sources */,
 				A97BEB062D66C87700D14E08 /* Frameworks */,
 				A97BEB072D66C87700D14E08 /* Resources */,
 				A9D58C632D6822BD009089F6 /* Embed Foundation Extensions */,
+				B97C8AC5F59932EAC1E4E158 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -163,6 +181,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A9D58C812D68259E009089F6 /* Build configuration list for PBXNativeTarget "PrivacyFortressContentBlocker" */;
 			buildPhases = (
+				8B3D1ACF0C57F330A69AB088 /* [CP] Check Pods Manifest.lock */,
 				A9D58C652D68259E009089F6 /* Sources */,
 				A9D58C662D68259E009089F6 /* Frameworks */,
 				A9D58C672D68259E009089F6 /* Resources */,
@@ -237,6 +256,70 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		8B3D1ACF0C57F330A69AB088 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PrivacyFortressContentBlocker-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B97C8AC5F59932EAC1E4E158 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Privacy Fortress/Pods-Privacy Fortress-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Privacy Fortress/Pods-Privacy Fortress-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Privacy Fortress/Pods-Privacy Fortress-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D5428CFCFBEE13016CF755A5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Privacy Fortress-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		A97BEB052D66C87700D14E08 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -300,7 +383,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -363,7 +446,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -384,9 +467,11 @@
 		};
 		A97BEB182D66C87700D14E08 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 927FC37EB6705739A0B9BCC7 /* Pods-Privacy Fortress.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Privacy Fortress/Privacy Fortress.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Privacy Fortress/Preview Content\"";
@@ -420,9 +505,11 @@
 		};
 		A97BEB192D66C87700D14E08 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 071C6A0E75B2E22FEEEE06E7 /* Pods-Privacy Fortress.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Privacy Fortress/Privacy Fortress.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Privacy Fortress/Preview Content\"";
@@ -456,6 +543,7 @@
 		};
 		A9D58C822D68259E009089F6 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3770613DA959D7C00F8E87EC /* Pods-PrivacyFortressContentBlocker.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -486,6 +574,7 @@
 		};
 		A9D58C832D68259E009089F6 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A3FCA3DB2CCE37D207A92958 /* Pods-PrivacyFortressContentBlocker.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
