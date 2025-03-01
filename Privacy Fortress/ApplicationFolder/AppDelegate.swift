@@ -12,6 +12,10 @@ import UserNotifications
 
 class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
     
+    private lazy var remoteService = {
+      return RemoteService()
+    }()
+    
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         setupFCMAndRemoteNotifications()
@@ -46,7 +50,8 @@ extension AppDelegate {
         }
         
         Task {
-            await APIClient.shared.sendFCMToken(UserSessionManager.shared.fcmToken ?? "")
+            await remoteService.sendFCMToken(UserSessionManager.shared.fcmToken ?? "")
+            await remoteService.sendUserData()
         }
                 
     }

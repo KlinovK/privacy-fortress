@@ -1,5 +1,5 @@
 //
-//  RemoteService.swift
+//  HTTPGenerecClient.swift
 //  Privacy Fortress
 //
 //  Created by Константин Клинов on 20/02/25.
@@ -7,25 +7,12 @@
 
 import Foundation
 
-class APIClient {
+class HTTPGenerecClient {
     
-    static let shared = APIClient()
-    private let baseURL = Constants.appDomenName
-
+    static let shared = HTTPGenerecClient()
+    
     private init() {}
     
-    func sendFCMToken(_ token: String) async {
-        let url = "\(baseURL)"
-        let parameters: [String: Any] = ["token": token]
-        
-        do {
-            _ = try await request(url: url, method: .POST, parameters: parameters) as Data
-            print("✅ Successfully sent FCM token")
-        } catch {
-            print("❌ Error sending FCM token: \(error)")
-        }
-    }
-
     func request<T: Decodable>(
         url: String,
         method: HTTPMethod = .GET,
@@ -35,7 +22,7 @@ class APIClient {
         guard let url = URL(string: url) else {
             throw HTTPError.invalidURL
         }
-
+        
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
         
@@ -58,7 +45,7 @@ class APIClient {
         guard let httpResponse = response as? HTTPURLResponse, (200..<300).contains(httpResponse.statusCode) else {
             throw HTTPError.responseError
         }
-
+        
         do {
             let decoder = JSONDecoder()
             let decodedData = try decoder.decode(T.self, from: data)

@@ -20,8 +20,9 @@ public struct Constants {
     
     public static let appStoreID = "YOUR_APP_ID"
     public static let lowestIOSVersion = 16
-    public static let appDomainName = "pwnd.privacyfortressapp.com"
+    public static let pwndAppDomainName = "pwnd.privacyfortressapp.com"
     public static let apiClientApp = "com.Bridigi.Privacy-Fortress"
+    public static let kAnalyticsDomain = "api.privacyfortressapp.com"
 
     // MARK: - User Defaults
 
@@ -41,7 +42,6 @@ public struct Constants {
     // MARK: - User Defaults
     
     enum KeychainConstants {
-        static let kAnalyticsDomain = "api.privacyfortressapp.com"
         static let kFCMTokenKeychainKey = "kFCMTokenKeychainKey"
         static let kHibpApiKey = "HIBP_API_KEY"
 
