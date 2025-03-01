@@ -1,0 +1,6 @@
+framework module Pods_Privacy_Fortress {
+  umbrella header "Pods-Privacy Fortress-umbrella.h"
+
+  export *
+  module * { export * }
+}
