@@ -18,6 +18,7 @@ struct MainScreen: View {
             GeometryReader { geometry in
                 ScrollView {
                     updatedHeaderView()
+                    
                     NavigationLink(destination: PaywallScreen()) {
                         Text("Activate Your Full Protection Now!")
                             .padding()
@@ -28,21 +29,7 @@ struct MainScreen: View {
                             .cornerRadius(10)
                     }
                     
-                    NavigationLink(
-                        destination: PaywallScreen(),
-                        isActive: $shouldNavigateToPaywall
-                    ) {
-                        EmptyView()
-                    }
-                    .hidden()
-            
-                    NavigationLink(
-                        destination: DetailsButtonIssueHelper.returnDestination(issueType: issueType ?? .maliciousSitesProtection),
-                        isActive: $shouldNavigateToDestination
-                    ) {
-                        EmptyView()
-                    }
-                    .hidden()
+                    navigationLinks
                 }
                 .padding(.top, Constants.isIPad ? 88 : 21)
                 .padding(.horizontal, Constants.isIPad ? 190 : 16)
@@ -55,19 +42,14 @@ struct MainScreen: View {
     }
     
     private func setupResultsCardViews() -> some View {
-        VStack(spacing: 12) {
-            MainCardView(issueType: .wifiSecurity, detailsButtonWasPressed: { receivedIssueType in
-                presentSubscriptionAlertIfNeeded(receivedIssueType: receivedIssueType)
-            })
-            MainCardView(issueType: .personalDataProtection, detailsButtonWasPressed: { receivedIssueType in
-                presentSubscriptionAlertIfNeeded(receivedIssueType: receivedIssueType)
-            })
-            MainCardView(issueType: .systemSecurity, detailsButtonWasPressed: { receivedIssueType in
-                presentSubscriptionAlertIfNeeded(receivedIssueType: receivedIssueType)
-            })
-            MainCardView(issueType: .safeStorage, detailsButtonWasPressed: { receivedIssueType in
-                presentSubscriptionAlertIfNeeded(receivedIssueType: receivedIssueType)
-            })
+        let issueTypes: [GeneralIssueType] = [
+            .wifiSecurity, .personalDataProtection, .systemSecurity, .safeStorage
+        ]
+        
+        return VStack(spacing: 12) {
+            ForEach(issueTypes, id: \.self) { type in
+                MainCardView(issueType: type, detailsButtonWasPressed: navigateTo)
+            }
         }
         .padding(.top, 0)
     }
@@ -83,36 +65,54 @@ struct MainScreen: View {
                 VStack {
                     HStack {
                         Spacer()
-                        NavigationLink(destination: SettingsScreen()) {
-                            Image(IconsManager.icSettings.image)
-                                .frame(width: 44, height: 44)
-                                .background(Color.clear)
-                                .cornerRadius(10)
-                        }
+                        settingsButton()
                     }
                     .padding()
                     Spacer()
                 }
             }
             .frame(maxWidth: .infinity, alignment: .center)
-           
+            
             Text("Check Issues to Improve \n Your Device Security and Stay Protected")
                 .multilineTextAlignment(.center)
                 .frame(maxWidth: .infinity)
                 .padding(.bottom, 16)
                 .font(.custom(FontsManager.SFSemibold.font, size: 20))
                 .foregroundColor(ColorManager.textDefaultColor.color)
-                setupResultsCardViews()
+            setupResultsCardViews()
         }
     }
     
-    private func presentSubscriptionAlertIfNeeded(receivedIssueType: IssueType) {
-        issueType = receivedIssueType
-        let shouldPresentSubscriptionAlert = DetailsButtonIssueHelper.shouldPresentSubscriptionAlert(issueType: receivedIssueType)
-        if shouldPresentSubscriptionAlert {
+    private func settingsButton() -> some View {
+        NavigationLink(destination: SettingsScreen()) {
+            Image(IconsManager.icSettings.image)
+                .frame(width: 44, height: 44)
+                .background(Color.clear)
+                .cornerRadius(10)
+        }
+    }
+    
+    private func navigateTo(issueType: IssueType) {
+        self.issueType = issueType
+        if DetailsButtonIssueHelper.shouldPresentSubscriptionAlert(issueType: issueType) {
             shouldNavigateToPaywall = true
         } else {
             shouldNavigateToDestination = true
+        }
+    }
+    
+    private var navigationLinks: some View {
+        Group {
+            NavigationLink(destination: PaywallScreen(), isActive: $shouldNavigateToPaywall) {
+                EmptyView()
+            }
+            .hidden()
+            
+            NavigationLink(destination: DetailsButtonIssueHelper.returnDestination(issueType: issueType ?? .maliciousSitesProtection),
+                           isActive: $shouldNavigateToDestination) {
+                EmptyView()
+            }
+            .hidden()
         }
     }
 }

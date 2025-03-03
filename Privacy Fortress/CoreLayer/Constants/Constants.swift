@@ -43,6 +43,7 @@ public struct Constants {
     enum KeychainConstants {
         static let kFCMTokenKeychainKey = "kFCMTokenKeychainKey"
         static let kHibpApiKey = "HIBP_API_KEY"
+        static let kPasscodeKeychainKey = "kPasscodeKeychainKey"
     }
 
 }

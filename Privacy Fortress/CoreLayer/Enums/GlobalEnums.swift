@@ -7,6 +7,13 @@
 
 import Foundation
 
+enum PasscodeViewState {
+    case setUp
+    case repeatPasscode
+    case enterPasscode
+    case tooManyAttempts
+}
+
 enum DataProtectionEntryPoint {
     case mediaSafe
     case passwordVault
