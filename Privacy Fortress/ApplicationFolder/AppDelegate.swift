@@ -12,14 +12,13 @@ import UserNotifications
 
 class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
     
-    private lazy var remoteService = {
-      return RemoteService()
-    }()
+    private lazy var remoteService = RemoteService()
     
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         setupFCMAndRemoteNotifications()
         application.registerForRemoteNotifications()
+        _ = UserSessionManager.shared.getOrCreateRandomUserID()
         return true
     }
     
@@ -50,8 +49,9 @@ extension AppDelegate {
         }
         
         Task {
-            await remoteService.sendFCMToken(UserSessionManager.shared.fcmToken ?? "")
-            await remoteService.sendUserData()
+            #warning("Uncomment before release")
+//            await remoteService.sendFCMToken(UserSessionManager.shared.fcmToken ?? "")
+//            await remoteService.sendUserData()
         }
                 
     }

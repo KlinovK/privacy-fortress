@@ -10,19 +10,17 @@ import UIKit
 
 public struct Constants {
     
-    public static let isIPad = UIDevice.current.userInterfaceIdiom == .pad
-    public static let contentBlockerIdentifier = "com.Bridigi.Privacy-Fortress.PrivacyFortressContentBlocker"
-    public static let termsAndConditionsURLString = "https://privacyfortress.com/terms-and-conditions/"
-    public static let privacyPolicyURLString = "https://privacyfortress.com/privacy-policy/"
-    public static let addDomenURLString = "https://api.privacyfortressapp.com/"
-    
-    // MARK: - Change after release
+#warning("Change before release if needed")
     
     public static let appStoreID = "YOUR_APP_ID"
     public static let lowestIOSVersion = 16
     public static let pwndAppDomainName = "pwnd.privacyfortressapp.com"
-    public static let apiClientApp = "com.Bridigi.Privacy-Fortress"
-    public static let kAnalyticsDomain = "api.privacyfortressapp.com"
+    public static let clientApp = "com.Bridigi.Privacy-Fortress"
+    public static let apiBaseURL = "https://api.privacyfortressapp.com"
+    public static let isIPad = UIDevice.current.userInterfaceIdiom == .pad
+    public static let contentBlockerIdentifier = "com.Bridigi.Privacy-Fortress.PrivacyFortressContentBlocker"
+    public static let termsAndConditionsURLString = "https://privacyfortress.com/terms-and-conditions/"
+    public static let privacyPolicyURLString = "https://privacyfortress.com/privacy-policy/"
 
     // MARK: - User Defaults
 
@@ -37,6 +35,7 @@ public struct Constants {
         static let kIsSecureNetwork = "kIsSecureNetwork"
         static let kLastScanTimestamp = "kLastScanTimestamp"
         static let kIsUserSubscribed = "kFindMyEnabled"
+        static let kUniqueUserID = "kUniqueUserID"
     }
     
     // MARK: - User Defaults
@@ -44,7 +43,6 @@ public struct Constants {
     enum KeychainConstants {
         static let kFCMTokenKeychainKey = "kFCMTokenKeychainKey"
         static let kHibpApiKey = "HIBP_API_KEY"
-
     }
 
 }

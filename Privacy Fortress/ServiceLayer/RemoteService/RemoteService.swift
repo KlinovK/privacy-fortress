@@ -17,28 +17,26 @@ protocol RemoteServiceProtocol {
 
 final class RemoteService: RemoteServiceProtocol {
     
-    private let baseURL = "https://api.privacyfortressapp.com"
-    
-    func sendUserData() async {
+    public func sendUserData() async {
         let endpoint = "/apple/v2/user"
         var parameters: [String: Any] = await [
-             "userId": "123456", // create one time
-             "timezone": getTimezoneOffset(),
-             "locale": getLocale(),
-             "os": UIDevice.current.systemVersion,
-             "idfa": getIDFA(),
-             "idfv": UIDevice.current.identifierForVendor?.uuidString ?? "00000000-0000-0000-0000-000000000000",
-             "att": getATTStatus(),
-             "region": Locale.current.region?.identifier ?? "Unknown",
-             "currency": Locale.current.currency?.identifier ?? "Unknown",
-             "screenSize": "\(UIScreen.main.bounds.width)x\(UIScreen.main.bounds.height)",
-             "screenOrientation": getScreenOrientation()
-         ]
+            "userId": UserSessionManager.shared.getOrCreateRandomUserID(),
+            "timezone": getTimezoneOffset(),
+            "locale": getLocale(),
+            "os": UIDevice.current.systemVersion,
+            "idfa": getIDFA(),
+            "idfv": UIDevice.current.identifierForVendor?.uuidString ?? "00000000-0000-0000-0000-000000000000",
+            "att": getATTStatus(),
+            "region": Locale.current.region?.identifier ?? "Unknown",
+            "currency": Locale.current.currency?.identifier ?? "Unknown",
+            "screenSize": "\(UIScreen.main.bounds.width)x\(UIScreen.main.bounds.height)",
+            "screenOrientation": getScreenOrientation()
+        ]
         
         await sendRequest(endpoint: endpoint, parameters: parameters)
     }
     
-    func sendFCMToken(_ token: String) async {
+    public func sendFCMToken(_ token: String) async {
         let endpoint = "/fcm"
         let parameters: [String: Any] = [
             "token": token,
@@ -50,11 +48,11 @@ final class RemoteService: RemoteServiceProtocol {
     }
     
     private func sendRequest(endpoint: String, parameters: [String: Any]) async {
-        guard let url = URL(string: baseURL + endpoint) else {
+        guard let url = URL(string: Constants.apiBaseURL + endpoint) else {
             print("❌ Invalid URL")
             return
         }
-
+        
         let headers: [String: String] = getHeaders()
         
         do {
@@ -63,38 +61,38 @@ final class RemoteService: RemoteServiceProtocol {
             request.httpMethod = "POST"
             request.httpBody = jsonData
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
+            
             for (key, value) in headers {
                 request.setValue(value, forHTTPHeaderField: key)
             }
-
+            
             let (data, response) = try await URLSession.shared.data(for: request)
             
             if let httpResponse = response as? HTTPURLResponse {
                 print("📡 HTTP Status: \(httpResponse.statusCode)")
             }
-
+            
             print("✅ Successfully sent request to \(endpoint)")
         } catch {
             print("❌ Error sending request to \(endpoint): \(error)")
         }
     }
     
-      private func getHeaders() -> [String: String] {
-          return [
-              "API-CLIENT-APP": Constants.apiClientApp,
-              "API-CLIENT-ID": UUID().uuidString,
-              "API-CLIENT-USER-AGENT": Constants.apiClientApp,
-              "API-CLIENT-DEVICE-NAME": UIDevice.current.name
-          ]
-      }
-
-      private func getTimezoneOffset() -> String {
-          let secondsFromGMT = TimeZone.current.secondsFromGMT()
-          let hours = secondsFromGMT / 3600
-          let minutes = abs(secondsFromGMT % 3600) / 60
-          return String(format: "%+02d:%02d", hours, minutes)
-      }
+    private func getHeaders() -> [String: String] {
+        return [
+            "API-CLIENT-APP": Constants.clientApp,
+            "API-CLIENT-ID": UUID().uuidString,
+            "API-CLIENT-USER-AGENT": Constants.clientApp,
+            "API-CLIENT-DEVICE-NAME": UIDevice.current.name
+        ]
+    }
+    
+    private func getTimezoneOffset() -> String {
+        let secondsFromGMT = TimeZone.current.secondsFromGMT()
+        let hours = secondsFromGMT / 3600
+        let minutes = abs(secondsFromGMT % 3600) / 60
+        return String(format: "%+02d:%02d", hours, minutes)
+    }
     
     private func getLocale() -> String {
         return Locale.current.identifier

@@ -11,8 +11,17 @@ class UserSessionManager {
     
     static let shared = UserSessionManager()
     
-    private init() {
-        // Private initializer to prevent multiple instances
+    private init() {}
+    
+    public func getOrCreateRandomUserID() -> String {
+
+        if let existingUserID = UserDefaults.standard.string(forKey: Constants.UserDefaultsKeys.kUniqueUserID) {
+            return existingUserID
+        } else {
+            let newUserID = UUID().uuidString
+            UserDefaults.standard.set(newUserID, forKey: Constants.UserDefaultsKeys.kUniqueUserID)
+            return newUserID
+        }
     }
     
     var fcmToken: String? {
