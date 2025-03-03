@@ -9,7 +9,6 @@ import SwiftUI
 
 struct MainScreen: View {
     
-    @State private var showSubscriptionAlert = false
     @State private var shouldNavigateToPaywall = false
     @State private var issueType: IssueType?
     @State private var shouldNavigateToDestination = false
@@ -53,16 +52,6 @@ struct MainScreen: View {
             .background(ColorManager.mainBackground.color)
             .toolbar(.hidden, for: .navigationBar)
         }
-        .overlay(
-            SubscriptionAlertView(
-                isPresented: $showSubscriptionAlert,
-                onDismiss: { didSubscribe in
-                    if didSubscribe {
-                        shouldNavigateToPaywall = true
-                    }
-                }
-            )
-        )
     }
     
     private func setupResultsCardViews() -> some View {
@@ -119,9 +108,9 @@ struct MainScreen: View {
     
     private func presentSubscriptionAlertIfNeeded(receivedIssueType: IssueType) {
         issueType = receivedIssueType
-        var shouldPresentSubscriptionAlert = DetailsButtonIssueHelper.shouldPresentSubscriptionAlert(issueType: receivedIssueType)
+        let shouldPresentSubscriptionAlert = DetailsButtonIssueHelper.shouldPresentSubscriptionAlert(issueType: receivedIssueType)
         if shouldPresentSubscriptionAlert {
-            showSubscriptionAlert = true
+            shouldNavigateToPaywall = true
         } else {
             shouldNavigateToDestination = true
         }

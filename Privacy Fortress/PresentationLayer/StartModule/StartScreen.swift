@@ -9,10 +9,14 @@ import SwiftUI
 
 struct StartScreenView: View {
     
-    @State private var viewState: StartScreenViewState = UserSessionManager.shared.isLongTimeNotScanned ? .longTimeNoScan : .start
     @StateObject private var viewModel = StartScreenViewModel()
+    @State private var shouldNavigateToPaywall = false
+    @State private var issueType: IssueType?
+    @State private var shouldNavigateToDestination = false
+    @State private var viewState: StartScreenViewState = UserSessionManager.shared.isLongTimeNotScanned ? .longTimeNoScan : .start
 
     var body: some View {
+        
         NavigationStack {
             GeometryReader { geometry in
                 ScrollView {
@@ -140,6 +144,22 @@ struct StartScreenView: View {
                     .padding(.top, Constants.isIPad ? 88 : 21)
                     .padding(.horizontal, Constants.isIPad ? 190 : 16)
                 }
+                
+                NavigationLink(
+                    destination: PaywallScreen(),
+                    isActive: $shouldNavigateToPaywall
+                ) {
+                    EmptyView()
+                }
+                .hidden()
+        
+                NavigationLink(
+                    destination: DetailsButtonIssueHelper.returnDestination(issueType: issueType ?? .maliciousSitesProtection),
+                    isActive: $shouldNavigateToDestination
+                ) {
+                    EmptyView()
+                }
+                .hidden()
             }
             .scrollIndicators(.hidden)
             .background(ColorManager.mainBackground.color)
@@ -153,10 +173,18 @@ struct StartScreenView: View {
     
     private func setupLongTimeNotScanCardViews() -> some View {
         VStack(spacing: 12) {
-            LongTimeNotScanView(issueType: .wifiSecurity)
-            LongTimeNotScanView(issueType: .personalDataProtection)
-            LongTimeNotScanView(issueType: .systemSecurity)
-            LongTimeNotScanView(issueType: .safeStorage)
+            LongTimeNotScanView(issueType: .wifiSecurity, detailsButtonWasPressed: { receivedIssueType in
+                presentSubscriptionAlertIfNeeded(receivedIssueType: receivedIssueType)
+            })
+            LongTimeNotScanView(issueType: .personalDataProtection, detailsButtonWasPressed: { receivedIssueType in
+                presentSubscriptionAlertIfNeeded(receivedIssueType: receivedIssueType)
+            })
+            LongTimeNotScanView(issueType: .systemSecurity, detailsButtonWasPressed: { receivedIssueType in
+                presentSubscriptionAlertIfNeeded(receivedIssueType: receivedIssueType)
+            })
+            LongTimeNotScanView(issueType: .safeStorage, detailsButtonWasPressed: { receivedIssueType in
+                presentSubscriptionAlertIfNeeded(receivedIssueType: receivedIssueType)
+            })
         }
     }
     
@@ -175,6 +203,16 @@ struct StartScreenView: View {
             AnalyzingCardView(issueType: .personalDataProtection, isNoIssuesState: isNoIssuesState, progress: viewModel.personalDataProtectionProgress)
             AnalyzingCardView(issueType: .systemSecurity, isNoIssuesState: isNoIssuesState, progress: viewModel.systemSecurityProgress)
             AnalyzingCardView(issueType: .safeStorage, isNoIssuesState: isNoIssuesState, progress: viewModel.safeStorageProgress)
+        }
+    }
+    
+    private func presentSubscriptionAlertIfNeeded(receivedIssueType: IssueType) {
+        issueType = receivedIssueType
+        let shouldPresentSubscriptionAlert = DetailsButtonIssueHelper.shouldPresentSubscriptionAlert(issueType: receivedIssueType)
+        if shouldPresentSubscriptionAlert {
+            shouldNavigateToPaywall = true
+        } else {
+            shouldNavigateToDestination = true
         }
     }
 }
