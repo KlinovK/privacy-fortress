@@ -9,7 +9,10 @@ import SwiftUI
 
 struct MainScreen: View {
     
-    @State private var showAlert = false
+    @State private var showSubscriptionAlert = false
+    @State private var shouldNavigateToPaywall = false
+    @State private var issueType: IssueType?
+    @State private var shouldNavigateToDestination = false
     
     var body: some View {
         NavigationStack {
@@ -25,6 +28,22 @@ struct MainScreen: View {
                             .font(.custom(FontsManager.SFSemibold.font, size: 20))
                             .cornerRadius(10)
                     }
+                    
+                    NavigationLink(
+                        destination: PaywallScreen(),
+                        isActive: $shouldNavigateToPaywall
+                    ) {
+                        EmptyView()
+                    }
+                    .hidden()
+            
+                    NavigationLink(
+                        destination: DetailsButtonIssueHelper.returnDestination(issueType: issueType ?? .maliciousSitesProtection),
+                        isActive: $shouldNavigateToDestination
+                    ) {
+                        EmptyView()
+                    }
+                    .hidden()
                 }
                 .padding(.top, Constants.isIPad ? 88 : 21)
                 .padding(.horizontal, Constants.isIPad ? 190 : 16)
@@ -35,16 +54,31 @@ struct MainScreen: View {
             .toolbar(.hidden, for: .navigationBar)
         }
         .overlay(
-            SubscriptionAlertView(isPresented: $showAlert)
+            SubscriptionAlertView(
+                isPresented: $showSubscriptionAlert,
+                onDismiss: { didSubscribe in
+                    if didSubscribe {
+                        shouldNavigateToPaywall = true
+                    }
+                }
+            )
         )
     }
     
     private func setupResultsCardViews() -> some View {
         VStack(spacing: 12) {
-            MainCardView(issueType: .wifiSecurity)
-            MainCardView(issueType: .personalDataProtection)
-            MainCardView(issueType: .systemSecurity)
-            MainCardView(issueType: .safeStorage)
+            MainCardView(issueType: .wifiSecurity, detailsButtonWasPressed: { receivedIssueType in
+                presentSubscriptionAlertIfNeeded(receivedIssueType: receivedIssueType)
+            })
+            MainCardView(issueType: .personalDataProtection, detailsButtonWasPressed: { receivedIssueType in
+                presentSubscriptionAlertIfNeeded(receivedIssueType: receivedIssueType)
+            })
+            MainCardView(issueType: .systemSecurity, detailsButtonWasPressed: { receivedIssueType in
+                presentSubscriptionAlertIfNeeded(receivedIssueType: receivedIssueType)
+            })
+            MainCardView(issueType: .safeStorage, detailsButtonWasPressed: { receivedIssueType in
+                presentSubscriptionAlertIfNeeded(receivedIssueType: receivedIssueType)
+            })
         }
         .padding(.top, 0)
     }
@@ -80,6 +114,16 @@ struct MainScreen: View {
                 .font(.custom(FontsManager.SFSemibold.font, size: 20))
                 .foregroundColor(ColorManager.textDefaultColor.color)
                 setupResultsCardViews()
+        }
+    }
+    
+    private func presentSubscriptionAlertIfNeeded(receivedIssueType: IssueType) {
+        issueType = receivedIssueType
+        var shouldPresentSubscriptionAlert = DetailsButtonIssueHelper.shouldPresentSubscriptionAlert(issueType: receivedIssueType)
+        if shouldPresentSubscriptionAlert {
+            showSubscriptionAlert = true
+        } else {
+            shouldNavigateToDestination = true
         }
     }
 }

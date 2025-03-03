@@ -46,7 +46,7 @@ class UserSessionManager {
         guard let lastScanTimestamp = lastScanTimestamp else {
             return false 
         }
-        return Date().timeIntervalSince(lastScanTimestamp) > 60 * 60 * 24 
+        return Date().timeIntervalSince(lastScanTimestamp) > 60 * 60 * 24 * 30
     }
     
     var lastScanTimestamp: Date? {

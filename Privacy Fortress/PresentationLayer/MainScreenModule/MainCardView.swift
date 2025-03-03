@@ -10,9 +10,7 @@ import SwiftUI
 struct MainCardView: View {
     
     let issueType: GeneralIssueType
-    
-    @State private var showAlert = false
-    @State private var shouldNavigate = false
+    var detailsButtonWasPressed: ((IssueType) -> Void)?
 
     var body: some View {
         ZStack(alignment: .topLeading) {
@@ -21,7 +19,6 @@ struct MainCardView: View {
                 .cornerRadius(16)
             
             createCellWithType()
-
         }
         .frame(maxWidth: .infinity, maxHeight: 290)
     }
@@ -56,15 +53,9 @@ struct MainCardView: View {
                     .foregroundColor(ColorManager.textSubtitleDefaultColor.color)
                     .font(.custom(FontsManager.SFlight.font, size: 14))
                     .frame(maxWidth: .infinity, alignment: .leading)
-                
-                NavigationLink(destination: returnDestination(issueType: issueType).0) {
-                    Text("Details")
-                        .foregroundColor(ColorManager.buttonActiveColor.color)
-                        .underline()
-                        .font(.custom(FontsManager.SFRegular.font, size: 14))
-                }
-                .frame(maxWidth: .infinity, alignment: .trailing)
-                .hidden(getDetailsButtonIsHiddenState(issueType: issueType).0)
+                createDetailsButtonForFirstSectionInRow(issueType: DetailsButtonIssueHelper.createIssueTypeFromGeneralIssueType(generalIssueType: issueType).0)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+                    .hidden(DetailsButtonIssueHelper.getDetailsButtonIsHiddenState(issueType: issueType).0)
             }
             
             Separator()
@@ -82,15 +73,9 @@ struct MainCardView: View {
                     .foregroundColor(ColorManager.textSubtitleDefaultColor.color)
                     .font(.custom(FontsManager.SFlight.font, size: 14))
                     .frame(maxWidth: .infinity, alignment: .leading)
-                
-                NavigationLink(destination: returnDestination(issueType: issueType).1) {
-                    Text("Details")
-                        .foregroundColor(ColorManager.buttonActiveColor.color)
-                        .underline()
-                        .font(.custom(FontsManager.SFRegular.font, size: 14))
-                }
-                .frame(maxWidth: .infinity, alignment: .trailing)
-                .hidden(getDetailsButtonIsHiddenState(issueType: issueType).1)
+                createDetailsButtonForFirstSectionInRow(issueType: DetailsButtonIssueHelper.createIssueTypeFromGeneralIssueType(generalIssueType: issueType).1)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+                    .hidden(DetailsButtonIssueHelper.getDetailsButtonIsHiddenState(issueType: issueType).1)
             }
         }
         .padding(EdgeInsets(top: 24, leading: 16, bottom: 24, trailing: 16))
@@ -161,45 +146,24 @@ struct MainCardView: View {
         }
     }
     
-    private func returnDestination(issueType: GeneralIssueType) -> (AnyView, AnyView) {
-        switch issueType {
-        case .wifiSecurity:
-            return (AnyView(MaliciousSitesProtectionScreen()), AnyView(WifiSecurityCheckScreen()))
-        case .personalDataProtection:
-            return (AnyView(DataBreachesCheckScreen()), AnyView(FindMyScreen()))
-        case .systemSecurity:
-            return (AnyView(DeviceLockStatusScreen()), AnyView(IOSVersionCkeckModule()))
-        case .safeStorage:
-            return (AnyView(DataProtectionScreen(dataProtection: .mediaSafe, correctPasscode: "", onUnlock: {})), AnyView(DataProtectionScreen(dataProtection: .passwordVault, correctPasscode: "", onUnlock: {})))
-        }
+    private func createDetailsButtonForFirstSectionInRow(issueType: IssueType) -> some View {
+        Text("Details")
+            .foregroundColor(ColorManager.buttonActiveColor.color)
+            .underline()
+            .font(.custom(FontsManager.SFRegular.font, size: 14))
+            .onTapGesture {
+                detailsButtonWasPressed?(issueType)
+            }
     }
     
-    private func getDetailsButtonIsHiddenState(issueType: GeneralIssueType) -> (Bool, Bool)  {
-        switch issueType {
-        case .wifiSecurity:
-            
-            let maliciousSitesProtectionEnabled: Bool = UserSessionManager.shared.isMaliciousSitesProtectionEnabled
-            
-            return (maliciousSitesProtectionEnabled, false)
-        case .personalDataProtection:
-            
-            let isFindMyEnabled = UserSessionManager.shared.findMyEnabled
-            
-            return (false, isFindMyEnabled)
-        case .systemSecurity:
-            
-            let deviceLockEnabled = UserSessionManager.shared.isDeviceLockEnabled
-            let iOSVersionCheckResult: Bool = !UserSessionManager.shared.isDeviceVersionLowerThanRequired
-            
-            if #available(iOS 17.0, *) {
-                return (false, iOSVersionCheckResult)
-            } else {
-                return (deviceLockEnabled, iOSVersionCheckResult)
+    private func createDetailsButtonForSecondSectionInRow(issueType: IssueType) -> some View {
+        Text("Details")
+            .foregroundColor(ColorManager.buttonActiveColor.color)
+            .underline()
+            .font(.custom(FontsManager.SFRegular.font, size: 14))
+            .onTapGesture {
+                detailsButtonWasPressed?(issueType)
             }
-            
-        case .safeStorage:
-            return (false, false)
-        }
     }
 }
 

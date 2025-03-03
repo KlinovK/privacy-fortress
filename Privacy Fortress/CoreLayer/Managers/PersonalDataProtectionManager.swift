@@ -46,8 +46,8 @@ class PersonalDataProtectionManager: PersonalDataProtectionManagerProtocol {
         var request = URLRequest(url: url)
         request.setValue(apiKey, forHTTPHeaderField: "hibp-api-key")
         request.setValue("application/json", forHTTPHeaderField: "Accept")
-        request.setValue(Constants.apiClientApp, forHTTPHeaderField: "API-CLIENT-APP")
-        request.setValue(Constants.apiClientApp, forHTTPHeaderField: "User-Agent")
+        request.setValue(Constants.clientApp, forHTTPHeaderField: "API-CLIENT-APP")
+        request.setValue(Constants.clientApp, forHTTPHeaderField: "User-Agent")
         
         do {
             let (data, response) = try await URLSession.shared.data(for: request)
