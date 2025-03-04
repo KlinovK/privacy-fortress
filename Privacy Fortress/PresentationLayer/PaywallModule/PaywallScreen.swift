@@ -108,10 +108,11 @@ struct PaywallScreen: View {
                         }
                         .padding(EdgeInsets(top: 3, leading: 26, bottom: 16, trailing: 26))
                     }
-                    .padding(.top, Constants.isIPad ? 88 : 21)
-                    .padding(.horizontal, Constants.isIPad ? 190 : 24)
-                    .frame(height: geometry.size.height)
+                   
                 }
+                .padding(.top, Constants.isIPad ? 88 : 21)
+                .padding(.horizontal, Constants.isIPad ? 190 : 24)
+                .frame(height: geometry.size.height)
             }
             .scrollIndicators(.hidden)
             .background(ColorManager.mainBackground.color)

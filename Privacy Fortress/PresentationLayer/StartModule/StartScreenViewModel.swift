@@ -100,6 +100,7 @@ class StartScreenViewModel: ObservableObject {
         isRequestComplete = false
         
         await safeStorageManager.checkAndSaveIsAnyPasswordsSavedToSafeStorage()
+        await safeStorageManager.checkIsMediaSafe()
 
         for i in 1...25 {
             try? await Task.sleep(nanoseconds: 100_000_000)

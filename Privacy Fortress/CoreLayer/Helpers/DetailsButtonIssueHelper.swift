@@ -33,14 +33,14 @@ final class DetailsButtonIssueHelper {
             return AnyView(DeviceLockStatusScreen())
         case .iOSVersionCheck:
             return AnyView(IOSVersionCkeckModule())
-        case .mediaSafe:
-            return AnyView(DataProtectionScreen(dataProtectionEntryPoint: .mediaSafe, correctPasscode: "", onUnlock: {}))
         case .maliciousSitesProtection:
             return AnyView(MaliciousSitesProtectionScreen())
         case .findMy:
             return AnyView(FindMyScreen())
+        case .mediaSafe:
+            return AnyView(DataProtectionScreen(entryPoint: .mediaSafe))
         case .passwordVaul:
-            return AnyView(DataProtectionScreen(dataProtectionEntryPoint: .passwordVault, correctPasscode: "", onUnlock: {}))
+            return AnyView(DataProtectionScreen(entryPoint: .passwordVault))
         }
     }
     

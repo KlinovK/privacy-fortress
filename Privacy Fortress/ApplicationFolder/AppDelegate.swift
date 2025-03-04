@@ -19,6 +19,9 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         setupFCMAndRemoteNotifications()
         application.registerForRemoteNotifications()
         _ = UserSessionManager.shared.getOrCreateRandomUserID()
+        KeychainWrapperManager.shared.saveHIBAPIKey()
+#warning("delete before release")
+        KeychainWrapperManager.shared.deleteValue(forKey: Constants.KeychainConstants.kPasscodeKeychainKey)
         return true
     }
     

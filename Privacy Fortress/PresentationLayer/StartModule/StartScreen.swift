@@ -71,7 +71,10 @@ struct StartScreenView: View {
                                     .foregroundColor(.white)
                                     .cornerRadius(10)
                             }
-                            .disabled(viewModel.progress < 1)
+                            .disabled(false)
+#warning("change to progress before release")
+
+//                                viewModel.progress < 1)
                             
                         case .isNoIssuesState:
                             Image(IconsManager.icAppLogoStartScreen.image)

@@ -13,7 +13,7 @@ struct LeaksListScreen: View {
     @State private var selectedLeak: Breach?
     @State private var navigateToResult = false
     let breaches: [Breach]
-
+    
     var body: some View {
         List {
             ForEach(breaches.indices, id: \.self) { index in
@@ -97,13 +97,14 @@ struct LeaksListScreen: View {
             fallbackImage
         }
     }
-
+    
     private var fallbackImage: some View {
         Image(systemName: "exclamationmark.triangle.fill")
             .resizable()
             .scaledToFit()
             .frame(width: 24, height: 24)
             .foregroundColor(.green)
-    }}
+    }
+}
 
 

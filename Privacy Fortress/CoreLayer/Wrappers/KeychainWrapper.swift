@@ -12,7 +12,7 @@ class KeychainWrapperManager {
     
     static let shared = KeychainWrapperManager()
     
-    private init() { }
+    private init() {}
 
     public func getValue(forKey key: String) -> String? {
         return KeychainWrapper.standard.string(forKey: key)
@@ -34,9 +34,13 @@ class KeychainWrapperManager {
         }
     }
     
+    public func deleteValue(forKey key: String) -> Bool {
+        return KeychainWrapper.standard.removeObject(forKey: key)
+    }
+    
     /// Save the HIBP API key securely
     public func saveHIBAPIKey() {
-        KeychainWrapper.standard.set("", forKey: Constants.KeychainConstants.kHibpApiKey)
+        KeychainWrapper.standard.set("88fa34a9-1453-43ed-a773-80d7b792e670", forKey: Constants.KeychainConstants.kHibpApiKey)
     }
 
     /// Retrieve the HIBP API key
