@@ -138,13 +138,13 @@ struct BiometricAlert: View {
         case .touchID:
             return "Touch ID for quick access to your Media Safe and Password Vault?"
         case .faceID:
-            return "faceid"
+            return "Face ID for quick access to your Media Safe and Password Vault?"
         case .opticID:
-            return "opticid"
+            return "Optic ID for quick access to your Media Safe and Password Vault?"
         case .none:
-            return "lock.fill"
+            return "No access to your Media Safe and Password Vault?"
         @unknown default:
-            return "lock.fill"
+            return "No access to your Media Safe and Password Vault?"
         }
     }
     

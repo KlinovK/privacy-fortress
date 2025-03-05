@@ -24,7 +24,6 @@ struct DataProtectionScreen: View {
                 passcodeTitleSection()
                 passcodeIndicator()
                 keypadGrid()
-//                biometricButton()  // Add biometric button
             }
             .navigationTitle(viewModel.titleText)
             .navigationBarTitleDisplayMode(.inline)

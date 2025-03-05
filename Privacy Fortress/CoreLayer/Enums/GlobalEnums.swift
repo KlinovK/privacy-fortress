@@ -14,6 +14,11 @@ enum PasscodeViewState {
     case tooManyAttempts
 }
 
+enum MediaSafeViewState {
+    case noFiles
+    case containsFiles
+}
+
 enum DataProtectionEntryPoint {
     case mediaSafe
     case passwordVault

@@ -20,6 +20,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         application.registerForRemoteNotifications()
         _ = UserSessionManager.shared.getOrCreateRandomUserID()
         KeychainWrapperManager.shared.saveHIBAPIKey()
+        setupNavigationBarAppearance()
 #warning("delete before release")
         KeychainWrapperManager.shared.deleteValue(forKey: Constants.KeychainConstants.kPasscodeKeychainKey)
         return true
@@ -66,6 +67,17 @@ extension AppDelegate {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
             print("Permission granted: \(granted)")
         }
+    }
+    
+    private func setupNavigationBarAppearance() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor.clear
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.black]
+
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        UINavigationBar.appearance().compactAppearance = appearance
     }
 }
 
