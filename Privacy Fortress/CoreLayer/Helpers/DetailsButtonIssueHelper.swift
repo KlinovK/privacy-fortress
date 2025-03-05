@@ -40,7 +40,9 @@ final class DetailsButtonIssueHelper {
         case .mediaSafe:
             return AnyView(DataProtectionScreen(entryPoint: .mediaSafe))
         case .passwordVaul:
-            return AnyView(DataProtectionScreen(entryPoint: .passwordVault))
+#warning("")
+            return AnyView(PasswordVaultScreen())
+//            return AnyView(DataProtectionScreen(entryPoint: .passwordVault))
         }
     }
     

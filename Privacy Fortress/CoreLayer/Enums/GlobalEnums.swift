@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 enum PasscodeViewState {
     case setUp
@@ -14,9 +15,14 @@ enum PasscodeViewState {
     case tooManyAttempts
 }
 
+enum PasswordVaultViewState {
+    case noPassword
+    case containsPasswords([PasswordItem])
+}
+
 enum MediaSafeViewState {
     case noFiles
-    case containsFiles
+    case containsFiles([MediaItem])
 }
 
 enum DataProtectionEntryPoint {

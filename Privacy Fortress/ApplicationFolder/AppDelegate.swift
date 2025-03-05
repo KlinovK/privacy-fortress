@@ -21,8 +21,6 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         _ = UserSessionManager.shared.getOrCreateRandomUserID()
         KeychainWrapperManager.shared.saveHIBAPIKey()
         setupNavigationBarAppearance()
-#warning("delete before release")
-        KeychainWrapperManager.shared.deleteValue(forKey: Constants.KeychainConstants.kPasscodeKeychainKey)
         return true
     }
     

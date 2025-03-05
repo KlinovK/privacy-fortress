@@ -78,6 +78,8 @@ public enum IconsManager: String {
     case icDescriptionLeak = "ic_description_leak"
     case icSubscriptionAlert = "ic_subscription_alert"
     case icFaceIdLogo = "ic_face_id_logo"
+    case icNoFilesVector = "ic_no_files_vector"
+    case icNothingFound = "ic_nothing_found"
     
     var image: String {
         self.rawValue
