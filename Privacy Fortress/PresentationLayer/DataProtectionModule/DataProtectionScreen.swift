@@ -48,6 +48,10 @@ struct DataProtectionScreen: View {
                 viewModel.onPasscodeViewStateChange(newState: newState)
             }
             
+            .onChange(of: viewModel.isNeedToDismiss, perform: { isNeedToDismiss in
+                dismiss()
+            })
+            
             .navigationDestination(isPresented: $viewModel.isNeedToPresentNextDestination) {
                 destinationView()
             }
@@ -74,7 +78,11 @@ struct DataProtectionScreen: View {
                     if isNeedToSetUpBiometricAuthentication {
                         viewModel.authenticateWithBiometrics()
                     } else {
-                        viewModel.isNeedToPresentNextDestination = true
+                        if viewModel.dataProtectionEntryPoint == .settings {
+                            dismiss()
+                        } else {
+                            viewModel.isNeedToPresentNextDestination = true
+                        }
                     }
                     
                 })
@@ -153,6 +161,8 @@ struct DataProtectionScreen: View {
             MediaSafeScreen()
         case .passwordVault:
             PasswordVaultScreen()
+        case .settings:
+            EmptyView()
         }
     }
 }

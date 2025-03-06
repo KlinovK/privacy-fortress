@@ -14,7 +14,7 @@ struct ResultsScreen: View {
             GeometryReader { geometry in
                 ScrollView {
                     updatedHeaderView()
-                    NavigationLink(destination: PaywallScreen()) {
+                    NavigationLink(destination: createDestinationView()) {
                         Text("Resolve All Issues")
                             .padding()
                             .frame(maxWidth: .infinity)
@@ -61,6 +61,14 @@ struct ResultsScreen: View {
                 .foregroundColor(ColorManager.textDefaultColor.color)
             
                 setupResultsCardViews()
+        }
+    }
+    
+    public func createDestinationView() -> some View {
+        if UserSessionManager.shared.isUserSubscribed {
+            return AnyView(MainScreen())
+        } else {
+            return AnyView(PaywallScreen())
         }
     }
 }

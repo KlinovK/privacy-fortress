@@ -26,8 +26,25 @@ struct SettingsScreen: View {
                         returnSettingsCell(cellType: .shareApp)
                         returnSettingsCell(cellType: .privacyPolicy)
                         returnSettingsCell(cellType: .termsOfService)
-                        returnSettingsCell(cellType: .changePassword)
-                        returnSettingsCell(cellType: .subscriptions)
+                        NavigationLink {
+                            DataProtectionScreen(entryPoint: .settings)
+                        } label: {
+                            HStack(spacing: 10) {
+                                Image(getCellImage(for: .changePassword))
+                                    .frame(width: 24, height: 24)
+                                    .padding(.leading, 20)
+                                Text(getCellTitle(for: .changePassword))
+                                    .font(.custom(FontsManager.SFRegular.font, size: 18))
+                                    .foregroundColor(ColorManager.textDefaultColor.color)
+                                Spacer()
+                                Image(IconsManager.icChevronRight.image)
+                                    .frame(width: 24, height: 24)
+                                    .padding(.trailing, 20)
+                            }
+                            .frame(maxWidth: .infinity, minHeight: 56, maxHeight: 56)
+                            .background(Color.white)
+                            .cornerRadius(10)
+                        }
                     }
                 }
                 .padding(.top, Constants.isIPad ? 88 : 20)
@@ -81,9 +98,7 @@ struct SettingsScreen: View {
             case .termsOfService:
                 openURL(Constants.termsAndConditionsURLString)
             case .changePassword:
-                navigateToChangePassword()
-            case .subscriptions:
-                navigateToSubscriptions()
+                break
             }
         }
     }
@@ -100,8 +115,6 @@ struct SettingsScreen: View {
             return IconsManager.icTermsOfService.image
         case .changePassword:
             return IconsManager.icChangePassword.image
-        case .subscriptions:
-            return IconsManager.icSubscription.image
         }
     }
     
@@ -117,8 +130,6 @@ struct SettingsScreen: View {
             return "Terms of Service"
         case .changePassword:
             return "Change Password"
-        case .subscriptions:
-            return "Subscription"
         }
     }
     
@@ -140,19 +151,8 @@ struct SettingsScreen: View {
     }
 
     private func openURL(_ urlString: String) {
-        // TODO: -
         guard let url = URL(string: urlString) else { return }
         UIApplication.shared.open(url)
-    }
-
-    private func navigateToChangePassword() {
-        // TODO: -
-        // Implement navigation to the Change Password screen
-    }
-
-    private func navigateToSubscriptions() {
-        // TODO: -
-        // Implement navigation to the Subscriptions screen
     }
 }
 

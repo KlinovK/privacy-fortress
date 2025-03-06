@@ -7,141 +7,117 @@
 
 import Foundation
 
-class UserSessionManager {
-    
+final class UserSessionManager {
     static let shared = UserSessionManager()
     
-    private init() {}
+    private let userDefaults: Storage
+    private let keychain: Storage
     
-    public func getOrCreateRandomUserID() -> String {
-
-        if let existingUserID = UserDefaults.standard.string(forKey: Constants.UserDefaultsKeys.kUniqueUserID) {
+    private enum Constants {
+        static let longTimeNotScannedThreshold: TimeInterval = 60 * 60 * 24 * 30
+    }
+    
+    private init(userDefaults: Storage = UserDefaults.standard, keychain: Storage = KeychainWrapperManager.shared) {
+        self.userDefaults = userDefaults
+        self.keychain = keychain
+    }
+    
+    func getOrCreateRandomUserID() -> String {
+        if let existingUserID = userDefaults.string(forKey: .uniqueUserID) {
             return existingUserID
-        } else {
-            let newUserID = UUID().uuidString
-            UserDefaults.standard.set(newUserID, forKey: Constants.UserDefaultsKeys.kUniqueUserID)
-            return newUserID
         }
+        let newUserID = UUID().uuidString
+        userDefaults.set(newUserID, forKey: .uniqueUserID)
+        return newUserID
     }
     
     var fcmToken: String? {
-      get {
-          return KeychainWrapperManager.shared.getValue(forKey: Constants.KeychainConstants.kFCMTokenKeychainKey)
-      }
-      set {
-          KeychainWrapperManager.shared.setSecure(value: newValue, forKey: Constants.KeychainConstants.kFCMTokenKeychainKey)
-      }
+        get { keychain.string(forKey: .fcmToken) }
+        set { keychain.set(newValue, forKey: .fcmToken) }
     }
     
     var isUserSubscribed: Bool {
-        get {
-            UserDefaults.standard.bool(forKey: Constants.UserDefaultsKeys.kIsUserSubscribed)
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaultsKeys.kIsUserSubscribed)
-        }
+        get { userDefaults.bool(forKey: .isUserSubscribed) }
+        set { userDefaults.set(newValue, forKey: .isUserSubscribed) }
     }
-        
-    var isLongTimeNotScanned: Bool {
-        guard let lastScanTimestamp = lastScanTimestamp else {
-            return false 
-        }
-        return Date().timeIntervalSince(lastScanTimestamp) > 60 * 60 * 24 * 30
+    
+    func updateSubscriptionStatus() {
+        isUserSubscribed = ApphudManager.shared.hasActiveSubscription()
     }
     
     var lastScanTimestamp: Date? {
         get {
-            if let timestamp = UserDefaults.standard.object(forKey: Constants.UserDefaultsKeys.kLastScanTimestamp) as? TimeInterval {
-                return Date(timeIntervalSince1970: timestamp)
-            }
-            return nil
+            let timestamp = userDefaults.double(forKey: .lastScanTimestamp)
+            return timestamp > 0 ? Date(timeIntervalSince1970: timestamp) : nil
         }
         set {
             if let newValue = newValue {
-                UserDefaults.standard.set(newValue.timeIntervalSince1970, forKey: Constants.UserDefaultsKeys.kLastScanTimestamp)
+                userDefaults.set(newValue.timeIntervalSince1970, forKey: .lastScanTimestamp)
             } else {
-                UserDefaults.standard.removeObject(forKey: Constants.UserDefaultsKeys.kLastScanTimestamp)
+                userDefaults.removeObject(forKey: .lastScanTimestamp)
             }
         }
     }
-        
+    
+    var isLongTimeNotScanned: Bool {
+        guard let lastScanTimestamp = lastScanTimestamp else { return false }
+        return Date().timeIntervalSince(lastScanTimestamp) > Constants.longTimeNotScannedThreshold
+    }
+    
+    func updateLastScanDate() {
+        lastScanTimestamp = Date()
+    }
+    
     var findMyEnabled: Bool {
-        get {
-            UserDefaults.standard.bool(forKey: Constants.UserDefaultsKeys.kFindMyEnabled)
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaultsKeys.kFindMyEnabled)
-        }
+        get { userDefaults.bool(forKey: .findMyEnabled) }
+        set { userDefaults.set(newValue, forKey: .findMyEnabled) }
     }
     
     var dataBreachesFound: Bool {
-        get {
-            UserDefaults.standard.bool(forKey: Constants.UserDefaultsKeys.kDataBreachesFound)
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaultsKeys.kDataBreachesFound)
-        }
+        get { userDefaults.bool(forKey: .dataBreachesFound) }
+        set { userDefaults.set(newValue, forKey: .dataBreachesFound) }
     }
     
     var isAnyPasswordsSavedToSafeStorage: Bool {
-        get {
-            UserDefaults.standard.bool(forKey: Constants.UserDefaultsKeys.kIsAnyPasswordsSavedToSafeStorage)
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaultsKeys.kIsAnyPasswordsSavedToSafeStorage)
-        }
+        get { userDefaults.bool(forKey: .isAnyPasswordsSavedToSafeStorage) }
+        set { userDefaults.set(newValue, forKey: .isAnyPasswordsSavedToSafeStorage) }
     }
     
     var isMediaSafe: Bool {
-        get {
-            UserDefaults.standard.bool(forKey: Constants.UserDefaultsKeys.kIsMediaSafe)
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaultsKeys.kIsMediaSafe)
-        }
+        get { userDefaults.bool(forKey: .isMediaSafe) }
+        set { userDefaults.set(newValue, forKey: .isMediaSafe) }
     }
     
     var isDeviceLockEnabled: Bool {
-        get {
-            UserDefaults.standard.bool(forKey: Constants.UserDefaultsKeys.kIsDeviceLockEnabled)
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaultsKeys.kIsDeviceLockEnabled)
-        }
+        get { userDefaults.bool(forKey: .isDeviceLockEnabled) }
+        set { userDefaults.set(newValue, forKey: .isDeviceLockEnabled) }
     }
     
     var isDeviceVersionLowerThanRequired: Bool {
-        get {
-            UserDefaults.standard.bool(forKey: Constants.UserDefaultsKeys.isDeviceVersionLowerThanRequired)
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaultsKeys.isDeviceVersionLowerThanRequired)
-        }
+        get { userDefaults.bool(forKey: .isDeviceVersionLowerThanRequired) }
+        set { userDefaults.set(newValue, forKey: .isDeviceVersionLowerThanRequired) }
     }
     
     var isMaliciousSitesProtectionEnabled: Bool {
-        get {
-            UserDefaults.standard.bool(forKey: Constants.UserDefaultsKeys.kIsMaliciousSitesProtectionEnabled)
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaultsKeys.kIsMaliciousSitesProtectionEnabled)
-        }
+        get { userDefaults.bool(forKey: .isMaliciousSitesProtectionEnabled) }
+        set { userDefaults.set(newValue, forKey: .isMaliciousSitesProtectionEnabled) }
     }
     
     var isSecureNetwork: Bool {
-        get {
-            UserDefaults.standard.bool(forKey: Constants.UserDefaultsKeys.kIsSecureNetwork)
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaultsKeys.kIsSecureNetwork)
-        }
+        get { userDefaults.bool(forKey: .isSecureNetwork) }
+        set { userDefaults.set(newValue, forKey: .isSecureNetwork) }
     }
     
     var issuesArray: [Bool] {
-        return [findMyEnabled, !dataBreachesFound, isAnyPasswordsSavedToSafeStorage, isMediaSafe, isDeviceLockEnabled, !isDeviceVersionLowerThanRequired, isMaliciousSitesProtectionEnabled, isSecureNetwork]
-    }
-    
-    public func updateLastScanDate() {
-        UserSessionManager.shared.lastScanTimestamp = Date()
+        [
+            findMyEnabled,
+            !dataBreachesFound,
+            isAnyPasswordsSavedToSafeStorage,
+            isMediaSafe,
+            isDeviceLockEnabled,
+            !isDeviceVersionLowerThanRequired,
+            isMaliciousSitesProtectionEnabled,
+            isSecureNetwork
+        ]
     }
 }

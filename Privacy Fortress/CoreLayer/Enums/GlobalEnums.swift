@@ -13,6 +13,7 @@ enum PasscodeViewState {
     case repeatPasscode
     case enterPasscode
     case tooManyAttempts
+    case changePassword
 }
 
 enum PasswordVaultViewState {
@@ -28,6 +29,7 @@ enum MediaSafeViewState {
 enum DataProtectionEntryPoint {
     case mediaSafe
     case passwordVault
+    case settings
 }
 
 enum LeakCellType {
@@ -85,7 +87,6 @@ enum SettingsCellType {
     case privacyPolicy
     case termsOfService
     case changePassword
-    case subscriptions
 }
 
 enum GeneralIssueType {

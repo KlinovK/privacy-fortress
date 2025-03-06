@@ -17,7 +17,13 @@ struct PaywallScreen: View {
                         HStack {
                             Spacer()
                             Button(action: {
-                                // TODO: - apphud implementation
+                                Task {
+                                    do {
+                                        _ = try await ApphudManager.shared.restorePurchases()
+                                    } catch {
+                                        print("Restore failed: \(error)")
+                                    }
+                                }
                             }) {
                                 Text("Restore")
                                     .frame(width: 60, height: 20, alignment: .trailing)
@@ -69,7 +75,13 @@ struct PaywallScreen: View {
                         
                         Spacer()
                         Button(action: {
-                            // TODO: - apphud implementation
+                            Task {
+                                do {
+                                    _ = try await ApphudManager.shared.makePurchase()
+                                } catch {
+                                    print("Purchase failed: \(error)")
+                                }
+                            }
                         }) {
                             Text("Protect Now")
                                 .padding()

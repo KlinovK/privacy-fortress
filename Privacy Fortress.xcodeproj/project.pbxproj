@@ -10,6 +10,7 @@
 		2D119896C52E42CBE4482A87 /* Pods_Privacy_Fortress.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 247983106F7D1F06FAB3092B /* Pods_Privacy_Fortress.framework */; };
 		663D648DF853E6A3B126F96B /* Pods_PrivacyFortressContentBlocker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE993E9D681FDBB2364147 /* Pods_PrivacyFortressContentBlocker.framework */; };
 		A9579DA72D71B83D00957869 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = A9579DA62D71B83D00957869 /* SwiftKeychainWrapper */; };
+		A9AEF6402D79384D008455E9 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9AEF63F2D79384D008455E9 /* StoreKit.framework */; };
 		A9D58C7F2D68259E009089F6 /* PrivacyFortressContentBlocker.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A9D58C692D68259E009089F6 /* PrivacyFortressContentBlocker.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
@@ -44,6 +45,7 @@
 		927FC37EB6705739A0B9BCC7 /* Pods-Privacy Fortress.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Privacy Fortress.debug.xcconfig"; path = "Target Support Files/Pods-Privacy Fortress/Pods-Privacy Fortress.debug.xcconfig"; sourceTree = "<group>"; };
 		A3FCA3DB2CCE37D207A92958 /* Pods-PrivacyFortressContentBlocker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PrivacyFortressContentBlocker.release.xcconfig"; path = "Target Support Files/Pods-PrivacyFortressContentBlocker/Pods-PrivacyFortressContentBlocker.release.xcconfig"; sourceTree = "<group>"; };
 		A97BEB092D66C87700D14E08 /* Privacy Fortress.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Privacy Fortress.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9AEF63F2D79384D008455E9 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		A9C08FE92D701AEB0077FAF0 /* HaveIBeenPwned.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HaveIBeenPwned.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9D58C692D68259E009089F6 /* PrivacyFortressContentBlocker.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PrivacyFortressContentBlocker.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEEE993E9D681FDBB2364147 /* Pods_PrivacyFortressContentBlocker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PrivacyFortressContentBlocker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -92,6 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9AEF6402D79384D008455E9 /* StoreKit.framework in Frameworks */,
 				A9579DA72D71B83D00957869 /* SwiftKeychainWrapper in Frameworks */,
 				2D119896C52E42CBE4482A87 /* Pods_Privacy_Fortress.framework in Frameworks */,
 			);
@@ -143,6 +146,7 @@
 		BF635DF7A83944C9E3CBBE6A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A9AEF63F2D79384D008455E9 /* StoreKit.framework */,
 				A9C08FE92D701AEB0077FAF0 /* HaveIBeenPwned.framework */,
 				247983106F7D1F06FAB3092B /* Pods_Privacy_Fortress.framework */,
 				CEEE993E9D681FDBB2364147 /* Pods_PrivacyFortressContentBlocker.framework */,
@@ -482,6 +486,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Privacy Fortress";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to select images for your Media Safe";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "This app uses tracking to understand how you found us and improve your subscription experience.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -521,6 +526,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Privacy Fortress";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to select images for your Media Safe";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "This app uses tracking to understand how you found us and improve your subscription experience.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

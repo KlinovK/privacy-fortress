@@ -16,18 +16,19 @@ class DataProtectionViewModel: ObservableObject {
     @Published var isNeedToShowInfoAlert = false
     @Published var isNeedToSetUpBiometricAuthentication = false
     @Published var isNeedToPresentNextDestination = false
+    @Published var isNeedToDismiss = false
     @Published var passcodeViewState: PasscodeViewState
     @Published var attemptCount = 0
     @Published var remainingSeconds = 30
     
     private var timer: Timer?
     private let passcodeLength = 6
-    private let dataProtectionEntryPoint: DataProtectionEntryPoint
-    private let keychainKey = Constants.KeychainConstants.kPasscodeKeychainKey
+    public let dataProtectionEntryPoint: DataProtectionEntryPoint
+    private let keychainKey = UserSessionKey.kPasscodeKeychainKey
     
     init(entryPoint: DataProtectionEntryPoint) {
         self.dataProtectionEntryPoint = entryPoint
-        self.passcodeViewState = KeychainWrapperManager.shared.getValue(forKey: keychainKey) != nil ? .enterPasscode : .setUp
+        self.passcodeViewState = entryPoint == .settings ? .changePassword : KeychainWrapperManager.shared.string(forKey: keychainKey) != nil ? .enterPasscode : .setUp
     }
     
     // MARK: - Public Methods
@@ -39,9 +40,13 @@ class DataProtectionViewModel: ObservableObject {
         if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
             let reason = "Authenticate to access your data"
             context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
-                DispatchQueue.main.async {
+                DispatchQueue.main.async { [self] in
                     if success {
-                        self.isNeedToPresentNextDestination = true
+                        if dataProtectionEntryPoint == .settings {
+                            self.isNeedToDismiss = true
+                        } else {
+                            self.isNeedToPresentNextDestination = true
+                        }
                     } else {
                         print("Biometric authentication failed: \(authenticationError?.localizedDescription ?? "Unknown error")")
                     }
@@ -67,7 +72,7 @@ class DataProtectionViewModel: ObservableObject {
             }
             if repeatedPasscode.count == passcodeLength && enteredPasscode.count == passcodeLength {
                 if isPasscodesEqual() {
-                    KeychainWrapperManager.shared.setSecure(value: enteredPasscode, forKey: keychainKey)
+                    KeychainWrapperManager.shared.set(enteredPasscode, forKey: keychainKey)
                     isNeedToSetUpBiometricAuthentication = true
                 } else {
                     isNeedToShowPasscodeIsNotEqualsAlert = true
@@ -82,6 +87,13 @@ class DataProtectionViewModel: ObservableObject {
             }
         case .tooManyAttempts:
             break
+        case .changePassword:
+            if enteredPasscode.count < passcodeLength {
+                enteredPasscode.append(number)
+            }
+            if enteredPasscode.count == passcodeLength {
+                passcodeViewState = .repeatPasscode
+            }
         }
     }
     
@@ -103,6 +115,10 @@ class DataProtectionViewModel: ObservableObject {
             if !enteredPasscode.isEmpty {
                 enteredPasscode.removeLast()
             }
+        case .changePassword:
+            if !enteredPasscode.isEmpty {
+                enteredPasscode.removeLast()
+            }
         }
     }
 
@@ -112,6 +128,7 @@ class DataProtectionViewModel: ObservableObject {
         case .repeatPasscode: return repeatedPasscode.count
         case .enterPasscode: return enteredPasscode.count
         case .tooManyAttempts: return 0
+        case .changePassword: return enteredPasscode.count
         }
     }
     
@@ -160,6 +177,7 @@ class DataProtectionViewModel: ObservableObject {
         switch dataProtectionEntryPoint {
         case .mediaSafe: return "Media Safe"
         case .passwordVault: return "Password Vault"
+        case .settings: return "Media Safe and Password Vault"
         }
     }
     
@@ -169,6 +187,7 @@ class DataProtectionViewModel: ObservableObject {
         case .repeatPasscode: return "Repeat Password"
         case .enterPasscode: return "Enter your password"
         case .tooManyAttempts: return "Repeat Password"
+        case .changePassword: return "Set Up Passcode"
         }
     }
     
@@ -178,6 +197,7 @@ class DataProtectionViewModel: ObservableObject {
         case .repeatPasscode: return "You'll need it to access the \(titleText)"
         case .enterPasscode: return ""
         case .tooManyAttempts: return "Too many failed attempts. Try again in \(remainingSeconds) seconds"
+        case .changePassword: return "You'll need it to access the \(titleText)"
         }
     }
     
@@ -196,8 +216,12 @@ class DataProtectionViewModel: ObservableObject {
     }
     
     private func checkPasscode() {
-        if enteredPasscode == KeychainWrapperManager.shared.getValue(forKey: keychainKey) {
-            isNeedToPresentNextDestination = true
+        if enteredPasscode == KeychainWrapperManager.shared.string(forKey: keychainKey) {
+            if dataProtectionEntryPoint == .settings {
+                isNeedToDismiss = true
+            } else {
+                isNeedToPresentNextDestination = true
+            }
         } else {
             enteredPasscode = ""
             attemptCount += 1
@@ -225,7 +249,7 @@ class DataProtectionViewModel: ObservableObject {
     }
     
     private func resetToSetupState() {
-        passcodeViewState = KeychainWrapperManager.shared.getValue(forKey: keychainKey) != nil ? .enterPasscode : .setUp
+        passcodeViewState = KeychainWrapperManager.shared.string(forKey: keychainKey) != nil ? .enterPasscode : .setUp
         enteredPasscode = ""
         repeatedPasscode = ""
         attemptCount = 0

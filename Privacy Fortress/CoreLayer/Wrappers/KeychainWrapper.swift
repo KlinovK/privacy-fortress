@@ -8,48 +8,82 @@
 import Foundation
 import SwiftKeychainWrapper
 
-class KeychainWrapperManager {
+final class KeychainWrapperManager: Storage {
     
     static let shared = KeychainWrapperManager()
     
-    private init() {}
-
-    public func getValue(forKey key: String) -> String? {
-        return KeychainWrapper.standard.string(forKey: key)
+    private let keychain: KeychainWrapper
+    
+    private init(keychain: KeychainWrapper = .standard) {
+        self.keychain = keychain
     }
     
-    public func setSecure(value: String?, forKey key: String) {
+    func string(forKey: UserSessionKey) -> String? {
+        keychain.string(forKey: forKey.rawValue)
+    }
+    
+    func set(_ value: String?, forKey: UserSessionKey) {
         if let value = value, !value.isEmpty {
-            KeychainWrapper.standard.set(value, forKey: key)
+            keychain.set(value, forKey: forKey.rawValue)
         } else {
-            KeychainWrapper.standard.removeObject(forKey: key)
+            _ = keychain.removeObject(forKey: forKey.rawValue)
         }
     }
     
-    public func setSecure(data: Data?, forKey key: String) {
-        if let data = data {
-            KeychainWrapper.standard.set(data, forKey: key)
+    func removeObject(forKey: UserSessionKey) {
+        keychain.removeObject(forKey: forKey.rawValue)
+    }
+    
+    func bool(forKey: UserSessionKey) -> Bool {
+        if let stringValue = keychain.string(forKey: forKey.rawValue) {
+            return Bool(stringValue) ?? false
+        }
+        return false
+    }
+    
+    func set(_ value: Bool, forKey: UserSessionKey) {
+        keychain.set(String(value), forKey: forKey.rawValue)
+    }
+    
+    func double(forKey: UserSessionKey) -> Double {
+        if let stringValue = keychain.string(forKey: forKey.rawValue) {
+            return Double(stringValue) ?? 0
+        }
+        return 0
+    }
+    
+    func set(_ value: Double, forKey: UserSessionKey) {
+        keychain.set(String(value), forKey: forKey.rawValue)
+    }
+    
+    func data(forKey: UserSessionKey) -> Data? {
+        keychain.data(forKey: forKey.rawValue)
+    }
+    
+    func set(_ value: Data?, forKey: UserSessionKey) {
+        if let value = value {
+            keychain.set(value, forKey: forKey.rawValue)
         } else {
-            KeychainWrapper.standard.removeObject(forKey: key)
+            _ = keychain.removeObject(forKey: forKey.rawValue)
         }
     }
     
-    public func deleteValue(forKey key: String) -> Bool {
-        return KeychainWrapper.standard.removeObject(forKey: key)
+    func removeObject(forKey: UserSessionKey) -> Bool {
+        keychain.removeObject(forKey: forKey.rawValue)
     }
     
-    /// Save the HIBP API key securely
-    public func saveHIBAPIKey() {
-        KeychainWrapper.standard.set("88fa34a9-1453-43ed-a773-80d7b792e670", forKey: Constants.KeychainConstants.kHibpApiKey)
+    // MARK: - HIBP API Key (Optional Convenience Methods)
+    
+    func saveHIBPAPIKey() {
+        let key = Constants.kHBIPKey
+        set(key, forKey: .hibpApiKey)
     }
-
-    /// Retrieve the HIBP API key
-    public func getHIBPAPIKey() -> String? {
-        return KeychainWrapper.standard.string(forKey: Constants.KeychainConstants.kHibpApiKey)
+    
+    func getHIBPAPIKey() -> String? {
+        string(forKey: .hibpApiKey)
     }
-
-    // Delete the HIBP API key from Keychain
-    public func deleteHIBPAPIKey() -> Bool {
-        return KeychainWrapper.standard.removeObject(forKey: Constants.KeychainConstants.kHibpApiKey)
+    
+    func deleteHIBPAPIKey() -> Bool {
+        removeObject(forKey: .hibpApiKey)
     }
 }

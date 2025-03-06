@@ -8,6 +8,7 @@ target 'Privacy Fortress' do
   # Pods for Privacy Fortress
   pod 'Firebase/Core'   # Firebase Core (for analytics)
   pod 'Firebase/Messaging'  # FCM
+  pod 'ApphudSDK'
 
 end
 

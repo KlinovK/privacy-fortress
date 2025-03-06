@@ -17,11 +17,11 @@ class SafeStorageManager: SafeStorageManagerProtocol {
     // MARK: - Methods
     
     public func checkAndSaveIsAnyPasswordsSavedToSafeStorage() async {
-        UserSessionManager.shared.isAnyPasswordsSavedToSafeStorage = KeychainWrapperManager.shared.getValue(forKey: Constants.KeychainConstants.kPasscodeKeychainKey) != nil
+        UserSessionManager.shared.isAnyPasswordsSavedToSafeStorage = KeychainWrapperManager.shared.string(forKey: UserSessionKey.kPasscodeKeychainKey) != nil
     }
     
     public func checkIsMediaSafe() async {
-        UserSessionManager.shared.isMediaSafe = KeychainWrapperManager.shared.getValue(forKey: Constants.KeychainConstants.kPasscodeKeychainKey) != nil
+        UserSessionManager.shared.isAnyPasswordsSavedToSafeStorage = KeychainWrapperManager.shared.string(forKey: UserSessionKey.kPasscodeKeychainKey) != nil
     }
     
 }

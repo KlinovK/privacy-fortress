@@ -18,9 +18,9 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         setupFCMAndRemoteNotifications()
         application.registerForRemoteNotifications()
-        _ = UserSessionManager.shared.getOrCreateRandomUserID()
-        KeychainWrapperManager.shared.saveHIBAPIKey()
+        KeychainWrapperManager.shared.saveHIBPAPIKey()
         setupNavigationBarAppearance()
+        setupApphud()
         return true
     }
     
@@ -56,6 +56,12 @@ extension AppDelegate {
 //            await remoteService.sendUserData()
         }
                 
+    }
+    
+    private func setupApphud() {
+        Task {
+            await ApphudManager.shared.setupApphud()
+        }
     }
     
     private func setupFCMAndRemoteNotifications() {

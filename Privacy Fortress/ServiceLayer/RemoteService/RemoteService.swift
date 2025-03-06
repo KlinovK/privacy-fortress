@@ -19,7 +19,7 @@ final class RemoteService: RemoteServiceProtocol {
     
     public func sendUserData() async {
         let endpoint = "/apple/v2/user"
-        var parameters: [String: Any] = await [
+        let parameters: [String: Any] = await [
             "userId": UserSessionManager.shared.getOrCreateRandomUserID(),
             "timezone": getTimezoneOffset(),
             "locale": getLocale(),
@@ -30,7 +30,9 @@ final class RemoteService: RemoteServiceProtocol {
             "region": Locale.current.region?.identifier ?? "Unknown",
             "currency": Locale.current.currency?.identifier ?? "Unknown",
             "screenSize": "\(UIScreen.main.bounds.width)x\(UIScreen.main.bounds.height)",
-            "screenOrientation": getScreenOrientation()
+            "screenOrientation": getScreenOrientation(),
+            "originalTransactionId" : "TODO",
+            "appflyerAttribution" : "TODO"
         ]
         
         await sendRequest(endpoint: endpoint, parameters: parameters)
@@ -66,7 +68,7 @@ final class RemoteService: RemoteServiceProtocol {
                 request.setValue(value, forHTTPHeaderField: key)
             }
             
-            let (data, response) = try await URLSession.shared.data(for: request)
+            let (_, response) = try await URLSession.shared.data(for: request)
             
             if let httpResponse = response as? HTTPURLResponse {
                 print("📡 HTTP Status: \(httpResponse.statusCode)")
@@ -81,7 +83,7 @@ final class RemoteService: RemoteServiceProtocol {
     private func getHeaders() -> [String: String] {
         return [
             "API-CLIENT-APP": Constants.clientApp,
-            "API-CLIENT-ID": UUID().uuidString,
+            "API-CLIENT-ID": UserSessionManager.shared.getOrCreateRandomUserID(),
             "API-CLIENT-USER-AGENT": Constants.clientApp,
             "API-CLIENT-DEVICE-NAME": UIDevice.current.name
         ]
