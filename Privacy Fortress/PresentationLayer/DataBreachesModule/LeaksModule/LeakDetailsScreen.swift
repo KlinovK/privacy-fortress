@@ -45,6 +45,7 @@ struct LeakDetailsScreen: View {
                         }
                         
                     }
+                    .padding(.bottom, 20)
                     .padding(.top, Constants.isIPad ? 204 : 24)
                     .padding(.horizontal, Constants.isIPad ? 190 : 16)
                     .frame(height: geometry.size.height)
@@ -122,3 +123,4 @@ struct LeakDetailsScreen: View {
     }
     
 }
+

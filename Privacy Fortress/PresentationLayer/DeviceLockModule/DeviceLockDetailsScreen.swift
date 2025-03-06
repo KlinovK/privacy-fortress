@@ -39,11 +39,12 @@ struct DeviceLockDetailsScreen: View {
                             .onTapGesture {
                                 openAppSettings()
                             }
-                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 20
+                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 34
                                                 , trailing: 0))
                     }
                     .frame(height: geometry.size.height)
                 }
+                .padding(.bottom, 0)
                 .padding(.top, Constants.isIPad ? 24 : 16)
                 .padding(.horizontal, Constants.isIPad ? 190 : 16)
             }

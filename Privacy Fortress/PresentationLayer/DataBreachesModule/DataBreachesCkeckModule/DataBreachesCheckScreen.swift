@@ -7,24 +7,37 @@
 
 import SwiftUI
 
+import SwiftUI
+
 struct DataBreachesCheckScreen: View {
     
     @Environment(\.dismiss) var dismiss
     @StateObject private var viewModel = DataBreachesCheckViewModel()
+    @StateObject private var keyboardObserver = KeyboardObserver()
     @State private var navigateToResult = false
-
+    
     var body: some View {
         GeometryReader { geometry in
-            ScrollView {
-                switch viewModel.state {
-                case .checking:
-                    createDataBreachesCheckView(geometry: geometry)
-                case .notDetected:
-                    createNotDetectedDataBreachesCheckView(geometry: geometry)
+            ScrollViewReader { scrollProxy in
+                ScrollView {
+                    switch viewModel.state {
+                    case .checking:
+                        createDataBreachesCheckView(geometry: geometry, scrollProxy: scrollProxy)
+                    case .notDetected:
+                        createNotDetectedDataBreachesCheckView(geometry: geometry)
+                    }
+                }
+                .scrollIndicators(.hidden)
+                .background(ColorManager.mainBackground.color)
+                .padding(.bottom, 0)
+                .onChange(of: keyboardObserver.height) { newHeight in
+                    if newHeight > 0 {
+                        withAnimation {
+                            scrollProxy.scrollTo("emailTextField", anchor: .bottom)
+                        }
+                    }
                 }
             }
-            .scrollIndicators(.hidden)
-            .background(ColorManager.mainBackground.color)
         }
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden()
@@ -43,72 +56,84 @@ struct DataBreachesCheckScreen: View {
     }
     
     private func createNotDetectedDataBreachesCheckView(geometry: GeometryProxy) -> some View {
-       VStack {
-           Image(IconsManager.icAppLogoStartScreen.image)
-                   .resizable()
-                   .scaledToFit()
-                   .frame(width: 114, height: 138)
-                   .padding(.bottom, 20)
-               Text("Great news!")
-                   .frame(maxWidth: .infinity)
-                   .foregroundColor(ColorManager.buttonActiveColor.color)
-                   .font(.custom(FontsManager.SFbold.font, size: 28))
-                Text("No data breaches were detected.")
-                    .frame(maxWidth: .infinity)
-                    .foregroundColor(ColorManager.buttonActiveColor.color)
-                    .font(.custom(FontsManager.SFSemibold.font, size: 24))
-                    .padding(.bottom, 12)
-           Text("Your accounts and personal information are safe. Keep monitoring to stay protected.")
-               .frame(maxWidth: .infinity)
-               .foregroundColor(ColorManager.textDefaultColor.color)
-               .font(.custom(FontsManager.SFRegular.font, size: 18))
-               .multilineTextAlignment(.center)
-               .padding(.bottom, 12)
+        VStack {
+            Image(IconsManager.icAppLogoStartScreen.image)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 114, height: 138)
+                .padding(.bottom, 20)
+            Text("Great news!")
+                .frame(maxWidth: .infinity)
+                .foregroundColor(ColorManager.buttonActiveColor.color)
+                .font(.custom(FontsManager.SFbold.font, size: 28))
+            Text("No data breaches were detected.")
+                .frame(maxWidth: .infinity)
+                .foregroundColor(ColorManager.buttonActiveColor.color)
+                .font(.custom(FontsManager.SFSemibold.font, size: 24))
+                .padding(.bottom, 12)
+            Text("Your accounts and personal information are safe. Keep monitoring to stay protected.")
+                .frame(maxWidth: .infinity)
+                .foregroundColor(ColorManager.textDefaultColor.color)
+                .font(.custom(FontsManager.SFRegular.font, size: 18))
+                .multilineTextAlignment(.center)
+                .padding(.bottom, 12)
+            Spacer()
         }
         .padding(.top, Constants.isIPad ? 367 : 40)
         .padding(.horizontal, Constants.isIPad ? 190 : 16)
-        .frame(height: geometry.size.height)
     }
     
-    private func createDataBreachesCheckView(geometry: GeometryProxy) -> some View {
+    private func createDataBreachesCheckView(geometry: GeometryProxy, scrollProxy: ScrollViewProxy) -> some View {
         VStack {
-            VStack {
-                Text("Protect Your Data from \n Breaches")
-                    .frame(maxWidth: .infinity)
-                    .foregroundColor(ColorManager.buttonActiveColor.color)
-                    .font(.custom(FontsManager.SFSemibold.font, size: 24))
-                    .multilineTextAlignment(.center)
-                    .padding(.bottom, 20)
-                Image(IconsManager.icDataBreachesLogo.image)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 154, height: 363)
-                    .padding(.bottom, 16)
-                
-                Text("Email Address")
-                    .frame(maxWidth: .infinity, alignment: .leading)
+            Text("Protect Your Data from \n Breaches")
+                .frame(maxWidth: .infinity)
+                .foregroundColor(ColorManager.buttonActiveColor.color)
+                .font(.custom(FontsManager.SFSemibold.font, size: 24))
+                .multilineTextAlignment(.center)
+                .padding(.bottom, 20)
+            Image(IconsManager.icDataBreachesLogo.image)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 154, height: 363)
+                .padding(.bottom, 16)
+            
+            Text("Email Address")
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .foregroundColor(ColorManager.textDefaultColor.color)
+                .font(.custom(FontsManager.SFSemibold.font, size: 18))
+                .padding(.bottom, 6)
+            HStack {
+                Image(systemName: "envelope")
+                    .foregroundColor(.gray)
+                    .padding(.leading, 12)
+                TextField("Enter your email", text: $viewModel.email)
+                    .textFieldStyle(PlainTextFieldStyle())
                     .foregroundColor(ColorManager.textDefaultColor.color)
                     .font(.custom(FontsManager.SFSemibold.font, size: 18))
-                    .padding(.bottom, 6)
-                HStack {
-                    Image(systemName: "envelope")
-                        .foregroundColor(.gray)
-                        .padding(.leading, 12)
-                    TextField("Enter your email", text: $viewModel.email)
-                        .textFieldStyle(PlainTextFieldStyle())
-                        .padding(10)
-                        .autocapitalization(.none)
-                        .keyboardType(.emailAddress)
-                        .textContentType(.emailAddress)
-                }
-                .background(Color.white)
-                .frame(maxWidth: .infinity)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(ColorManager.textFieldBorderColor.color, lineWidth: 1)
-                )
-                .cornerRadius(10)
+                    .padding(10)
+                    .autocapitalization(.none)
+                    .keyboardType(.emailAddress)
+                    .textContentType(.emailAddress)
+                    .id("emailTextField")
+                    .submitLabel(.done)
+                    .onTapGesture {
+                        withAnimation {
+                            scrollProxy.scrollTo("emailTextField", anchor: .bottom)
+                        }
+                    }
+                    .onSubmit {
+                        withAnimation {
+                            scrollProxy.scrollTo("emailTextField", anchor: .bottom)
+                        }
+                    }
             }
+            .background(Color.white)
+            .frame(maxWidth: .infinity)
+            .overlay(
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(ColorManager.textFieldBorderColor.color, lineWidth: 1)
+            )
+            .cornerRadius(10)
             
             Spacer()
             Button(action: {
@@ -129,16 +154,16 @@ struct DataBreachesCheckScreen: View {
                     .foregroundColor(.white)
                     .cornerRadius(10)
             }
-            
             .navigationDestination(isPresented: $navigateToResult) {
                 LeaksListScreen(breaches: viewModel.breaches)
             }
         }
         .padding(.top, Constants.isIPad ? 284 : 40)
         .padding(.horizontal, Constants.isIPad ? 284 : 16)
-        .frame(height: geometry.size.height)
+        .padding(.bottom, 20)
     }
 }
+
 
 #Preview {
     DataBreachesCheckScreen()

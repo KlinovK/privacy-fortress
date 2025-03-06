@@ -31,6 +31,7 @@ struct MainScreen: View {
                     
                     navigationLinks
                 }
+                .padding(.bottom, 20)
                 .padding(.top, Constants.isIPad ? 88 : 21)
                 .padding(.horizontal, Constants.isIPad ? 190 : 16)
                 .frame(height: geometry.size.height)

@@ -125,6 +125,7 @@ struct IOSVersionCkeckModule: View {
                             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0
                                                 , trailing: 0))
                     }
+                    .padding(.bottom, 20)
                     .padding(.top, Constants.isIPad ? 88 : 16)
                     .padding(.horizontal, Constants.isIPad ? 190 : 24)
                 }

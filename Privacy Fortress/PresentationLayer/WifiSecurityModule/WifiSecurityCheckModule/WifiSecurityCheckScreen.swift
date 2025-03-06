@@ -16,10 +16,11 @@ struct WifiSecurityCheckScreen: View {
     var body: some View {
         GeometryReader { geometry in
             ScrollView {
-                VStack(spacing: 120) {
+                VStack(spacing: 0) {
                     Text("Ready to scan this network")
                         .font(.custom(FontsManager.SFSemibold.font, size: 24))
                         .foregroundColor(ColorManager.buttonActiveColor.color)
+                        .padding(.bottom, 120)
                     Image(IconsManager.icModem.image)
                         .resizable()
                         .scaledToFit()
@@ -43,7 +44,7 @@ struct WifiSecurityCheckScreen: View {
                         WifiCheckResultScreen()
                     }
                 }
-                .padding(.bottom, 40)
+                .padding(.bottom, 20)
                 .padding(.top, Constants.isIPad ? 391 : 143)
                 .padding(.horizontal, Constants.isIPad ? 190 : 24)
                 .frame(height: geometry.size.height)

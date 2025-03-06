@@ -47,6 +47,7 @@ struct DeviceLockStatusScreen: View {
                     }
 
                 }
+                .padding(.bottom, 20)
                 .padding(.top, Constants.isIPad ? 284 : 120)
                 .padding(.horizontal, Constants.isIPad ? 190 : 24)
                 .frame(height: geometry.size.height)

@@ -72,6 +72,7 @@ struct WifiCheckResultScreen: View {
             }
         }
         
+        .padding(.bottom, 20)
         .padding(.horizontal, Constants.isIPad ? 190 : 16)
         .padding(.top, Constants.isIPad ? 479 : 232)
         .background(ColorManager.mainBackground.color)
