@@ -10,7 +10,7 @@ import SwiftUI
 struct WifiCheckResultScreen: View {
     
     @Environment(\.dismiss) var dismiss
-    @State var viewState: WifiCheckResultScreenViewState = UserSessionManager.shared.isSecureNetwork ? .wifiIsSecure : .wifiIsNotSecure
+    @State var viewState: WifiCheckResultScreenViewState = UserSessionManager.shared.isNetworkSecure ? .wifiIsSecure : .wifiIsNotSecure
     @State private var showHomeWifiOverlay = false
     @State private var showPublicWifiOverlay = false
 

@@ -1,5 +1,8 @@
 PODS:
   - ApphudSDK (3.5.9)
+  - AppsFlyerFramework (6.16.1):
+    - AppsFlyerFramework/Main (= 6.16.1)
+  - AppsFlyerFramework/Main (6.16.1)
   - Firebase/Core (11.9.0):
     - Firebase/CoreOnly
     - FirebaseAnalytics (~> 11.9.0)
@@ -105,12 +108,14 @@ PODS:
 
 DEPENDENCIES:
   - ApphudSDK
+  - AppsFlyerFramework
   - Firebase/Core
   - Firebase/Messaging
 
 SPEC REPOS:
   trunk:
     - ApphudSDK
+    - AppsFlyerFramework
     - Firebase
     - FirebaseAnalytics
     - FirebaseCore
@@ -125,6 +130,7 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   ApphudSDK: 4aad14717e9029d9e9defc205d75b4836cbed559
+  AppsFlyerFramework: 21e63ddd5cf0727d2e4f37452114d3b36fc6d7a3
   Firebase: 819b973f669bc894c85e181f814171e9d4440b29
   FirebaseAnalytics: 68aa43d0556fb7ea3957570f65417813851fcf95
   FirebaseCore: 7cfcf7e8b33985c06478fd2b96e2f7101eb61a1c
@@ -137,6 +143,6 @@ SPEC CHECKSUMS:
   nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
 
-PODFILE CHECKSUM: 885a469c4de57e1aae69f0818c559f81945137fb
+PODFILE CHECKSUM: a637e751d7faee1f35a1ceee94f8dbbb8ee3bb42
 
 COCOAPODS: 1.16.2

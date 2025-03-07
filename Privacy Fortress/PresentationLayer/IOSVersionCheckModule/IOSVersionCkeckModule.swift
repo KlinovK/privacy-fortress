@@ -155,7 +155,7 @@ struct IOSVersionCkeckModule: View {
     }
     
     private func getHeaderTextAndColor() -> (text: String, color: Color) {
-        if UserSessionManager.shared.isDeviceVersionLowerThanRequired {
+        if UserSessionManager.shared.isDeviceVersionOutdated {
             return ("Your iOS is outdated.", ColorManager.attentionTextColor.color)
         } else {
             return ("iOS is up to date.", ColorManager.buttonActiveColor.color)

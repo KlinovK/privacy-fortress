@@ -20,7 +20,7 @@ final class RemoteService: RemoteServiceProtocol {
     public func sendUserData() async {
         let endpoint = "/apple/v2/user"
         var parameters: [String: Any] = await [
-            "userId": UserSessionManager.shared.getOrCreateRandomUserID(),
+            "userId": UserSessionManager.shared.uniqueUserID,
             "timezone": getTimezoneOffset(),
             "locale": getLocale(),
             "os": UIDevice.current.systemVersion,
@@ -33,13 +33,14 @@ final class RemoteService: RemoteServiceProtocol {
             "screenOrientation": getScreenOrientation(),
         ]
         
-        if let transactionId = UserSessionManager.shared.getOriginalTransactionID() {
+        if let transactionId = UserSessionManager.shared.originalTransactionID {
             parameters["originalTransactionId"] = transactionId
         }
         
-//        if let appflyerAttribution = UserSessionManager.shared.getOriginalTransactionID() {
-//            parameters["appflyerAttribution"] = appflyerAttribution
-//        }
+        if let appflyerAttribution = UserSessionManager.shared.getAttributionData() as? [AnyHashable: Any],
+           !appflyerAttribution.isEmpty {
+            parameters["appflyerAttribution"] = appflyerAttribution
+        }
         
         await sendRequest(endpoint: endpoint, parameters: parameters)
     }
@@ -89,7 +90,7 @@ final class RemoteService: RemoteServiceProtocol {
     private func getHeaders() -> [String: String] {
         return [
             "API-CLIENT-APP": Constants.clientApp,
-            "API-CLIENT-ID": UserSessionManager.shared.getOrCreateRandomUserID(),
+            "API-CLIENT-ID": UserSessionManager.shared.uniqueUserID,
             "API-CLIENT-USER-AGENT": Constants.clientApp,
             "API-CLIENT-DEVICE-NAME": UIDevice.current.name
         ]

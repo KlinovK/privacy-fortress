@@ -20,6 +20,9 @@ public struct Constants {
     
 #warning("Change before release if needed")
     
+    public static let deepLinkURLPath = ""
+    public static let appsFlyerDevKey = ""
+    public static let appleFlyerAppID = ""
     public static let appStoreID = "6742862634"
     public static let productIdentifier = "com.Bridigi.Privacy_Fortress.premium"
     public static let apphudAPIKey = "app_nGanwHoqFVyJH4umGpM92adVni6GPg"
@@ -44,4 +47,5 @@ enum UserSessionKey: String {
     case hibpApiKey = "kHibpApiKey"
     case kPasscodeKeychainKey = "kPasscodeKeychainKey"
     case kOriginalTransactionId = "kOriginalTransactionId"
+    case appsFlyerAttributionData = "AppsFlyerAttributionData"
 }

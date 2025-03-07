@@ -40,7 +40,7 @@ final class DetailsButtonIssueHelper {
         case .mediaSafe:
             return AnyView(DataProtectionScreen(entryPoint: .mediaSafe))
         case .passwordVaul:
-#warning("")
+#warning("uncomment")
             return AnyView(PasswordVaultScreen())
 //            return AnyView(DataProtectionScreen(entryPoint: .passwordVault))
         }
@@ -55,13 +55,13 @@ final class DetailsButtonIssueHelper {
             return (maliciousSitesProtectionEnabled, false)
         case .personalDataProtection:
             
-            let isFindMyEnabled = UserSessionManager.shared.findMyEnabled
+            let isFindMyEnabled = UserSessionManager.shared.isFindMyEnabled
             
             return (false, isFindMyEnabled)
         case .systemSecurity:
             
             let deviceLockEnabled = UserSessionManager.shared.isDeviceLockEnabled
-            let iOSVersionCheckResult: Bool = !UserSessionManager.shared.isDeviceVersionLowerThanRequired
+            let iOSVersionCheckResult: Bool = !UserSessionManager.shared.isDeviceVersionOutdated
             
             if #available(iOS 17.0, *) {
                 return (false, iOSVersionCheckResult)
@@ -90,7 +90,7 @@ final class DetailsButtonIssueHelper {
             if UserSessionManager.shared.isUserSubscribed {
                 return false
             } else {
-                if UserSessionManager.shared.isSecureNetwork {
+                if UserSessionManager.shared.isNetworkSecure {
                     return true
                 } else {
                     return false

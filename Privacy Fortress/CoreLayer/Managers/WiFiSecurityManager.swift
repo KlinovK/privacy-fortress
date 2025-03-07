@@ -24,10 +24,10 @@ class WiFiSecurityManager: WiFiSecurityManagerProtocol {
         let wifiSecurityStatus = await checkWiFiSecurity()
         
         if captivePortalStatus == true || wifiSecurityStatus == .unsecured {
-            UserSessionManager.shared.isSecureNetwork = false
+            UserSessionManager.shared.isNetworkSecure = false
             return false
         } else {
-            UserSessionManager.shared.isSecureNetwork = true
+            UserSessionManager.shared.isNetworkSecure = true
             return true
         }
     }

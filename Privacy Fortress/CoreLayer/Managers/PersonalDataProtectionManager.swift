@@ -21,7 +21,7 @@ class PersonalDataProtectionManager: PersonalDataProtectionManagerProtocol {
     }
     
     public func checkIsCloudAccountAvailableAndSaveToUserSessionManager() async {
-        UserSessionManager.shared.findMyEnabled = isICloudAccountAvailable()
+        UserSessionManager.shared.isFindMyEnabled = isICloudAccountAvailable()
         if isICloudAccountAvailable() {
             print("✅ iCloud is enabled, 'Find My' might be available.")
         } else {
@@ -32,7 +32,7 @@ class PersonalDataProtectionManager: PersonalDataProtectionManagerProtocol {
     public func checkDataBreach(for email: String, isItFirstLaunch: Bool = true) async -> [Breach] {
         
         if isItFirstLaunch {
-            UserSessionManager.shared.dataBreachesFound = true
+            UserSessionManager.shared.hasDataBreaches = true
             return []
         }
         
@@ -63,7 +63,7 @@ class PersonalDataProtectionManager: PersonalDataProtectionManagerProtocol {
                     return []
                 }
                 let breaches = try JSONDecoder().decode([Breach].self, from: data)
-                UserSessionManager.shared.dataBreachesFound = !breaches.isEmpty
+                UserSessionManager.shared.hasDataBreaches = !breaches.isEmpty
                 return breaches
                 
             case 404:

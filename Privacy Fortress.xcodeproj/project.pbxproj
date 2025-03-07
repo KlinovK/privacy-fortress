@@ -167,6 +167,7 @@
 				A97BEB072D66C87700D14E08 /* Resources */,
 				A9D58C632D6822BD009089F6 /* Embed Foundation Extensions */,
 				B97C8AC5F59932EAC1E4E158 /* [CP] Embed Pods Frameworks */,
+				7FCFF3566B88CB40AE381FAB /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -231,6 +232,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				A9579DA52D71B83D00957869 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */,
+				A9946D7E2D7A96EE00931A67 /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A97BEB0A2D66C87700D14E08 /* Products */;
@@ -261,6 +263,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		7FCFF3566B88CB40AE381FAB /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Privacy Fortress/Pods-Privacy Fortress-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Privacy Fortress/Pods-Privacy Fortress-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Privacy Fortress/Pods-Privacy Fortress-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		8B3D1ACF0C57F330A69AB088 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -650,6 +669,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 4.0.1;
+			};
+		};
+		A9946D7E2D7A96EE00931A67 /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AppsFlyerSDK/AppsFlyerFramework";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.16.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

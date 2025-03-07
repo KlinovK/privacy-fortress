@@ -9,11 +9,11 @@ import Foundation
 
 protocol Storage {
     func string(forKey: UserSessionKey) -> String?
-    func set(_ value: String?, forKey: UserSessionKey)
+    func setString(_ value: String?, forKey: UserSessionKey)
     func bool(forKey: UserSessionKey) -> Bool
-    func set(_ value: Bool, forKey: UserSessionKey)
+    func setBool(_ value: Bool, forKey: UserSessionKey)
     func double(forKey: UserSessionKey) -> Double
-    func set(_ value: Double, forKey: UserSessionKey)
+    func setDouble(_ value: Double, forKey: UserSessionKey)
     func removeObject(forKey: UserSessionKey)
 }
 
@@ -22,7 +22,7 @@ extension UserDefaults: Storage {
         string(forKey: forKey.rawValue)
     }
     
-    func set(_ value: String?, forKey: UserSessionKey) {
+    func setString(_ value: String?, forKey: UserSessionKey) {
         set(value, forKey: forKey.rawValue)
     }
     
@@ -30,7 +30,7 @@ extension UserDefaults: Storage {
         bool(forKey: forKey.rawValue)
     }
     
-    func set(_ value: Bool, forKey: UserSessionKey) {
+    func setBool(_ value: Bool, forKey: UserSessionKey) {
         set(value, forKey: forKey.rawValue)
     }
     
@@ -38,7 +38,7 @@ extension UserDefaults: Storage {
         double(forKey: forKey.rawValue)
     }
     
-    func set(_ value: Double, forKey: UserSessionKey) {
+    func setDouble(_ value: Double, forKey: UserSessionKey) {
         set(value, forKey: forKey.rawValue)
     }
     

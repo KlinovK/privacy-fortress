@@ -43,7 +43,7 @@ class SystemSecurityManager: SystemSecurityManagerProtocol {
     public func saveDeviceVersionCheckResult() async {
         let iOSVersion = ProcessInfo.processInfo.operatingSystemVersion
         let isLowerThanRequired = iOSVersion.majorVersion < Constants.lowestIOSVersion
-        UserSessionManager.shared.isDeviceVersionLowerThanRequired = isLowerThanRequired
+        UserSessionManager.shared.isDeviceVersionOutdated = isLowerThanRequired
         if isLowerThanRequired {
             print("✅ Device version is lower than iOS \(Constants.lowestIOSVersion)")
         } else {

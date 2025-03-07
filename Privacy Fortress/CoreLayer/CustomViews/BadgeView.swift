@@ -43,19 +43,19 @@ struct BadgeView: View {
         case .maliciousSitesProtection:
             return UserSessionManager.shared.isMaliciousSitesProtectionEnabled ? ColorManager.buttonActiveColor.color : ColorManager.attentionTextColor.color
         case .wifiSecurityCheck:
-            return UserSessionManager.shared.isSecureNetwork ? ColorManager.buttonActiveColor.color : ColorManager.attentionTextColor.color
+            return UserSessionManager.shared.isNetworkSecure ? ColorManager.buttonActiveColor.color : ColorManager.attentionTextColor.color
         case .dataBreachMonitoring:
-            return UserSessionManager.shared.dataBreachesFound ? ColorManager.attentionTextColor.color :  ColorManager.buttonActiveColor.color
+            return UserSessionManager.shared.hasDataBreaches ? ColorManager.attentionTextColor.color :  ColorManager.buttonActiveColor.color
         case .findMy:
-            return UserSessionManager.shared.findMyEnabled ? ColorManager.buttonActiveColor.color : ColorManager.attentionTextColor.color
+            return UserSessionManager.shared.isFindMyEnabled ? ColorManager.buttonActiveColor.color : ColorManager.attentionTextColor.color
         case .deviceLock:
             return UserSessionManager.shared.isDeviceLockEnabled ? ColorManager.buttonActiveColor.color : ColorManager.attentionTextColor.color
         case .iOSVersionCheck:
-            return UserSessionManager.shared.isDeviceVersionLowerThanRequired ? ColorManager.attentionTextColor.color : ColorManager.buttonActiveColor.color
+            return UserSessionManager.shared.isDeviceVersionOutdated ? ColorManager.attentionTextColor.color : ColorManager.buttonActiveColor.color
         case .mediaSafe:
             return UserSessionManager.shared.isMediaSafe ? ColorManager.buttonActiveColor.color : ColorManager.attentionTextColor.color
         case .passwordVaul:
-            return UserSessionManager.shared.isAnyPasswordsSavedToSafeStorage ? ColorManager.buttonActiveColor.color : ColorManager.attentionTextColor.color
+            return UserSessionManager.shared.hasPasswordsInSafeStorage ? ColorManager.buttonActiveColor.color : ColorManager.attentionTextColor.color
         }
     }
 
@@ -66,38 +66,38 @@ struct BadgeView: View {
             case .maliciousSitesProtection:
                 return UserSessionManager.shared.isMaliciousSitesProtectionEnabled ? "Sites blocked" : "Needs check"
             case .wifiSecurityCheck:
-                return UserSessionManager.shared.isSecureNetwork ? "Wi-Fi is secure" : "Needs check"
+                return UserSessionManager.shared.isNetworkSecure ? "Wi-Fi is secure" : "Needs check"
             case .dataBreachMonitoring:
-                return UserSessionManager.shared.dataBreachesFound ? "Needs check" : "No data breach detected"
+                return UserSessionManager.shared.hasDataBreaches ? "Needs check" : "No data breach detected"
             case .findMy:
-                return UserSessionManager.shared.findMyEnabled ? "iPhone is enabled" : "Needs check"
+                return UserSessionManager.shared.isFindMyEnabled ? "iPhone is enabled" : "Needs check"
             case .deviceLock:
                 return UserSessionManager.shared.isDeviceLockEnabled ? "Device lock is enabled" : "Needs check"
             case .iOSVersionCheck:
-                return UserSessionManager.shared.isDeviceVersionLowerThanRequired ? "Needs check" : "iOS is up to date"
+                return UserSessionManager.shared.isDeviceVersionOutdated ? "Needs check" : "iOS is up to date"
             case .mediaSafe:
                 return UserSessionManager.shared.isMediaSafe ? "Files are securely" : "Needs check"
             case .passwordVaul:
-                return UserSessionManager.shared.isAnyPasswordsSavedToSafeStorage ? "Password  is secured" : "Needs check"
+                return UserSessionManager.shared.hasPasswordsInSafeStorage ? "Password  is secured" : "Needs check"
             }
         case .results:
             switch issueType {
             case .maliciousSitesProtection:
                 return UserSessionManager.shared.isMaliciousSitesProtectionEnabled ? "Sites blocked" : "Protection is off"
             case .wifiSecurityCheck:
-                return UserSessionManager.shared.isSecureNetwork ? "Wi-Fi is secure" : "Insecure Wi-Fi"
+                return UserSessionManager.shared.isNetworkSecure ? "Wi-Fi is secure" : "Insecure Wi-Fi"
             case .dataBreachMonitoring:
-                return UserSessionManager.shared.dataBreachesFound ? "Data breach detected" : "No breaches detected"
+                return UserSessionManager.shared.hasDataBreaches ? "Data breach detected" : "No breaches detected"
             case .findMy:
-                return UserSessionManager.shared.findMyEnabled ? "iPhone is enabled" : "iPhone disabled"
+                return UserSessionManager.shared.isFindMyEnabled ? "iPhone is enabled" : "iPhone disabled"
             case .deviceLock:
                 return UserSessionManager.shared.isDeviceLockEnabled ? "Device lock is enabled" : "Your data at risk"
             case .iOSVersionCheck:
-                return UserSessionManager.shared.isDeviceVersionLowerThanRequired ? "iOS is outdated" : "iOS is up to date"
+                return UserSessionManager.shared.isDeviceVersionOutdated ? "iOS is outdated" : "iOS is up to date"
             case .mediaSafe:
                 return UserSessionManager.shared.isMediaSafe ? "Files are securely" : "Files are not secure"
             case .passwordVaul:
-                return UserSessionManager.shared.isAnyPasswordsSavedToSafeStorage ? "Password  is secured" : "Password is unprotected"
+                return UserSessionManager.shared.hasPasswordsInSafeStorage ? "Password  is secured" : "Password is unprotected"
             }
         }
     }

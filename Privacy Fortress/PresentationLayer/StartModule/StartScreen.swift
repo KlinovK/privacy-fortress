@@ -16,7 +16,7 @@ struct StartScreenView: View {
     @State private var viewState: StartScreenViewState = UserSessionManager.shared.isLongTimeNotScanned ? .longTimeNoScan : .start
 
     var body: some View {
-        
+
         NavigationStack {
             GeometryReader { geometry in
                 ScrollView {

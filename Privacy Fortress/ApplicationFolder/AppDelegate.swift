@@ -9,11 +9,12 @@ import UIKit
 import Firebase
 import FirebaseMessaging
 import UserNotifications
+import AppsFlyerLib
 
-class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
+class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate, AppsFlyerLibDelegate {
     
     private lazy var remoteService = RemoteService()
-    
+        
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         setupFCMAndRemoteNotifications()
@@ -21,9 +22,22 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         KeychainWrapperManager.shared.saveHIBPAPIKey()
         setupNavigationBarAppearance()
         setupApphud()
+        AppFlyerManager.shared.configure()
         return true
     }
     
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        AppFlyerManager.shared.start()
+    }
+    
+    func onConversionDataSuccess(_ conversionInfo: [AnyHashable: Any]) {
+        print("Attribution Data: \(conversionInfo)")
+        UserSessionManager.shared.saveAppsFlyerAttribution(conversionInfo)
+    }
+    
+    func onConversionDataFail(_ error: Error) {
+        print("Failed to retrieve attribution data: \(error)")
+    }
 }
 
 // MARK: - Notification Center

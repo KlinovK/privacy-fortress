@@ -69,7 +69,7 @@ class ApphudManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactionOb
     
     @MainActor
     func setupApphud() async {
-        let userID = UserSessionManager.shared.getOrCreateRandomUserID()
+        let userID = UserSessionManager.shared.uniqueUserID
         Apphud.start(apiKey: Constants.apphudAPIKey, userID: userID)
         await fetchIDFA()
         Apphud.setDeviceIdentifiers(idfa: nil, idfv: UIDevice.current.identifierForVendor?.uuidString)
@@ -94,9 +94,10 @@ class ApphudManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactionOb
                     continuation.resume(throwing: error)
                 } else if let subscription = result.subscription, subscription.isActive() {
                     print("Subscription purchased successfully! Status: \(subscription.status)")
-                    UserSessionManager.shared.createOriginalTransactionID(transactionID: subscription.productId)
+                    UserSessionManager.shared.createOriginalTransactionID(subscription.productId)
                     UserSessionManager.shared.isUserSubscribed = true
-#warning("Uncmment")
+#warning("Uncomment")
+                    AppFlyerManager.shared.sendPurchaseEvent(productId: subscription.productId)
 //                    remoteService.sendUserData()
                     continuation.resume(returning: true)
                 } else {

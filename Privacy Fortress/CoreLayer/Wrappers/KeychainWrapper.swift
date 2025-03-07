@@ -8,7 +8,7 @@
 import Foundation
 import SwiftKeychainWrapper
 
-final class KeychainWrapperManager: Storage {
+final class KeychainWrapperManager: KeychainStorage {
     
     static let shared = KeychainWrapperManager()
     

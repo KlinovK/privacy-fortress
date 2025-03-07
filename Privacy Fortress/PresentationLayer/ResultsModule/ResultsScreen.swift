@@ -47,16 +47,16 @@ struct ResultsScreen: View {
     
     private func updatedHeaderView() -> some View {
         VStack(spacing: 12) {
-                Image(UserSessionManager.shared.issuesArray.contains(false) ? IconsManager.icIssuesFound.image : IconsManager.icSssuesNotFound.image)
+            Image(UserSessionManager.shared.securityIssues.contains(false) ? IconsManager.icIssuesFound.image : IconsManager.icSssuesNotFound.image)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 116, height: 116)
-                Text(UserSessionManager.shared.issuesArray.contains(false) ? "\(UserSessionManager.shared.issuesArray.filter { $0 == false }.count) issues found" : "Issues not found")
+                Text(UserSessionManager.shared.securityIssues.contains(false) ? "\(UserSessionManager.shared.securityIssues.filter { $0 == false }.count) issues found" : "Issues not found")
                 .font(.custom(FontsManager.SFbold.font, size: 24))
             
-                .foregroundColor(UserSessionManager.shared.issuesArray.contains(false) ? ColorManager.attentionTextColor.color : ColorManager.buttonActiveColor.color)
+                .foregroundColor(UserSessionManager.shared.securityIssues.contains(false) ? ColorManager.attentionTextColor.color : ColorManager.buttonActiveColor.color)
             
-                Text(UserSessionManager.shared.issuesArray.contains(false) ? "Resolve issues to optimize your device's security." : "Your device is fully protected and secure!")
+                Text(UserSessionManager.shared.securityIssues.contains(false) ? "Resolve issues to optimize your device's security." : "Your device is fully protected and secure!")
                 .font(.custom(FontsManager.SFRegular.font, size: 16))
                 .foregroundColor(ColorManager.textDefaultColor.color)
             
