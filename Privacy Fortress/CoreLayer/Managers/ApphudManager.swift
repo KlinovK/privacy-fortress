@@ -94,6 +94,7 @@ class ApphudManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactionOb
                     continuation.resume(throwing: error)
                 } else if let subscription = result.subscription, subscription.isActive() {
                     print("Subscription purchased successfully! Status: \(subscription.status)")
+                    UserSessionManager.shared.createOriginalTransactionID(transactionID: subscription.productId)
                     UserSessionManager.shared.isUserSubscribed = true
 #warning("Uncmment")
 //                    remoteService.sendUserData()

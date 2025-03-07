@@ -43,4 +43,5 @@ enum UserSessionKey: String {
     case isSecureNetwork = "kIsSecureNetwork"
     case hibpApiKey = "kHibpApiKey"
     case kPasscodeKeychainKey = "kPasscodeKeychainKey"
+    case kOriginalTransactionId = "kOriginalTransactionId"
 }

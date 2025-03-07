@@ -19,7 +19,7 @@ final class RemoteService: RemoteServiceProtocol {
     
     public func sendUserData() async {
         let endpoint = "/apple/v2/user"
-        let parameters: [String: Any] = await [
+        var parameters: [String: Any] = await [
             "userId": UserSessionManager.shared.getOrCreateRandomUserID(),
             "timezone": getTimezoneOffset(),
             "locale": getLocale(),
@@ -31,9 +31,15 @@ final class RemoteService: RemoteServiceProtocol {
             "currency": Locale.current.currency?.identifier ?? "Unknown",
             "screenSize": "\(UIScreen.main.bounds.width)x\(UIScreen.main.bounds.height)",
             "screenOrientation": getScreenOrientation(),
-            "originalTransactionId" : "TODO",
-            "appflyerAttribution" : "TODO"
         ]
+        
+        if let transactionId = UserSessionManager.shared.getOriginalTransactionID() {
+            parameters["originalTransactionId"] = transactionId
+        }
+        
+//        if let appflyerAttribution = UserSessionManager.shared.getOriginalTransactionID() {
+//            parameters["appflyerAttribution"] = appflyerAttribution
+//        }
         
         await sendRequest(endpoint: endpoint, parameters: parameters)
     }

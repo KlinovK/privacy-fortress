@@ -22,7 +22,17 @@ final class UserSessionManager {
         self.keychain = keychain
     }
     
-    func getOrCreateRandomUserID() -> String {
+    public func createOriginalTransactionID(transactionID: String) {
+        if userDefaults.string(forKey: .kOriginalTransactionId) == nil {
+            userDefaults.set(transactionID, forKey: .kOriginalTransactionId)
+        }
+    }
+    
+    public func getOriginalTransactionID() -> String? {
+        userDefaults.string(forKey: .kOriginalTransactionId)
+    }
+    
+    public func getOrCreateRandomUserID() -> String {
         if let existingUserID = userDefaults.string(forKey: .uniqueUserID) {
             return existingUserID
         }
