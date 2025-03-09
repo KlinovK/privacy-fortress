@@ -22,6 +22,7 @@ enum ColorManager: String {
     case backgroundOverlayColor = "BackgroundOverlayColor"
     case textFieldBorderColor = "TextFieldBorderColor"
     case textBlueColor = "TextBlueColor"
+    case actionSheetColor = "ActionSheetColor"
 
     var color: Color {
         Color(self.rawValue)

@@ -37,7 +37,7 @@ final class RemoteService: RemoteServiceProtocol {
             parameters["originalTransactionId"] = transactionId
         }
         
-        if let appflyerAttribution = UserSessionManager.shared.getAttributionData() as? [AnyHashable: Any],
+        if let appflyerAttribution = UserSessionManager.shared.getAttributionData(),
            !appflyerAttribution.isEmpty {
             parameters["appflyerAttribution"] = appflyerAttribution
         }

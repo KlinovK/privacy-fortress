@@ -14,7 +14,7 @@ class AppFlyerManager {
     
     private init() {}
     
-    func configure() {
+    public func configure() {
         AppsFlyerLib.shared().appsFlyerDevKey = Constants.appsFlyerDevKey
         AppsFlyerLib.shared().appleAppID = Constants.appleFlyerAppID
         #if DEBUG
@@ -22,11 +22,11 @@ class AppFlyerManager {
         #endif
     }
     
-    func start() {
+    public func start() {
         AppsFlyerLib.shared().start()
     }
     
-    func sendPurchaseEvent(productId: String) {
+    public func sendPurchaseEvent(productId: String) {
         let parameters: [String: Any] = [
             AFEventParamContentId: productId
         ]

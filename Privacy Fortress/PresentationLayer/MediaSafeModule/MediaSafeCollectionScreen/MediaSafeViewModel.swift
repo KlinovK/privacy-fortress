@@ -12,7 +12,9 @@ import SwiftUI
 
 @MainActor
 final class MediaSafeViewModel: ObservableObject {
+    
     // MARK: - Published Properties
+    
     @Published var viewState: MediaSafeViewState = .noFiles
     @Published var selectedMedia: [MediaSelection] = []
     @Published var showingPhotoPicker = false

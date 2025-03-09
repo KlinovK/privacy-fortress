@@ -21,18 +21,6 @@ final class UserSessionManager {
     private var attributionData: [AnyHashable: Any] = [:]
     private var structuredAttribution: Attribution?
     
-    struct Attribution {
-        let campaign: String?
-        let adGroup: String?
-        let mediaSource: String?
-        
-        init(data: [AnyHashable: Any]) {
-            campaign = data["campaign"] as? String
-            adGroup = data["adgroup"] as? String
-            mediaSource = data["media_source"] as? String
-        }
-    }
-    
     private init(storage: Storage = UserDefaults.standard, keychain: KeychainStorage = KeychainWrapperManager.shared) {
         self.storage = storage
         self.keychain = keychain
@@ -47,8 +35,8 @@ final class UserSessionManager {
         saveAttributionToStorage()
     }
     
-    func getAttributionData() -> [AnyHashable: Any] {
-        attributionData
+    func getAttributionData() -> [AnyHashable: Any]? {
+        return attributionData.isEmpty ? nil : attributionData
     }
     
     func getStructuredAttribution() -> Attribution? {
