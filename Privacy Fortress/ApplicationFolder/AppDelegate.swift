@@ -10,6 +10,7 @@ import Firebase
 import FirebaseMessaging
 import UserNotifications
 import AppsFlyerLib
+import SwiftUI
 
 class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate, AppsFlyerLibDelegate {
     
@@ -18,7 +19,6 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         setupFCMAndRemoteNotifications()
-        application.registerForRemoteNotifications()
         KeychainWrapperManager.shared.saveHIBPAPIKey()
         setupNavigationBarAppearance()
         setupApphud()
@@ -47,11 +47,20 @@ extension AppDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.banner, .sound])
+      completionHandler([[.banner, .sound]])
+    }
+
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
+        let userInfo = response.notification.request.content.userInfo
+        
+        NotificationCenter.default.post(name: Notification.Name("NotificationTapped"), object: userInfo)
+        
+        completionHandler()
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        print("📲 APNS Token received")
         Messaging.messaging().apnsToken = deviceToken
     }
     
@@ -63,13 +72,6 @@ extension AppDelegate {
         if let token = fcmToken {
             UserSessionManager.shared.fcmToken = token
         }
-        
-        Task {
-            #warning("Uncomment before release")
-//            await remoteService.sendFCMToken(UserSessionManager.shared.fcmToken ?? "")
-//            await remoteService.sendUserData()
-        }
-                
     }
     
     private func setupApphud() {
@@ -84,6 +86,16 @@ extension AppDelegate {
         UNUserNotificationCenter.current().delegate = self
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
             print("Permission granted: \(granted)")
+            
+            DispatchQueue.main.async {
+                UIApplication.shared.registerForRemoteNotifications()
+            }
+
+            Task {
+                #warning("Uncomment before release")
+    //            await remoteService.sendFCMToken(UserSessionManager.shared.fcmToken ?? "")
+    //            await remoteService.sendUserData()
+            }
         }
     }
     
@@ -98,4 +110,3 @@ extension AppDelegate {
         UINavigationBar.appearance().compactAppearance = appearance
     }
 }
-
