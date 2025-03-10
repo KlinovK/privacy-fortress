@@ -11,18 +11,30 @@ import SwiftUI
 @MainActor
 final class PasswordVaultViewModel: ObservableObject {
     
-    // MARK: - Published Properties
-    
-    @Published var viewState: PasswordVaultViewState = .noPassword
+    @Published var viewState: ViewState = .noPassword
     @Published var isNeedToPresentSubscriptionAlert = false
 
-    public func updateViewState(passwordItems: [PasswordItem]) {
-//        if passwordItems.count > 3 {
-//            isNeedToPresentSubscriptionAlert = true
-//        } else {
-//            viewState = passwordItems.isEmpty ? .noPassword : .containsPasswords([PasswordItem(domainName: "www.google.com", username: "user@example.com", password: "••••••••")])
-//
-//        }
-        viewState = .containsPasswords([PasswordItem(domainName: "https://www.google.com/", username: "user@example.com", password: "asmndnas2"), PasswordItem(domainName: "https://www.google.com/", username: "user@example.com", password: "asmndnas2")])
+    enum ViewState {
+        case noPassword
+        case containsPasswords([PasswordItem])
+    }
+
+    func loadPasswords() {
+        let passwords = KeychainWrapperManager.shared.getAllPasswordItems()
+        updateViewState(passwordItems: passwords)
+    }
+    
+    func updateViewState(passwordItems: [PasswordItem]) {
+        if !UserSessionManager.shared.isUserSubscribed && passwordItems.count > 3 {
+            isNeedToPresentSubscriptionAlert = true
+        } else {
+            DispatchQueue.main.async {
+                if passwordItems.isEmpty {
+                    self.viewState = .noPassword
+                } else {
+                    self.viewState = .containsPasswords(passwordItems)
+                }
+            }
+        }
     }
 }

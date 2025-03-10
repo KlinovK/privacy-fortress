@@ -12,13 +12,16 @@ struct PasswordVaultScreen: View {
     @Environment(\.dismiss) private var dismiss
     @StateObject private var viewModel = PasswordVaultViewModel()
     @State private var navigateToPaywall = false
+    @State private var showToast = false
+    @State private var selectedItem: PasswordItem?
+    @State private var isNeedToPresetDeleteAlert = false
+    @State private var isEditingPassword = false
 
     private let columns = [
         GridItem(.flexible(), spacing: 1.5),
     ]
 
     var body: some View {
-        NavigationStack {
             GeometryReader { geometry in
                 VStack {
                     ScrollView {
@@ -46,11 +49,18 @@ struct PasswordVaultScreen: View {
                                 
                             case .containsPasswords(let passwords):
                                 ForEach(passwords) { item in
-                                    PasswordItemView(item: item)
+                                    PasswordItemCellView(onCopy: {
+                                        showToastMessage()
+                                    }, onDelete: { onDeleteSelectedItem in
+                                        selectedItem = onDeleteSelectedItem
+                                        isNeedToPresetDeleteAlert = true
+                                    }, onEdit: { onEditSelectedItem in
+                                        selectedItem = onEditSelectedItem
+                                        isEditingPassword = true
+                                    }, item: item)
                                         .frame(maxWidth: .infinity)
                                 }
                                 .padding(.top, 20)
-                            
                             }
                         }
                         .frame(minHeight: geometry.size.height, alignment: .top)
@@ -59,6 +69,11 @@ struct PasswordVaultScreen: View {
                     Spacer()
                     
                     VStack {
+                        if showToast {
+                            toastView()
+                                .transition(.move(edge: .bottom).combined(with: .opacity))
+                        }
+                        
                         NavigationLink(destination: AddPasswordScreen()) {
                             Text("Save Password")
                                 .padding()
@@ -70,6 +85,7 @@ struct PasswordVaultScreen: View {
                                 .cornerRadius(10)
                         }
                     }
+                    .padding(.bottom, 24)
                 }
                 .frame(height: geometry.size.height)
             }
@@ -86,11 +102,23 @@ struct PasswordVaultScreen: View {
                 }
             }
             .onAppear {
-                viewModel.updateViewState(passwordItems: [])
+                viewModel.loadPasswords()
             }
+            
             .navigationDestination(isPresented: $navigateToPaywall) {
                 PaywallScreen()
             }
+            
+            .navigationDestination(isPresented: $isEditingPassword) {
+                Group {
+                    if let selectedItem {
+                        AddPasswordScreen(passwordItem: selectedItem)
+                    } else {
+                        EmptyView()
+                    }
+                }
+            }
+            
             .overlay(
                 SubscriptionAlertView(isPresented: $viewModel.isNeedToPresentSubscriptionAlert, onDismiss: { isNeedToPresentPaywall in
                     if isNeedToPresentPaywall {
@@ -98,7 +126,35 @@ struct PasswordVaultScreen: View {
                     }
                 })
             )
+            
+            .overlay(
+                Group {
+                    DeleteItemAlert(isPresented: $isNeedToPresetDeleteAlert, onDismiss: { isNeedToDelete in
+                        if isNeedToDelete, let selectedItem = selectedItem {
+                            let isDeleted = KeychainWrapperManager.shared.deletePasswordItem(forDomain: selectedItem.domain)
+                            if isDeleted {
+                                viewModel.loadPasswords()
+                            }
+                        }
+                    })
+                }
+            )
+    }
+    
+    @ViewBuilder
+    private func toastView() -> some View {
+        VStack(alignment: .leading) {
+            Text("Copied value to the clipboard")
+                .padding(.bottom, 3)
+            Text("• • • • • • • • • • ")
         }
+        .frame(height: 64)
+        .frame(maxWidth: .infinity)
+        .background(Color.white)
+        .foregroundColor(ColorManager.textDefaultColor.color)
+        .font(.custom(FontsManager.SFRegular.font, size: 14))
+        .cornerRadius(14)
+        .padding(.bottom, 8)
     }
     
     private func getBackgroundColor() -> Color {
@@ -109,96 +165,21 @@ struct PasswordVaultScreen: View {
             return ColorManager.backgroundOverlayColor.color
         }
     }
+    
+    private func showToastMessage() {
+        withAnimation {
+            showToast = true
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            withAnimation {
+                showToast = false
+            }
+        }
+    }
 }
 
 #Preview {
     PasswordVaultScreen()
 }
 
-struct PasswordItemView: View {
-    
-    @State private var isPasswordVisible = false
-    @State private var isSheetPresented = false
-
-    let item: PasswordItem
-    
-    var body: some View {
-        VStack(alignment: .leading) {
-            HStack {
-                AsyncImage(url: URL(string: "\(item.domainName)")) { image in
-                    image.resizable()
-                    image.aspectRatio(contentMode: .fit)
-                } placeholder: {
-                    Image(systemName: "lock.fill")
-                         .resizable()
-                         .aspectRatio(contentMode: .fit)
-
-                }
-                .frame(width: 24, height: 24)
-                
-                Text(item.domainName)
-                    .foregroundColor(ColorManager.textDefaultColor.color)
-                    .font(.custom(FontsManager.SFSemibold.font, size: 18))
-                    .lineLimit(1)
-                
-                Spacer()
-                Button(action: {
-                    isSheetPresented = true
-                }) {
-                    Image(systemName: "ellipsis")
-                        .rotationEffect(.degrees(90))
-                        .foregroundColor(.black)
-                        
-                }
-            }
-            .padding(.bottom, 16)
-            
-            HStack(spacing: 18) {
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Username:")
-                        .foregroundColor(ColorManager.textDefaultColor.color)
-                        .font(.custom(FontsManager.SFRegular.font, size: 12))
-                    Text("\(item.username)")
-                        .foregroundColor(ColorManager.textDefaultColor.color)
-                        .font(.custom(FontsManager.SFbold.font, size: 14))
-                        .lineLimit(1)
-                }
-                .frame(maxWidth: 160)
-                
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Password:")
-                        .foregroundColor(ColorManager.textDefaultColor.color)
-                        .font(.custom(FontsManager.SFRegular.font, size: 12))
-                    HStack {
-                        Text(isPasswordVisible ? "\(item.password)" : "••••••••••••••")
-                            .foregroundColor(ColorManager.textDefaultColor.color)
-                            .font(.custom(FontsManager.SFbold.font, size: 14))
-                            .lineLimit(1)
-                            
-                        Spacer()
-
-                        Button(action: {
-                            isPasswordVisible.toggle()
-                        }) {
-                            Image(systemName: isPasswordVisible ? "eye" : "eye.slash")
-                                .foregroundColor(.black)
-                        }
-                    }
-                }
-            }
-            
-        }
-        .padding(.horizontal, 16)
-        .frame(maxWidth: .infinity)
-        .frame(height: 126)
-        .background(Color.white)
-        .cornerRadius(16)
-        .sheet(isPresented: $isSheetPresented) {
-            ActionSheetView(item: item)
-                .presentationDetents([.height(448)]) 
-                .presentationDragIndicator(.visible)
-                .background(ColorManager.actionSheetColor.color)
-        }
-    }
- }
 

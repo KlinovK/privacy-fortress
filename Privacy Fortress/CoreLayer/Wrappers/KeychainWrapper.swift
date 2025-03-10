@@ -86,4 +86,66 @@ final class KeychainWrapperManager: KeychainStorage {
     func deleteHIBPAPIKey() -> Bool {
         removeObject(forKey: .hibpApiKey)
     }
+        
+    // MARK: - Save Password Item
+    
+      func savePasswordItem(_ item: PasswordItem) -> Bool {
+          let key = "passwordItem-\(item.domain.lowercased())"
+          do {
+              let data = try JSONEncoder().encode(item)
+              keychain.set(data, forKey: key)
+              return true
+          } catch {
+              print("Failed to encode password item: \(error)")
+              return false
+          }
+      }
+      
+      // MARK: - Retrieve Password Item by Domain
+    
+      func getPasswordItem(forDomain domain: String) -> PasswordItem? {
+          let key = "passwordItem-\(domain.lowercased())"
+          guard let data = keychain.data(forKey: key) else { return nil }
+          do {
+              return try JSONDecoder().decode(PasswordItem.self, from: data)
+          } catch {
+              print("Failed to decode password item: \(error)")
+              return nil
+          }
+      }
+
+      // MARK: - Delete Password Item by Domain
+    
+      func deletePasswordItem(forDomain domain: String) -> Bool {
+          let key = "passwordItem-\(domain.lowercased())"
+          return keychain.removeObject(forKey: key)
+      }
+
+      // MARK: - Retrieve All Password Items
+    
+      func getAllPasswordItems() -> [PasswordItem] {
+          var items: [PasswordItem] = []
+          
+          for key in keychain.allKeys().filter({ $0.starts(with: "passwordItem-") }) {
+              if let data = keychain.data(forKey: key) {
+                  do {
+                      let item = try JSONDecoder().decode(PasswordItem.self, from: data)
+                      items.append(item)
+                  } catch {
+                      print("Failed to decode password item for key \(key): \(error)")
+                  }
+              }
+          }
+          
+          return items
+      }
+
+      // MARK: - Delete All Passwords
+    
+      func deleteAllPasswordItems() {
+          for key in keychain.allKeys().filter({ $0.starts(with: "passwordItem-") }) {
+              keychain.removeObject(forKey: key)
+          }
+      }
+    
 }

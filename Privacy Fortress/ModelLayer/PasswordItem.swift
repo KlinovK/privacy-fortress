@@ -7,9 +7,24 @@
 
 import Foundation
 
-struct PasswordItem: Identifiable {
-    let id = UUID()
-    let domainName: String
-    let username: String
-    let password: String
+struct PasswordItem: Codable, Identifiable, Hashable {
+    var id: UUID
+    var domain: String
+    var username: String
+    var password: String
+    
+    init(domain: String, username: String, password: String) {
+        self.id = UUID()
+        self.domain = domain
+        self.username = username
+        self.password = password
+    }
+    
+    static func == (lhs: PasswordItem, rhs: PasswordItem) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
 }

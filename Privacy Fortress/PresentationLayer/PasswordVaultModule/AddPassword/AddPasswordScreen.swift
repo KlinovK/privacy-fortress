@@ -11,55 +11,125 @@ struct AddPasswordScreen: View {
     
     @Environment(\.dismiss) private var dismiss
 
+    var passwordItem: PasswordItem?
+
     @State private var domainName: String = ""
     @State private var username: String = ""
     @State private var password: String = ""
+    @State private var isPasswordVisible: Bool = false
+    @State private var generatedPassword: String = ""
+    @State private var isNeedToPresentGeneratedPasswordAlert: Bool = false
+
+    init(passwordItem: PasswordItem? = nil) {
+        self.passwordItem = passwordItem
+        _domainName = State(initialValue: passwordItem?.domain ?? "")
+        _username = State(initialValue: passwordItem?.username ?? "")
+        _password = State(initialValue: passwordItem?.password ?? "")
+    }
 
     var body: some View {
-        NavigationStack {
             VStack(spacing: 12) {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Enter Domain or App name")
                         .font(.custom(FontsManager.SFSemibold.font, size: 18))
                         .foregroundColor(ColorManager.textDefaultColor.color)
                     TextField("Enter domain", text: $domainName)
+                        .padding()
+                        .frame(height: 48)
+                        .foregroundColor(ColorManager.textDefaultColor.color)
+                        .font(.custom(FontsManager.SFSemibold.font, size: 18))
                         .autocapitalization(.none)
                         .textContentType(.URL)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .frame(height: 48)
+                        .keyboardType(.URL)
+                        .background(Color.white)
+                        .cornerRadius(10)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(ColorManager.textFieldBorderColor.color, lineWidth: 1)
+                        )
                 }
+                
                 
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Username")
                         .font(.custom(FontsManager.SFSemibold.font, size: 18))
                         .foregroundColor(ColorManager.textDefaultColor.color)
                     TextField("Enter username", text: $username)
-                        .autocapitalization(.none)
-                        .textContentType(.username)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding()
                         .frame(height: 48)
+                        .autocapitalization(.none)
+                        .foregroundColor(ColorManager.textDefaultColor.color)
+                        .font(.custom(FontsManager.SFSemibold.font, size: 18))
+                        .textContentType(.username)
+                        .background(Color.white)
+                        .cornerRadius(10)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(ColorManager.textFieldBorderColor.color, lineWidth: 1)
+                        )
                 }
                 
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Password")
                         .font(.custom(FontsManager.SFSemibold.font, size: 18))
                         .foregroundColor(ColorManager.textDefaultColor.color)
-                    HStack {
-                        SecureField("Enter password", text: $password)
-                            .textContentType(.password)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .frame(height: 48)
+                    HStack(spacing: 12) {
+                        ZStack(alignment: .trailing) {
+                            if isPasswordVisible {
+                                TextField("Enter password", text: $password)
+                                    .padding()
+                                    .frame(height: 48)
+                                    .autocapitalization(.none)
+                                    .foregroundColor(ColorManager.textDefaultColor.color)
+                                    .font(.custom(FontsManager.SFSemibold.font, size: 18))
+                                    .textContentType(.password)
+                                    .background(Color.white)
+                                    .cornerRadius(10)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(ColorManager.textFieldBorderColor.color, lineWidth: 1)
+                                    )
+                            } else {
+                                SecureField("Enter password", text: $password)
+                                    .padding()
+                                    .frame(height: 48)
+                                    .autocapitalization(.none)
+                                    .textContentType(.password)
+                                    .background(Color.white)
+                                    .cornerRadius(10)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(ColorManager.textFieldBorderColor.color, lineWidth: 1)
+                                    )
+                            }
+                            
+                            Button(action: {
+                                isPasswordVisible.toggle()
+                            }) {
+                                Image(systemName: isPasswordVisible ? "eye.slash" : "eye")
+                                    .foregroundColor(ColorManager.textSubtitleDefaultColor.color)
+                                    .padding(.trailing, 10)
+                            }
+                            .background(Color.white)
+                            
+                        }
+                        
 
                         Button(action: {
-                            // Add your button action here
-                            print("Button tapped")
+                            generatedPassword = generateRandomPassword(length: 12)
+                            isNeedToPresentGeneratedPasswordAlert = true
                         }) {
-                            Image(systemName: "eye.fill") // Example icon for showing password
-                                .foregroundColor(.gray)
+                            Image(systemName: "sparkles")
+                                .foregroundColor(ColorManager.textSubtitleDefaultColor.color)
                                 .padding()
                         }
                         .background(Color.white)
                         .frame(width: 48, height: 48)
+                        .cornerRadius(10)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(ColorManager.textFieldBorderColor.color, lineWidth: 1)
+                        )
                     }
                 }
 
@@ -89,12 +159,28 @@ struct AddPasswordScreen: View {
                     }
                 }
             }
-        }
+        
+            .overlay(
+                GenerateNewPasswordAlert(isPresented: $isNeedToPresentGeneratedPasswordAlert, onDismiss: { newPassword in
+                    if newPassword != "" {
+                        password = newPassword
+                    }
+                }, newPassword: generatedPassword)
+            )
     }
     
     private func savePassword() {
-        // Save to keychain or any storage logic
-        print("Saving password for \(domainName)")
+        let isPasswordItemWasSaved = KeychainWrapperManager.shared.savePasswordItem(PasswordItem(domain: domainName, username: username, password: password))
+        if isPasswordItemWasSaved {
+            dismiss()
+        } else {
+            // Handle error
+        }
+    }
+    
+    private func generateRandomPassword(length: Int) -> String {
+        let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_+-=[]{}|;:'\",.<>?/~"
+        return String((0..<length).compactMap { _ in characters.randomElement() })
     }
 }
 

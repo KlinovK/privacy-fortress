@@ -13,8 +13,8 @@ struct ActionSheetView: View {
     @Environment(\.dismiss) var dismiss
     var onCopyUsername: (() -> Void)?
     var onCopyPassword: (() -> Void)?
-    var onEdit: (() -> Void)?
     var onDelete: (() -> Void)?
+    var onEdit: (() -> Void)?
 
     var body: some View {
         VStack(alignment: .center) {
@@ -32,11 +32,10 @@ struct ActionSheetView: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 30, height: 30)
                 }
-                
             }
             .padding(.bottom, 38)
             
-            Text("\(item.domainName)")
+            Text("\(item.domain)")
                 .foregroundColor(ColorManager.textDefaultColor.color)
                 .font(.custom(FontsManager.SFSemibold.font, size: 24))
                 .padding(.bottom, 31)
@@ -80,7 +79,6 @@ struct ActionSheetView: View {
                     .background(Color.white)
                     .cornerRadius(16)
                 }
-
                 Button(action: {
                     onEdit?()
                     dismiss()
@@ -124,6 +122,6 @@ struct ActionSheetView: View {
     }
 }
 
-#Preview {
-    ActionSheetView(item: PasswordItem(domainName: "goodle.co,", username: "username", password: "daskdksaf"))
-}
+//#Preview {
+//    ActionSheetView(item: PasswordItem(domainName: "goodle.co,", username: "username", password: "daskdksaf"))
+//}
