@@ -45,8 +45,15 @@ struct MediaSafeScreen: View {
                     }
                 }
                 
+                
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    AddButton(action: { viewModel.showPhotoPicker() })
+                    Button(action: {
+                        viewModel.showPhotoPicker()
+                    }) {
+                        Text("Add")
+                            .font(.custom(FontsManager.SFRegular.font, size: 17))
+                            .foregroundColor(ColorManager.textBlueColor.color)
+                    }
                 }
             }
             .overlay(

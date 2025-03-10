@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-
 extension MediaItemEntity {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<MediaItemEntity> {

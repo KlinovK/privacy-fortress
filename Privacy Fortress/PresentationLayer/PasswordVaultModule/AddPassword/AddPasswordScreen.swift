@@ -154,11 +154,18 @@ struct AddPasswordScreen: View {
             .navigationBarBackButtonHidden()
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: { dismiss() }) {
+                    Button(action: {
+                        savePassword()
+                        dismiss()
+                    }) {
                         Image(systemName: "chevron.left")
                     }
                 }
             }
+        
+            .onAppear(perform: {
+                _ = KeychainWrapperManager.shared.deletePasswordItem(forDomain: domainName)
+            })
         
             .overlay(
                 GenerateNewPasswordAlert(isPresented: $isNeedToPresentGeneratedPasswordAlert, onDismiss: { newPassword in

@@ -142,7 +142,7 @@ struct MainCardView: View {
         case .systemSecurity:
             return (.deviceLock, .iOSVersionCheck)
         case .safeStorage:
-            return (.mediaSafe, .passwordVaul)
+            return (.mediaSafe, .passwordVault)
         }
     }
     

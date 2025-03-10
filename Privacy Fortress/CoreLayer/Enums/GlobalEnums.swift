@@ -114,7 +114,7 @@ enum IssueType {
     case deviceLock
     case iOSVersionCheck
     case mediaSafe
-    case passwordVaul
+    case passwordVault
 }
 
 enum BadgeType {

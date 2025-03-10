@@ -103,7 +103,7 @@ struct ResultCardView: View {
         case .systemSecurity:
             return .iOSVersionCheck
         case .safeStorage:
-            return .passwordVaul
+            return .passwordVault
         }
     }
 }

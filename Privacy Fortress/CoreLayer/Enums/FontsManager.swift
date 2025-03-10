@@ -13,7 +13,7 @@ enum FontsManager: String {
     case SFSemibold = "SFProDisplay-Semibold"
     case SFlight = "SFProDisplay-Light"
     case SFRegular = "SFProDisplay-Regular"
-
+    
     var font: String {
         self.rawValue
     }

@@ -14,16 +14,19 @@ protocol SystemSecurityManagerProtocol {
     func saveDeviceVersionCheckResult() async
 }
 
-class SystemSecurityManager: SystemSecurityManagerProtocol {
+final class SystemSecurityManager: SystemSecurityManagerProtocol {
     
-    // MARK: - Methods
+    // MARK: - Private Methods
     
     private func isDeviceLockEnabled() -> Bool {
         let context = LAContext()
         var error: NSError?
-        
         let isSecure = context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error)
-        
+        logDeviceLockStatus(isSecure, error: error)
+        return isSecure
+    }
+    
+    private func logDeviceLockStatus(_ isSecure: Bool, error: NSError?) {
         if isSecure {
             print("✅ Device Lock is enabled (Passcode, Face ID, or Touch ID).")
         } else {
@@ -32,9 +35,9 @@ class SystemSecurityManager: SystemSecurityManagerProtocol {
                 print("Error: \(error.localizedDescription)")
             }
         }
-        
-        return isSecure
     }
+    
+    // MARK: - Public Methods
     
     public func saveIsDeviceLockStatusResult() async {
         UserSessionManager.shared.isDeviceLockEnabled = isDeviceLockEnabled()
@@ -42,13 +45,10 @@ class SystemSecurityManager: SystemSecurityManagerProtocol {
     
     public func saveDeviceVersionCheckResult() async {
         let iOSVersion = ProcessInfo.processInfo.operatingSystemVersion
-        let isLowerThanRequired = iOSVersion.majorVersion < Constants.lowestIOSVersion
-        UserSessionManager.shared.isDeviceVersionOutdated = isLowerThanRequired
-        if isLowerThanRequired {
-            print("✅ Device version is lower than iOS \(Constants.lowestIOSVersion)")
-        } else {
-            print("✅ Device version is iOS \(Constants.lowestIOSVersion) or higher.")
-        }
+        let isOutdated = iOSVersion.majorVersion < Constants.lowestIOSVersion
+        UserSessionManager.shared.isDeviceVersionOutdated = isOutdated
+        
+        print(isOutdated ? "❌ Device version is lower than iOS \(Constants.lowestIOSVersion)"
+                         : "✅ Device version is iOS \(Constants.lowestIOSVersion) or higher.")
     }
-    
 }

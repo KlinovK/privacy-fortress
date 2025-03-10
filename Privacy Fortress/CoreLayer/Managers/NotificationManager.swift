@@ -8,11 +8,12 @@
 import Foundation
 
 class NotificationManager: ObservableObject {
+    
     static let shared = NotificationManager()
     
     @Published var actionType: String? = nil
     
-    init() {
+    private init() {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(handleNotificationTap),

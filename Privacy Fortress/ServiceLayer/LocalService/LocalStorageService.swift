@@ -9,11 +9,12 @@ import CoreData
 import Foundation
 
 struct LocalStorageService {
+    
     static let shared = LocalStorageService()
 
     let container: NSPersistentContainer
 
-    init() {
+    private init() {
         container = NSPersistentContainer(name: "PrivacyFortress")
         container.loadPersistentStores { (storeDescription, error) in
             if let error = error as NSError? {

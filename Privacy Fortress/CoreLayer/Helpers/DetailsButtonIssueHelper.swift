@@ -10,6 +10,8 @@ import SwiftUI
 
 final class DetailsButtonIssueHelper {
     
+    /// Maps a `GeneralIssueType` to two specific `IssueType` cases.
+    
     public static func createIssueTypeFromGeneralIssueType(generalIssueType: GeneralIssueType) -> (IssueType, IssueType) {
         switch generalIssueType {
         case .wifiSecurity:
@@ -19,54 +21,51 @@ final class DetailsButtonIssueHelper {
         case .systemSecurity:
             return (.deviceLock, .iOSVersionCheck)
         case .safeStorage:
-            return (.mediaSafe, .passwordVaul)
-        }
-    }
-
-    public static func returnDestination(issueType: IssueType) -> AnyView {
-        switch issueType {
-        case .wifiSecurityCheck:
-            return AnyView(WifiSecurityCheckScreen())
-        case .dataBreachMonitoring:
-            return AnyView(DataBreachesCheckScreen())
-        case .deviceLock:
-            return AnyView(DeviceLockStatusScreen())
-        case .iOSVersionCheck:
-            return AnyView(IOSVersionCkeckModule())
-        case .maliciousSitesProtection:
-            return AnyView(MaliciousSitesProtectionScreen())
-        case .findMy:
-            return AnyView(FindMyScreen())
-        case .mediaSafe:
-            return AnyView(DataProtectionScreen(entryPoint: .mediaSafe))
-        case .passwordVaul:
-#warning("uncomment")
-            return AnyView(PasswordVaultScreen())
-//            return AnyView(DataProtectionScreen(entryPoint: .passwordVault))
+            return (.mediaSafe, .passwordVault)
         }
     }
     
-    public static func getDetailsButtonIsHiddenState(issueType: GeneralIssueType) -> (Bool, Bool)  {
+    /// Returns the destination `View` for a given `IssueType`.
+    
+    public static func returnDestination(issueType: IssueType) -> AnyView {
+        switch issueType {
+        case .wifiSecurityCheck:
+            AnyView(WifiSecurityCheckScreen())
+        case .dataBreachMonitoring:
+            AnyView(DataBreachesCheckScreen())
+        case .deviceLock:
+            AnyView(DeviceLockStatusScreen())
+        case .iOSVersionCheck:
+            AnyView(IOSVersionCkeckModule())
+        case .maliciousSitesProtection:
+            AnyView(MaliciousSitesProtectionScreen())
+        case .findMy:
+            AnyView(FindMyScreen())
+        case .mediaSafe:
+            AnyView(DataProtectionScreen(entryPoint: .mediaSafe))
+        case .passwordVault:
+            AnyView(DataProtectionScreen(entryPoint: .passwordVault))
+        }
+    }
+    
+    /// Determines whether the details button should be hidden for a given `GeneralIssueType`.
+    
+    public static func getDetailsButtonIsHiddenState(issueType: GeneralIssueType) -> (Bool, Bool) {
         switch issueType {
         case .wifiSecurity:
+            return (UserSessionManager.shared.isMaliciousSitesProtectionEnabled, false)
             
-            let maliciousSitesProtectionEnabled: Bool = UserSessionManager.shared.isMaliciousSitesProtectionEnabled
-            
-            return (maliciousSitesProtectionEnabled, false)
         case .personalDataProtection:
+            return (false, UserSessionManager.shared.isFindMyEnabled)
             
-            let isFindMyEnabled = UserSessionManager.shared.isFindMyEnabled
-            
-            return (false, isFindMyEnabled)
         case .systemSecurity:
-            
-            let deviceLockEnabled = UserSessionManager.shared.isDeviceLockEnabled
-            let iOSVersionCheckResult: Bool = !UserSessionManager.shared.isDeviceVersionOutdated
+            let isDeviceLockEnabled = UserSessionManager.shared.isDeviceLockEnabled
+            let isIOSVersionUpdated = !UserSessionManager.shared.isDeviceVersionOutdated
             
             if #available(iOS 17.0, *) {
-                return (false, iOSVersionCheckResult)
+                return (false, isIOSVersionUpdated)
             } else {
-                return (deviceLockEnabled, iOSVersionCheckResult)
+                return (isDeviceLockEnabled, isIOSVersionUpdated)
             }
             
         case .safeStorage:
@@ -74,47 +73,19 @@ final class DetailsButtonIssueHelper {
         }
     }
     
+    /// Determines whether a subscription alert should be presented for a given `IssueType`.
+    
     public static func shouldPresentSubscriptionAlert(issueType: IssueType) -> Bool {
+        guard !UserSessionManager.shared.isUserSubscribed else { return false }
+        
         switch issueType {
         case .maliciousSitesProtection:
-            if UserSessionManager.shared.isUserSubscribed {
-                return false
-            } else {
-                if UserSessionManager.shared.isMaliciousSitesProtectionEnabled {
-                    return true
-                } else {
-                    return false
-                }
-            }
+            return UserSessionManager.shared.isMaliciousSitesProtectionEnabled
         case .wifiSecurityCheck:
-            if UserSessionManager.shared.isUserSubscribed {
-                return false
-            } else {
-                if UserSessionManager.shared.isNetworkSecure {
-                    return true
-                } else {
-                    return false
-                }
-            }
+            return UserSessionManager.shared.isNetworkSecure
         case .dataBreachMonitoring:
-            if UserSessionManager.shared.isUserSubscribed {
-                return false
-            } else {
-                return true
-            }
-        case .findMy:
-            if UserSessionManager.shared.isUserSubscribed {
-                return false
-            } else {
-                return false
-            }
-        case .deviceLock:
-            return false
-        case .iOSVersionCheck:
-            return false
-        case .mediaSafe:
-            return false
-        case .passwordVaul:
+            return true
+        default:
             return false
         }
     }

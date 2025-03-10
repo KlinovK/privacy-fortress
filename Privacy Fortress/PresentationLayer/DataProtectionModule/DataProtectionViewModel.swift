@@ -24,7 +24,7 @@ class DataProtectionViewModel: ObservableObject {
     private var timer: Timer?
     private let passcodeLength = 6
     public let dataProtectionEntryPoint: DataProtectionEntryPoint
-    private let keychainKey = UserSessionKey.kPasscodeKeychainKey
+    private let keychainKey = UserSessionKey.passcodeKeychainKey
     
     init(entryPoint: DataProtectionEntryPoint) {
         self.dataProtectionEntryPoint = entryPoint

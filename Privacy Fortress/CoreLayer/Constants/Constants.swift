@@ -28,8 +28,10 @@ public struct Constants {
     public static let apphudAPIKey = "app_nGanwHoqFVyJH4umGpM92adVni6GPg"
     public static let termsAndConditionsURLString = "https://privacyfortress.com/terms-and-conditions/"
     public static let privacyPolicyURLString = "https://privacyfortress.com/privacy-policy/"
-
+    
 }
+
+// MARK: - UserSessionKey
 
 enum UserSessionKey: String {
     case uniqueUserID = "kUniqueUserID"
@@ -45,7 +47,7 @@ enum UserSessionKey: String {
     case isMaliciousSitesProtectionEnabled = "kIsMaliciousSitesProtectionEnabled"
     case isSecureNetwork = "kIsSecureNetwork"
     case hibpApiKey = "kHibpApiKey"
-    case kPasscodeKeychainKey = "kPasscodeKeychainKey"
+    case passcodeKeychainKey = "kPasscodeKeychainKey"
     case kOriginalTransactionId = "kOriginalTransactionId"
     case appsFlyerAttributionData = "AppsFlyerAttributionData"
 }
