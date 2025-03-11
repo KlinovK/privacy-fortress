@@ -164,11 +164,11 @@ struct MaliciousSitesProtectionScreen: View {
                                 openAppSettings()
                             }
                     }
-                    .padding(.bottom, 20)
-                    .padding(.top, Constants.isIPad ? 88 : 16)
-                    .padding(.horizontal, Constants.isIPad ? 190 : 24)
-                    .frame(height: geometry.size.height)
                 }
+                .padding(.bottom, 20)
+                .padding(.top, Constants.isIPad ? 88 : 16)
+                .padding(.horizontal, Constants.isIPad ? 190 : 24)
+                .frame(height: geometry.size.height)
             }
             .scrollIndicators(.hidden)
             .background(ColorManager.mainBackground.color)

@@ -18,7 +18,7 @@ class StartScreenViewModel: ObservableObject {
     @Published var safeStorageProgress: Double = 0.0
     @Published var isRequestComplete = false
     
-    let randomDelay = Double.random(in: 0.3...1.0)
+    let randomDelay = Double.random(in: 0.1...0.3)
     
     private let wiFiSecurityManager: WiFiSecurityManagerProtocol
     private let systemSecurityManager: SystemSecurityManagerProtocol
@@ -37,15 +37,15 @@ class StartScreenViewModel: ObservableObject {
         isRequestComplete = false
 
         _ = await wiFiSecurityManager.isWifiSafe()
-        wiFiSecurityManager.reloadContentBlocker()
+        _ = await wiFiSecurityManager.reloadContentBlocker()
         
         for i in 1...25 {
-            try? await Task.sleep(nanoseconds: 100_000_000)
+            try? await Task.sleep(nanoseconds: 50_000_000)
             progress = Double(i) / 100
             wifiSecurityProgress = Double(i) / 25.0
         }
 
-        try? await Task.sleep(nanoseconds: UInt64(randomDelay * 100_000_000))
+        try? await Task.sleep(nanoseconds: UInt64(randomDelay * 50_000_000))
 
         isLoading = false
         isRequestComplete = true
@@ -61,12 +61,12 @@ class StartScreenViewModel: ObservableObject {
         let _ = await personalDataProtectionManager.checkDataBreach(for: "", isItFirstLaunch: true)
         
         for i in 1...25 {
-            try? await Task.sleep(nanoseconds: 100_000_000)
+            try? await Task.sleep(nanoseconds: 50_000_000)
             progress = (Double(i) / 100) + 0.25
             personalDataProtectionProgress = Double(i) / 25.0
         }
 
-        try? await Task.sleep(nanoseconds: UInt64(randomDelay * 100_000_000))
+        try? await Task.sleep(nanoseconds: UInt64(randomDelay * 50_000_000))
 
         isLoading = false
         isRequestComplete = true
@@ -82,12 +82,12 @@ class StartScreenViewModel: ObservableObject {
         await systemSecurityManager.saveDeviceVersionCheckResult()
         
         for i in 1...25 {
-            try? await Task.sleep(nanoseconds: 100_000_000)
+            try? await Task.sleep(nanoseconds: 50_000_000)
             progress = (Double(i) / 100) + 0.5
             systemSecurityProgress = Double(i) / 25.0
         }
 
-        try? await Task.sleep(nanoseconds: UInt64(randomDelay * 100_000_000))
+        try? await Task.sleep(nanoseconds: UInt64(randomDelay * 50_000_000))
 
         isLoading = false
         isRequestComplete = true
@@ -103,12 +103,12 @@ class StartScreenViewModel: ObservableObject {
         await safeStorageManager.checkIsMediaSafe()
 
         for i in 1...25 {
-            try? await Task.sleep(nanoseconds: 100_000_000)
+            try? await Task.sleep(nanoseconds: 50_000_000)
             progress = (Double(i) / 100) + 0.75
             safeStorageProgress = Double(i) / 25.0
         }
 
-        try? await Task.sleep(nanoseconds: UInt64(randomDelay * 100_000_000))
+        try? await Task.sleep(nanoseconds: UInt64(randomDelay * 50_000_000))
 
         isLoading = false
         isRequestComplete = true

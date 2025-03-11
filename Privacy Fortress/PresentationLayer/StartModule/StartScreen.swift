@@ -16,7 +16,6 @@ struct StartScreenView: View {
     @State private var viewState: StartScreenViewState = UserSessionManager.shared.isLongTimeNotScanned ? .longTimeNoScan : .start
 
     var body: some View {
-
         NavigationStack {
             GeometryReader { geometry in
                 ScrollView {
@@ -34,14 +33,7 @@ struct StartScreenView: View {
                             presentCardViews()
                             Spacer()
                             Button(action: {
-                                changeViewState(state: .isAnalyzing)
-                                Task {
-                                    await viewModel.startWiFiSecurityCheck()
-                                    await viewModel.startPersonalDataProtectionCheck()
-                                    await viewModel.startSystemSecurityCheck()
-                                    await viewModel.startSafeStorageCheck()
-                                }
-                                UserSessionManager.shared.updateLastScanDate()
+                                handleStartScan()
                             }) {
                                 Text("Start Scan")
                                     .padding()
@@ -71,10 +63,7 @@ struct StartScreenView: View {
                                     .foregroundColor(.white)
                                     .cornerRadius(10)
                             }
-                            .disabled(false)
-#warning("change to progress before release")
-
-//                                viewModel.progress < 1)
+                            .disabled(viewModel.progress < 1)
                             
                         case .isNoIssuesState:
                             Image(IconsManager.icAppLogoStartScreen.image)
@@ -90,13 +79,7 @@ struct StartScreenView: View {
                             
                             Spacer()
                             Button(action: {
-                                changeViewState(state: .isAnalyzing)
-                                Task {
-                                    await viewModel.startWiFiSecurityCheck()
-                                    await viewModel.startPersonalDataProtectionCheck()
-                                    await viewModel.startSystemSecurityCheck()
-                                    await viewModel.startSafeStorageCheck()
-                                }
+                                handleStartScan()
                             }) {
                                 Text("Scan Again")
                                     .padding()
@@ -125,14 +108,7 @@ struct StartScreenView: View {
                             
                             Spacer()
                             Button(action: {
-                                changeViewState(state: .isAnalyzing)
-                                Task {
-                                    await viewModel.startWiFiSecurityCheck()
-                                    await viewModel.startPersonalDataProtectionCheck()
-                                    await viewModel.startSystemSecurityCheck()
-                                    await viewModel.startSafeStorageCheck()
-                                }
-                                UserSessionManager.shared.updateLastScanDate()
+                                handleStartScan()
                             }) {
                                 Text("Scan Again")
                                     .padding()
@@ -148,32 +124,28 @@ struct StartScreenView: View {
                     .padding(.top, Constants.isIPad ? 88 : 21)
                     .padding(.horizontal, Constants.isIPad ? 190 : 16)
                 }
-                
-                NavigationLink(
-                    destination: PaywallScreen(),
-                    isActive: $shouldNavigateToPaywall
-                ) {
-                    EmptyView()
-                }
-                .hidden()
-        
-                NavigationLink(
-                    destination: DetailsButtonIssueHelper.returnDestination(issueType: issueType ?? .maliciousSitesProtection),
-                    isActive: $shouldNavigateToDestination
-                ) {
-                    EmptyView()
-                }
-                .hidden()
+                navigationLinks
             }
             .scrollIndicators(.hidden)
             .background(ColorManager.mainBackground.color)
         }
     }
     
-    private func changeViewState(state: StartScreenViewState) {
-        viewState = state
+    private var navigationLinks: some View {
+        Group {
+            NavigationLink(
+                destination: PaywallScreen(),
+                isActive: $shouldNavigateToPaywall
+            ) { EmptyView() }
+                .hidden()
+            
+            NavigationLink(
+                destination: DetailsButtonIssueHelper.returnDestination(issueType: issueType ?? .maliciousSitesProtection),
+                isActive: $shouldNavigateToDestination
+            ) { EmptyView() }
+                .hidden()
+        }
     }
-    
     
     private func setupLongTimeNotScanCardViews() -> some View {
         VStack(spacing: 12) {
@@ -219,6 +191,29 @@ struct StartScreenView: View {
             shouldNavigateToDestination = true
         }
     }
+    
+    
+    // MARK: - Helpers
+    
+    private func handleStartScan() {
+        changeViewState(to: .isAnalyzing)
+        Task {
+            await performSecurityChecks()
+            UserSessionManager.shared.updateLastScanDate()
+        }
+    }
+    
+    private func performSecurityChecks() async {
+        await viewModel.startWiFiSecurityCheck()
+        await viewModel.startPersonalDataProtectionCheck()
+        await viewModel.startSystemSecurityCheck()
+        await viewModel.startSafeStorageCheck()
+    }
+    
+    private func changeViewState(to state: StartScreenViewState) {
+        viewState = state
+    }
+    
 }
 
 #Preview {

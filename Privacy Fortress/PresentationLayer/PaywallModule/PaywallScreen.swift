@@ -107,7 +107,7 @@ struct PaywallScreen: View {
                                 .foregroundColor(ColorManager.textSubtitleDefaultColor.color)
                                 .underline()
                                 .onTapGesture {
-                                    openURL("https://yourwebsite.com/terms-of-use")
+                                    openURL(Constants.termsAndConditionsURLString)
                                 }
 
                             Text("Privacy Policy")
@@ -115,7 +115,7 @@ struct PaywallScreen: View {
                                 .foregroundColor(ColorManager.textSubtitleDefaultColor.color)
                                 .underline()
                                 .onTapGesture {
-                                    openURL("https://yourwebsite.com/privacy-policy")
+                                    openURL(Constants.privacyPolicyURLString)
                                 }
                             
                             Button(action: {
@@ -178,8 +178,15 @@ struct PaywallScreen: View {
     }
 
     private func openManageSubscriptions() {
-        guard let url = URL(string: "itms-apps://apps.apple.com/account/subscriptions") else { return }
-        UIApplication.shared.open(url)
+        Task {
+            do {
+                if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                    try await ApphudManager.shared.showManageSubscriptions(in: scene)
+                }
+            } catch {
+                print("Failed to open subscription management: \(error.localizedDescription)")
+            }
+        }
     }
 }
 
