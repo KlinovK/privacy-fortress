@@ -188,5 +188,17 @@ final class UserSessionManager {
             isNetworkSecure
         ]
     }
+    
+    func handleFirstLaunch() {
+        let hasLaunchedBefore = storage.bool(forKey: .hasLaunchedBefore)
+        
+        if !hasLaunchedBefore {
+            print("🚀 First launch detected! Clearing Keychain...")
+            KeychainWrapperManager.shared.clearAll()
+            storage.setBool(true, forKey: .hasLaunchedBefore)
+        } else {
+            print("✅ App has launched before, no need to clear Keychain.")
+        }
+    }
 }
 

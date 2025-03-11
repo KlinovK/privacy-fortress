@@ -25,7 +25,9 @@ public struct Constants {
     public static let appleFlyerAppID = ""
     public static let appStoreID = "6742862634"
     public static let productIdentifier = "com.Bridigi.Privacy_Fortress.premium"
-    public static let apphudAPIKey = "boFRAYgH9xVZi2ASdyNfG8"
+    
+#warning("apphud dev key boFRAYgH9xVZi2ASdyNfG8")
+    public static let apphudAPIKey = "app_nGanwHoqFVyJH4umGpM92adVni6GPg"
     public static let termsAndConditionsURLString = "https://privacyfortress.com/terms-and-conditions/"
     public static let privacyPolicyURLString = "https://privacyfortress.com/privacy-policy/"
     
@@ -34,6 +36,7 @@ public struct Constants {
 // MARK: - UserSessionKey
 
 enum UserSessionKey: String {
+    case hasLaunchedBefore = "kHasLaunchedBefore"
     case uniqueUserID = "kUniqueUserID"
     case fcmToken = "kFCMTokenKeychainKey"
     case isUserSubscribed = "kIsUserSubscribed"

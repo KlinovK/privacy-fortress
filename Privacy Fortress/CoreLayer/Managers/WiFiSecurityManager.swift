@@ -12,7 +12,7 @@ import NetworkExtension
 
 protocol WiFiSecurityManagerProtocol {
     func isWifiSafe() async -> Bool
-    func reloadContentBlocker()
+    func reloadContentBlocker() async
 }
 
 class WiFiSecurityManager: WiFiSecurityManagerProtocol {
@@ -73,15 +73,15 @@ class WiFiSecurityManager: WiFiSecurityManagerProtocol {
         }
     }
     
-    public func reloadContentBlocker() {
-        SFContentBlockerManager.reloadContentBlocker(withIdentifier: Constants.contentBlockerIdentifier) { error in
-            if let error = error {
-                UserSessionManager.shared.isMaliciousSitesProtectionEnabled = false
-                print("Error reloading content blocker: \(error.localizedDescription)")
-            } else {
-                UserSessionManager.shared.isMaliciousSitesProtectionEnabled = true
-                print("✅ Content blocker reloaded successfully!")
-            }
+    public func reloadContentBlocker() async {
+        
+        do {
+            try await SFContentBlockerManager.reloadContentBlocker(withIdentifier: Constants.contentBlockerIdentifier)
+            UserSessionManager.shared.isMaliciousSitesProtectionEnabled = true
+            print("✅ Content Blocker reloaded successfully!")
+        } catch {
+            UserSessionManager.shared.isMaliciousSitesProtectionEnabled = false
+            print("❌ Failed to reload Content Blocker: \(error)")
         }
     }
     

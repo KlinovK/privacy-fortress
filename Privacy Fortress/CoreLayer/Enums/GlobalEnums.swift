@@ -89,13 +89,6 @@ enum SettingsCellType {
     case changePassword
 }
 
-enum GeneralIssueType {
-    case wifiSecurity
-    case personalDataProtection
-    case systemSecurity
-    case safeStorage
-}
-
 enum ResultsScreenViewState {
     case issuesNotFound
     case issuesFound
@@ -106,7 +99,7 @@ enum WifiCheckResultScreenViewState {
     case wifiIsNotSecure
 }
 
-enum IssueType {
+enum IssueType: CaseIterable {
     case maliciousSitesProtection
     case wifiSecurityCheck
     case dataBreachMonitoring
@@ -115,6 +108,13 @@ enum IssueType {
     case iOSVersionCheck
     case mediaSafe
     case passwordVault
+}
+
+enum GeneralIssueType: CaseIterable {
+    case wifiSecurity
+    case personalDataProtection
+    case systemSecurity
+    case safeStorage
 }
 
 enum BadgeType {

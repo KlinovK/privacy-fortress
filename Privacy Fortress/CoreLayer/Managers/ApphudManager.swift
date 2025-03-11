@@ -44,15 +44,26 @@ final class ApphudManager: NSObject, SKProductsRequestDelegate, SKPaymentTransac
     
     @MainActor
     func setupApphud() async {
-#warning("uncomment")
-//        let userID = UserSessionManager.shared.uniqueUserID
-//        Apphud.start(apiKey: Constants.apphudAPIKey, userID: userID)
-//        await fetchIDFA()
-//        Apphud.setDeviceIdentifiers(idfa: nil, idfv: UIDevice.current.identifierForVendor?.uuidString)
-//        UserSessionManager.shared.updateSubscriptionStatus()
+        let userID = UserSessionManager.shared.uniqueUserID
+        Apphud.start(apiKey: Constants.apphudAPIKey, userID: userID)
+        await fetchIDFA()
+        Apphud.setDeviceIdentifiers(idfa: nil, idfv: UIDevice.current.identifierForVendor?.uuidString)
+        UserSessionManager.shared.updateSubscriptionStatus()
     }
     
     // MARK: - Restore Purchases
+    
+    @MainActor
+    public func showManageSubscriptions(in scene: UIWindowScene) async throws {
+
+        let subscriptionURL = URL(string: "https://apps.apple.com/account/subscriptions")!
+
+        if #available(iOS 15.0, *) {
+            try await AppStore.showManageSubscriptions(in: scene)
+        } else {
+            await UIApplication.shared.open(subscriptionURL)
+        }
+    }
     
     @MainActor
     func restorePurchases() async throws -> Bool {
