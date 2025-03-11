@@ -8,30 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		2D119896C52E42CBE4482A87 /* Pods_Privacy_Fortress.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 247983106F7D1F06FAB3092B /* Pods_Privacy_Fortress.framework */; };
-		663D648DF853E6A3B126F96B /* Pods_PrivacyFortressContentBlocker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE993E9D681FDBB2364147 /* Pods_PrivacyFortressContentBlocker.framework */; };
 		A9579DA72D71B83D00957869 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = A9579DA62D71B83D00957869 /* SwiftKeychainWrapper */; };
 		A9AEF6402D79384D008455E9 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9AEF63F2D79384D008455E9 /* StoreKit.framework */; };
-		A9D58C7F2D68259E009089F6 /* PrivacyFortressContentBlocker.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A9D58C692D68259E009089F6 /* PrivacyFortressContentBlocker.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		A9D58C7D2D68259E009089F6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A97BEB012D66C87700D14E08 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = A9D58C682D68259E009089F6;
-			remoteInfo = PrivacyFortressContentBlocker;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		A9D58C632D6822BD009089F6 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				A9D58C7F2D68259E009089F6 /* PrivacyFortressContentBlocker.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -47,44 +34,13 @@
 		A97BEB092D66C87700D14E08 /* Privacy Fortress.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Privacy Fortress.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9AEF63F2D79384D008455E9 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		A9C08FE92D701AEB0077FAF0 /* HaveIBeenPwned.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HaveIBeenPwned.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A9D58C692D68259E009089F6 /* PrivacyFortressContentBlocker.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PrivacyFortressContentBlocker.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEEE993E9D681FDBB2364147 /* Pods_PrivacyFortressContentBlocker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PrivacyFortressContentBlocker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		A9D58C802D68259E009089F6 /* Exceptions for "PrivacyFortressContentBlocker" folder in "PrivacyFortressContentBlocker" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = A9D58C682D68259E009089F6 /* PrivacyFortressContentBlocker */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		A97BEB0B2D66C87700D14E08 /* Privacy Fortress */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "Privacy Fortress";
-			sourceTree = "<group>";
-		};
-		A9D58C472D6822BD009089F6 /* PrivacyFortressContentBlocker */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			explicitFolders = (
-				Resources/_locales,
-				Resources/images,
-			);
-			path = PrivacyFortressContentBlocker;
-			sourceTree = "<group>";
-		};
-		A9D58C6A2D68259E009089F6 /* PrivacyFortressContentBlocker */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				A9D58C802D68259E009089F6 /* Exceptions for "PrivacyFortressContentBlocker" folder in "PrivacyFortressContentBlocker" target */,
-			);
-			explicitFolders = (
-				Resources/_locales,
-			);
-			path = PrivacyFortressContentBlocker;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -97,14 +53,6 @@
 				A9AEF6402D79384D008455E9 /* StoreKit.framework in Frameworks */,
 				A9579DA72D71B83D00957869 /* SwiftKeychainWrapper in Frameworks */,
 				2D119896C52E42CBE4482A87 /* Pods_Privacy_Fortress.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A9D58C662D68259E009089F6 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				663D648DF853E6A3B126F96B /* Pods_PrivacyFortressContentBlocker.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -126,8 +74,6 @@
 			isa = PBXGroup;
 			children = (
 				A97BEB0B2D66C87700D14E08 /* Privacy Fortress */,
-				A9D58C472D6822BD009089F6 /* PrivacyFortressContentBlocker */,
-				A9D58C6A2D68259E009089F6 /* PrivacyFortressContentBlocker */,
 				A97BEB0A2D66C87700D14E08 /* Products */,
 				4E3E21F6B7B1A659F52C1711 /* Pods */,
 				BF635DF7A83944C9E3CBBE6A /* Frameworks */,
@@ -138,7 +84,6 @@
 			isa = PBXGroup;
 			children = (
 				A97BEB092D66C87700D14E08 /* Privacy Fortress.app */,
-				A9D58C692D68259E009089F6 /* PrivacyFortressContentBlocker.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -172,7 +117,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				A9D58C7E2D68259E009089F6 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				A97BEB0B2D66C87700D14E08 /* Privacy Fortress */,
@@ -181,27 +125,6 @@
 			productName = "Privacy Fortress";
 			productReference = A97BEB092D66C87700D14E08 /* Privacy Fortress.app */;
 			productType = "com.apple.product-type.application";
-		};
-		A9D58C682D68259E009089F6 /* PrivacyFortressContentBlocker */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = A9D58C812D68259E009089F6 /* Build configuration list for PBXNativeTarget "PrivacyFortressContentBlocker" */;
-			buildPhases = (
-				8B3D1ACF0C57F330A69AB088 /* [CP] Check Pods Manifest.lock */,
-				A9D58C652D68259E009089F6 /* Sources */,
-				A9D58C662D68259E009089F6 /* Frameworks */,
-				A9D58C672D68259E009089F6 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				A9D58C6A2D68259E009089F6 /* PrivacyFortressContentBlocker */,
-			);
-			name = PrivacyFortressContentBlocker;
-			productName = PrivacyFortressContentBlocker;
-			productReference = A9D58C692D68259E009089F6 /* PrivacyFortressContentBlocker.appex */;
-			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -214,9 +137,6 @@
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
 					A97BEB082D66C87700D14E08 = {
-						CreatedOnToolsVersion = 16.2;
-					};
-					A9D58C682D68259E009089F6 = {
 						CreatedOnToolsVersion = 16.2;
 					};
 				};
@@ -240,20 +160,12 @@
 			projectRoot = "";
 			targets = (
 				A97BEB082D66C87700D14E08 /* Privacy Fortress */,
-				A9D58C682D68259E009089F6 /* PrivacyFortressContentBlocker */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		A97BEB072D66C87700D14E08 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A9D58C672D68259E009089F6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -278,28 +190,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Privacy Fortress/Pods-Privacy Fortress-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8B3D1ACF0C57F330A69AB088 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-PrivacyFortressContentBlocker-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B97C8AC5F59932EAC1E4E158 /* [CP] Embed Pods Frameworks */ = {
@@ -351,22 +241,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A9D58C652D68259E009089F6 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		A9D58C7E2D68259E009089F6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = A9D58C682D68259E009089F6 /* PrivacyFortressContentBlocker */;
-			targetProxy = A9D58C7D2D68259E009089F6 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		A97BEB152D66C87700D14E08 /* Debug */ = {
@@ -568,68 +443,6 @@
 			};
 			name = Release;
 		};
-		A9D58C822D68259E009089F6 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3770613DA959D7C00F8E87EC /* Pods-PrivacyFortressContentBlocker.debug.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = LP9RB8CL2F;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = PrivacyFortressContentBlocker/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = PrivacyFortressContentBlocker;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				OTHER_LDFLAGS = (
-					"-framework",
-					SafariServices,
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.Bridigi.Privacy-Fortress.PrivacyFortressContentBlocker";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		A9D58C832D68259E009089F6 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = A3FCA3DB2CCE37D207A92958 /* Pods-PrivacyFortressContentBlocker.release.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = LP9RB8CL2F;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = PrivacyFortressContentBlocker/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = PrivacyFortressContentBlocker;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				OTHER_LDFLAGS = (
-					"-framework",
-					SafariServices,
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.Bridigi.Privacy-Fortress.PrivacyFortressContentBlocker";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -647,15 +460,6 @@
 			buildConfigurations = (
 				A97BEB182D66C87700D14E08 /* Debug */,
 				A97BEB192D66C87700D14E08 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		A9D58C812D68259E009089F6 /* Build configuration list for PBXNativeTarget "PrivacyFortressContentBlocker" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A9D58C822D68259E009089F6 /* Debug */,
-				A9D58C832D68259E009089F6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
