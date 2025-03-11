@@ -18,8 +18,9 @@ struct SettingsScreen: View {
                     Image(IconsManager.icUnlockPremium.image)
                         .resizable()
                         .scaledToFit()
-                        .frame(maxWidth: .infinity, minHeight: 158, maxHeight: 158)
+                        .frame(maxWidth: .infinity, minHeight: !UserSessionManager.shared.isUserSubscribed ? 0 : 158, maxHeight: !UserSessionManager.shared.isUserSubscribed ? 0 : 158)
                         .padding(.bottom, 25)
+                        .hidden(!UserSessionManager.shared.isUserSubscribed)
                     
                     VStack(spacing: 8) {
                         returnSettingsCell(cellType: .rateUs)
@@ -47,7 +48,7 @@ struct SettingsScreen: View {
                         }
                     }
                 }
-                .padding(.top, Constants.isIPad ? 88 : 20)
+                .padding(.top, Constants.isIPad ? 32 : 20)
                 .padding(.horizontal, Constants.isIPad ? 190 : 16)
             }
             .scrollIndicators(.hidden)

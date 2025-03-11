@@ -26,11 +26,11 @@ class AppFlyerManager {
         AppsFlyerLib.shared().start()
     }
     
-    public func sendPurchaseEvent(productId: String) {
-        let parameters: [String: Any] = [
-            AFEventParamContentId: productId
-        ]
-        
-        AppsFlyerLib.shared().logEvent(AFEventPurchase, withValues: parameters)
-    }
+     public func logEvent(name: String, productId: String) {
+         let parameters: [String: Any] = [
+             AFEventParamContentId: productId
+         ]
+         AppsFlyerLib.shared().logEvent(name, withValues: parameters)
+         print("AppsFlyer Event Logged: \(name) with params: \(parameters)")
+     }
 }

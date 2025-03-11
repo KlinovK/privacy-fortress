@@ -13,17 +13,18 @@ struct IOSVersionCkeckModule: View {
     
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack {
-                    VStack(spacing: 12) {
-                        Text(getHeaderTextAndColor().text)                                .font(.custom(FontsManager.SFbold.font, size: 28))
-                            .foregroundColor(getHeaderTextAndColor().color)
-                        
-                        Text("Update your device to the latest version")        .font(.custom(FontsManager.SFSemibold.font, size: 18))
+            GeometryReader { geometry in
+                ScrollView {
+                    VStack {
+                        VStack(spacing: 12) {
+                            Text(getHeaderTextAndColor().text)                                .font(.custom(FontsManager.SFbold.font, size: 28))
+                                .foregroundColor(getHeaderTextAndColor().color)
+                            
+                            Text("Update your device to the latest version")        .font(.custom(FontsManager.SFSemibold.font, size: 18))
                                 .foregroundColor(ColorManager.textDefaultColor.color)
                         }
                         .padding(.bottom, 12)
-                    
+                        
                         HStack() {
                             Image(IconsManager.icFirst.image)
                                 .frame(width: 24, height: 24)
@@ -105,7 +106,7 @@ struct IOSVersionCkeckModule: View {
                         
                         Separator()
                             .padding(.bottom, 16)
-
+                        
                         Spacer()
                         
                         Text("Ensure your device is connected to Wi-Fi and has at least 50% battery, or connect it to a charger during the update.")
@@ -128,9 +129,11 @@ struct IOSVersionCkeckModule: View {
                     .padding(.bottom, 20)
                     .padding(.top, Constants.isIPad ? 88 : 16)
                     .padding(.horizontal, Constants.isIPad ? 190 : 24)
+                    .frame(height: geometry.size.height)
                 }
                 .scrollIndicators(.hidden)
                 .background(ColorManager.mainBackground.color)
+            }
         }
         .navigationTitle("Update your device")
         .navigationBarTitleDisplayMode(.inline)

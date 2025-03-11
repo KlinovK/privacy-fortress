@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct PaywallScreen: View {
     
@@ -15,6 +16,14 @@ struct PaywallScreen: View {
                 ScrollView {
                     VStack {
                         HStack {
+                            Button(action: {
+                                openManageSubscriptions()
+                            }) {
+                                Text("Manage Subscriptions")
+                                    .font(.custom(FontsManager.SFRegular.font, size: 16))
+                                    .foregroundColor(Color.blue)
+                                    .underline()
+                            }
                             Spacer()
                             Button(action: {
                                 Task {
@@ -33,7 +42,7 @@ struct PaywallScreen: View {
                             }
                         }
                         .padding(.bottom, 14)
-                        
+
                         Image(IconsManager.icAppLogoStartScreen.image)
                             .resizable()
                             .scaledToFit()
@@ -46,7 +55,6 @@ struct PaywallScreen: View {
                             .padding(.bottom, 25)
                         
                         ZStack(alignment: .topLeading) {
-                            
                             Color.white
                                 .frame(height: 223)
                                 .cornerRadius(16)
@@ -60,7 +68,6 @@ struct PaywallScreen: View {
                             }
                             .frame(height: 183)
                             .padding(EdgeInsets(top: 20, leading: 16, bottom: 20, trailing: 16))
-                            
                         }
                         .frame(maxWidth: .infinity)
                         .padding(.bottom, 32)
@@ -74,6 +81,7 @@ struct PaywallScreen: View {
                             .foregroundColor(ColorManager.textDefaultColor.color)
                         
                         Spacer()
+                        
                         Button(action: {
                             Task {
                                 do {
@@ -94,7 +102,6 @@ struct PaywallScreen: View {
                         .padding(.bottom, 0)
                         
                         HStack(spacing: 50) {
-                            
                             Text("Terms of Use")
                                 .font(.custom(FontsManager.SFlight.font, size: 14))
                                 .foregroundColor(ColorManager.textSubtitleDefaultColor.color)
@@ -111,20 +118,26 @@ struct PaywallScreen: View {
                                     openURL("https://yourwebsite.com/privacy-policy")
                                 }
                             
-                            NavigationLink(destination: MainScreen()) {
-                                Text("Skip")
-                                    .font(.custom(FontsManager.SFlight.font, size: 14))
-                                    .foregroundColor(ColorManager.textSubtitleDefaultColor.color)
-                                    .underline()
+                            Button(action: {
+                                AppFlyerManager.shared.logEvent(name: "paywall_skipped", productId: Constants.productIdentifier)
+                            }) {
+                                NavigationLink(destination: MainScreen()) {
+                                    Text("Skip")
+                                        .font(.custom(FontsManager.SFlight.font, size: 14))
+                                        .foregroundColor(ColorManager.textSubtitleDefaultColor.color)
+                                        .underline()
+                                }
                             }
                         }
                         .padding(EdgeInsets(top: 3, leading: 26, bottom: 16, trailing: 26))
                     }
-                   
                 }
-                .padding(.top, Constants.isIPad ? 88 : 21)
+                .padding(.top, Constants.isIPad ? 30 : 21)
                 .padding(.horizontal, Constants.isIPad ? 190 : 24)
                 .frame(height: geometry.size.height)
+                .onAppear(perform: {
+                    AppFlyerManager.shared.logEvent(name: "paywall_shown", productId: Constants.productIdentifier)
+                })
             }
             .scrollIndicators(.hidden)
             .background(ColorManager.mainBackground.color)
@@ -161,6 +174,11 @@ struct PaywallScreen: View {
     
     private func openURL(_ urlString: String) {
         guard let url = URL(string: urlString) else { return }
+        UIApplication.shared.open(url)
+    }
+
+    private func openManageSubscriptions() {
+        guard let url = URL(string: "itms-apps://apps.apple.com/account/subscriptions") else { return }
         UIApplication.shared.open(url)
     }
 }

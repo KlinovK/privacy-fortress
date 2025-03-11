@@ -44,11 +44,12 @@ final class ApphudManager: NSObject, SKProductsRequestDelegate, SKPaymentTransac
     
     @MainActor
     func setupApphud() async {
-        let userID = UserSessionManager.shared.uniqueUserID
-        Apphud.start(apiKey: Constants.apphudAPIKey, userID: userID)
-        await fetchIDFA()
-        Apphud.setDeviceIdentifiers(idfa: nil, idfv: UIDevice.current.identifierForVendor?.uuidString)
-        UserSessionManager.shared.updateSubscriptionStatus()
+#warning("uncomment")
+//        let userID = UserSessionManager.shared.uniqueUserID
+//        Apphud.start(apiKey: Constants.apphudAPIKey, userID: userID)
+//        await fetchIDFA()
+//        Apphud.setDeviceIdentifiers(idfa: nil, idfv: UIDevice.current.identifierForVendor?.uuidString)
+//        UserSessionManager.shared.updateSubscriptionStatus()
     }
     
     // MARK: - Restore Purchases
@@ -90,6 +91,8 @@ final class ApphudManager: NSObject, SKProductsRequestDelegate, SKPaymentTransac
     func makePurchase() async throws -> Bool {
         return try await withCheckedThrowingContinuation { continuation in
             Apphud.purchase(Constants.productIdentifier) { [weak self] result in
+                
+                AppFlyerManager.shared.logEvent(name: "purchase_try", productId: Constants.productIdentifier)
                 if let error = result.error {
                     print("❌ Purchase failed: \(error.localizedDescription)")
                     continuation.resume(throwing: error)
@@ -102,7 +105,6 @@ final class ApphudManager: NSObject, SKProductsRequestDelegate, SKPaymentTransac
                     continuation.resume(returning: false)
                     return
                 }
-                
                 self?.handleSuccessfulPurchase(subscription)
                 continuation.resume(returning: true)
             }
@@ -114,7 +116,7 @@ final class ApphudManager: NSObject, SKProductsRequestDelegate, SKPaymentTransac
         
         UserSessionManager.shared.createOriginalTransactionID(subscription.productId)
         UserSessionManager.shared.isUserSubscribed = true
-        AppFlyerManager.shared.sendPurchaseEvent(productId: subscription.productId)
+        AppFlyerManager.shared.logEvent(name: "purchase_success", productId: subscription.productId)
         
         Task { await remoteService.sendUserData() }
     }
@@ -148,6 +150,7 @@ final class ApphudManager: NSObject, SKProductsRequestDelegate, SKPaymentTransac
             UserSessionManager.shared.isUserSubscribed = true
             purchaseCompletion?(.success(true))
         } else {
+            AppFlyerManager.shared.logEvent(name: "purchase_failure", productId: Constants.productIdentifier)
             print("❌ Purchase failed: \(String(describing: transaction.error?.localizedDescription))")
             purchaseCompletion?(.failure(transaction.error ?? PurchaseError.unknown))
         }

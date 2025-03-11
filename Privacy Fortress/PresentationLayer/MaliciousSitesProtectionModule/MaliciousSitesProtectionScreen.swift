@@ -167,6 +167,7 @@ struct MaliciousSitesProtectionScreen: View {
                     .padding(.bottom, 20)
                     .padding(.top, Constants.isIPad ? 88 : 16)
                     .padding(.horizontal, Constants.isIPad ? 190 : 24)
+                    .frame(height: geometry.size.height)
                 }
             }
             .scrollIndicators(.hidden)

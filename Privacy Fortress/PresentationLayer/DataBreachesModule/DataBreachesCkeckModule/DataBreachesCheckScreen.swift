@@ -20,13 +20,39 @@ struct DataBreachesCheckScreen: View {
         GeometryReader { geometry in
             ScrollViewReader { scrollProxy in
                 ScrollView {
-                    switch viewModel.state {
-                    case .checking:
-                        createDataBreachesCheckView(geometry: geometry, scrollProxy: scrollProxy)
-                    case .notDetected:
-                        createNotDetectedDataBreachesCheckView(geometry: geometry)
+                    VStack {
+                        switch viewModel.state {
+                        case .checking:
+                            createDataBreachesCheckView(geometry: geometry, scrollProxy: scrollProxy)
+                            Spacer()
+
+                            Button(action: {
+                                Task {
+                                    let breaches = await viewModel.geDataBreaches()
+                                    if !breaches.isEmpty {
+                                        navigateToResult = true
+                                    } else {
+                                        viewModel.state = .notDetected
+                                    }
+                                }
+                            }) {
+                                Text("Check")
+                                    .padding()
+                                    .frame(maxWidth: .infinity)
+                                    .font(.custom(FontsManager.SFSemibold.font, size: 20))
+                                    .background(ColorManager.buttonActiveColor.color)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(10)
+                            }
+                            .padding(.horizontal, Constants.isIPad ? 190 : 16)
+                            .padding(.bottom, 20)
+                        case .notDetected:
+                            createNotDetectedDataBreachesCheckView(geometry: geometry)
+                        }
                     }
+                    .frame(minHeight: geometry.size.height)
                 }
+                
                 .scrollIndicators(.hidden)
                 .background(ColorManager.mainBackground.color)
                 .padding(.bottom, 0)
@@ -79,7 +105,7 @@ struct DataBreachesCheckScreen: View {
                 .padding(.bottom, 12)
             Spacer()
         }
-        .padding(.top, Constants.isIPad ? 367 : 40)
+        .padding(.top, Constants.isIPad ? 367 : 209)
         .padding(.horizontal, Constants.isIPad ? 190 : 16)
     }
     
@@ -134,33 +160,12 @@ struct DataBreachesCheckScreen: View {
                     .stroke(ColorManager.textFieldBorderColor.color, lineWidth: 1)
             )
             .cornerRadius(10)
-            
-            Spacer()
-            Button(action: {
-                Task {
-                    let breaches = await viewModel.geDataBreaches()
-                    if !breaches.isEmpty {
-                        navigateToResult = true
-                    } else {
-                        viewModel.state = .notDetected
-                    }
-                }
-            }) {
-                Text("Check")
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .font(.custom(FontsManager.SFSemibold.font, size: 20))
-                    .background(ColorManager.buttonActiveColor.color)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-            }
             .navigationDestination(isPresented: $navigateToResult) {
                 LeaksListScreen(breaches: viewModel.breaches)
             }
         }
         .padding(.top, Constants.isIPad ? 284 : 40)
-        .padding(.horizontal, Constants.isIPad ? 284 : 16)
-        .padding(.bottom, 20)
+        .padding(.horizontal, Constants.isIPad ? 190 : 16)
     }
 }
 

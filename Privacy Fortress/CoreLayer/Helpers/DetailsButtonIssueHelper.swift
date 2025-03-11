@@ -77,16 +77,17 @@ final class DetailsButtonIssueHelper {
     
     public static func shouldPresentSubscriptionAlert(issueType: IssueType) -> Bool {
         guard !UserSessionManager.shared.isUserSubscribed else { return false }
-        
-        switch issueType {
-        case .maliciousSitesProtection:
-            return UserSessionManager.shared.isMaliciousSitesProtectionEnabled
-        case .wifiSecurityCheck:
-            return UserSessionManager.shared.isNetworkSecure
-        case .dataBreachMonitoring:
-            return true
-        default:
-            return false
-        }
+        #warning("test subscribed")
+        return false
+//        switch issueType {
+//        case .maliciousSitesProtection:
+//            return UserSessionManager.shared.isMaliciousSitesProtectionEnabled
+//        case .wifiSecurityCheck:
+//            return UserSessionManager.shared.isNetworkSecure
+//        case .dataBreachMonitoring:
+//            return true
+//        default:
+//            return false
+//        }
     }
 }

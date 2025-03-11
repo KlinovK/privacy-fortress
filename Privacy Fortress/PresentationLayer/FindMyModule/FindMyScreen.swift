@@ -13,30 +13,33 @@ struct FindMyScreen: View {
     
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack {
-                    createScreenCells()
-                    Spacer()
-                    
-                    Text("Go to settings")
-                        .font(.custom(FontsManager.SFSemibold.font, size: 20))
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(ColorManager.buttonActiveColor.color)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                        .onTapGesture {
-                            openAppSettings()
-                        }
-                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 20
-                                            , trailing: 0))
+            GeometryReader { geometry in
+                ScrollView {
+                    VStack {
+                        createScreenCells()
+                        Spacer()
+                        
+                        Text("Go to settings")
+                            .font(.custom(FontsManager.SFSemibold.font, size: 20))
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(ColorManager.buttonActiveColor.color)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                            .onTapGesture {
+                                openAppSettings()
+                            }
+                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 20
+                                                , trailing: 0))
+                    }
+                    .padding(.bottom, 20)
+                    .padding(.top, Constants.isIPad ? 24 : 16)
+                    .padding(.horizontal, Constants.isIPad ? 190 : 16)
+                    .frame(height: geometry.size.height)
                 }
-                .padding(.bottom, 20)
-                .padding(.top, Constants.isIPad ? 24 : 16)
-                .padding(.horizontal, Constants.isIPad ? 190 : 16)
+                .scrollIndicators(.hidden)
+                .background(ColorManager.mainBackground.color)
             }
-            .scrollIndicators(.hidden)
-            .background(ColorManager.mainBackground.color)
         }
         .navigationTitle("Enable it to improve security")
         .navigationBarTitleDisplayMode(.inline)

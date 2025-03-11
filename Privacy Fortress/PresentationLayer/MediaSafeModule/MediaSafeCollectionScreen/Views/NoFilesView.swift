@@ -38,7 +38,7 @@ struct NoFilesView: View {
             .padding(.top, Constants.isIPad ? 411 : 200)
         }
         .padding(.horizontal, Constants.isIPad ? 0 : 0)
-        .padding(.top, Constants.isIPad ? 411 : 0)
+        .padding(.top, Constants.isIPad ? 10 : 10)
         .background(Color.white)
     }
 }
