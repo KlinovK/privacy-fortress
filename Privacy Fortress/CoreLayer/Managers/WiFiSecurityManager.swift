@@ -77,7 +77,7 @@ class WiFiSecurityManager: WiFiSecurityManagerProtocol {
         
         do {
             try await SFContentBlockerManager.reloadContentBlocker(withIdentifier: Constants.contentBlockerIdentifier)
-            UserSessionManager.shared.isMaliciousSitesProtectionEnabled = true
+            await getContentBlockerState()
             print("✅ Content Blocker reloaded successfully!")
         } catch {
             UserSessionManager.shared.isMaliciousSitesProtectionEnabled = false
@@ -85,5 +85,17 @@ class WiFiSecurityManager: WiFiSecurityManagerProtocol {
         }
     }
     
+    public func getContentBlockerState() async {
+        SFContentBlockerManager.getStateOfContentBlocker(withIdentifier: Constants.contentBlockerIdentifier) { state, error in
+            if let error = error {
+                UserSessionManager.shared.isMaliciousSitesProtectionEnabled = false
+                print("Error checking state: \(error)")
+            } else {
+                UserSessionManager.shared.isMaliciousSitesProtectionEnabled = ((state?.isEnabled) ?? false)
+                print("Content Blocker Enabled: \(state?.isEnabled ?? false)")
+            }
+        }
+
+    }
 }
 

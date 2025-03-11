@@ -10,7 +10,18 @@
 		2D119896C52E42CBE4482A87 /* Pods_Privacy_Fortress.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 247983106F7D1F06FAB3092B /* Pods_Privacy_Fortress.framework */; };
 		A9579DA72D71B83D00957869 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = A9579DA62D71B83D00957869 /* SwiftKeychainWrapper */; };
 		A9AEF6402D79384D008455E9 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9AEF63F2D79384D008455E9 /* StoreKit.framework */; };
+		A9DB1C922D801FD000F583CA /* PrivacyFortressContentBlocker.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A9DB1C892D801FD000F583CA /* PrivacyFortressContentBlocker.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A9DB1C902D801FD000F583CA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A97BEB012D66C87700D14E08 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A9DB1C882D801FD000F583CA;
+			remoteInfo = PrivacyFortressContentBlocker;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		A9D58C632D6822BD009089F6 /* Embed Foundation Extensions */ = {
@@ -19,6 +30,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				A9DB1C922D801FD000F583CA /* PrivacyFortressContentBlocker.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -34,13 +46,32 @@
 		A97BEB092D66C87700D14E08 /* Privacy Fortress.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Privacy Fortress.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9AEF63F2D79384D008455E9 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		A9C08FE92D701AEB0077FAF0 /* HaveIBeenPwned.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HaveIBeenPwned.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9DB1C892D801FD000F583CA /* PrivacyFortressContentBlocker.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PrivacyFortressContentBlocker.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEEE993E9D681FDBB2364147 /* Pods_PrivacyFortressContentBlocker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PrivacyFortressContentBlocker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		A9DB1C932D801FD000F583CA /* Exceptions for "PrivacyFortressContentBlocker" folder in "PrivacyFortressContentBlocker" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = A9DB1C882D801FD000F583CA /* PrivacyFortressContentBlocker */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		A97BEB0B2D66C87700D14E08 /* Privacy Fortress */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "Privacy Fortress";
+			sourceTree = "<group>";
+		};
+		A9DB1C8A2D801FD000F583CA /* PrivacyFortressContentBlocker */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				A9DB1C932D801FD000F583CA /* Exceptions for "PrivacyFortressContentBlocker" folder in "PrivacyFortressContentBlocker" target */,
+			);
+			path = PrivacyFortressContentBlocker;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -53,6 +84,13 @@
 				A9AEF6402D79384D008455E9 /* StoreKit.framework in Frameworks */,
 				A9579DA72D71B83D00957869 /* SwiftKeychainWrapper in Frameworks */,
 				2D119896C52E42CBE4482A87 /* Pods_Privacy_Fortress.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A9DB1C862D801FD000F583CA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,6 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				A97BEB0B2D66C87700D14E08 /* Privacy Fortress */,
+				A9DB1C8A2D801FD000F583CA /* PrivacyFortressContentBlocker */,
 				A97BEB0A2D66C87700D14E08 /* Products */,
 				4E3E21F6B7B1A659F52C1711 /* Pods */,
 				BF635DF7A83944C9E3CBBE6A /* Frameworks */,
@@ -84,6 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				A97BEB092D66C87700D14E08 /* Privacy Fortress.app */,
+				A9DB1C892D801FD000F583CA /* PrivacyFortressContentBlocker.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -117,6 +157,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				A9DB1C912D801FD000F583CA /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				A97BEB0B2D66C87700D14E08 /* Privacy Fortress */,
@@ -125,6 +166,28 @@
 			productName = "Privacy Fortress";
 			productReference = A97BEB092D66C87700D14E08 /* Privacy Fortress.app */;
 			productType = "com.apple.product-type.application";
+		};
+		A9DB1C882D801FD000F583CA /* PrivacyFortressContentBlocker */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A9DB1C942D801FD000F583CA /* Build configuration list for PBXNativeTarget "PrivacyFortressContentBlocker" */;
+			buildPhases = (
+				A9DB1C852D801FD000F583CA /* Sources */,
+				A9DB1C862D801FD000F583CA /* Frameworks */,
+				A9DB1C872D801FD000F583CA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				A9DB1C8A2D801FD000F583CA /* PrivacyFortressContentBlocker */,
+			);
+			name = PrivacyFortressContentBlocker;
+			packageProductDependencies = (
+			);
+			productName = PrivacyFortressContentBlocker;
+			productReference = A9DB1C892D801FD000F583CA /* PrivacyFortressContentBlocker.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -137,6 +200,9 @@
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
 					A97BEB082D66C87700D14E08 = {
+						CreatedOnToolsVersion = 16.2;
+					};
+					A9DB1C882D801FD000F583CA = {
 						CreatedOnToolsVersion = 16.2;
 					};
 				};
@@ -160,12 +226,20 @@
 			projectRoot = "";
 			targets = (
 				A97BEB082D66C87700D14E08 /* Privacy Fortress */,
+				A9DB1C882D801FD000F583CA /* PrivacyFortressContentBlocker */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		A97BEB072D66C87700D14E08 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A9DB1C872D801FD000F583CA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -241,7 +315,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A9DB1C852D801FD000F583CA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A9DB1C912D801FD000F583CA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A9DB1C882D801FD000F583CA /* PrivacyFortressContentBlocker */;
+			targetProxy = A9DB1C902D801FD000F583CA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		A97BEB152D66C87700D14E08 /* Debug */ = {
@@ -443,6 +532,60 @@
 			};
 			name = Release;
 		};
+		A9DB1C952D801FD000F583CA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = LP9RB8CL2F;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PrivacyFortressContentBlocker/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = PrivacyFortressContentBlocker;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Bridigi.Privacy-Fortress.PrivacyFortressContentBlocker";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A9DB1C962D801FD000F583CA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = LP9RB8CL2F;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PrivacyFortressContentBlocker/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = PrivacyFortressContentBlocker;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Bridigi.Privacy-Fortress.PrivacyFortressContentBlocker";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -460,6 +603,15 @@
 			buildConfigurations = (
 				A97BEB182D66C87700D14E08 /* Debug */,
 				A97BEB192D66C87700D14E08 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A9DB1C942D801FD000F583CA /* Build configuration list for PBXNativeTarget "PrivacyFortressContentBlocker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A9DB1C952D801FD000F583CA /* Debug */,
+				A9DB1C962D801FD000F583CA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

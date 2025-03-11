@@ -24,11 +24,11 @@ struct LocalStorageService {
         }
     }
     
-    var context: NSManagedObjectContext {
+    public var context: NSManagedObjectContext {
         return container.viewContext
     }
 
-    func saveContext() {
+    private func saveContext() {
         let context = container.viewContext
         if context.hasChanges {
             do {
@@ -37,6 +37,18 @@ struct LocalStorageService {
                 let nserror = error as NSError
                 print("Failed to save context: \(nserror), \(nserror.userInfo)")
             }
+        }
+    }
+    
+    public func fetchAllMediaItems() -> [MediaItemEntity] {
+        let fetchRequest: NSFetchRequest<MediaItemEntity> = MediaItemEntity.fetchRequest()
+        
+        do {
+            let mediaItems = try context.fetch(fetchRequest)
+            return mediaItems
+        } catch {
+            print("Failed to fetch media items: \(error)")
+            return []
         }
     }
     

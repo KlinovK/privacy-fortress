@@ -96,6 +96,8 @@ struct AddPasswordScreen: View {
                                     .autocapitalization(.none)
                                     .textContentType(.password)
                                     .background(Color.white)
+                                    .foregroundColor(ColorManager.textDefaultColor.color)
+                                    .font(.custom(FontsManager.SFSemibold.font, size: 18))
                                     .cornerRadius(10)
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 10)
@@ -181,7 +183,7 @@ struct AddPasswordScreen: View {
         if isPasswordItemWasSaved {
             dismiss()
         } else {
-            // Handle error
+            print("Password item wasn't saved")
         }
     }
     
