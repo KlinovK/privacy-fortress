@@ -20,16 +20,6 @@ struct PasswordItemCellView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                AsyncImage(url: URL(string: "\(item.domain)")) { image in
-                    image.resizable()
-                    image.aspectRatio(contentMode: .fit)
-                } placeholder: {
-                    Image(systemName: "lock.fill")
-                         .resizable()
-                         .aspectRatio(contentMode: .fit)
-
-                }
-                .frame(width: 24, height: 24)
                 
                 Text(item.domain)
                     .foregroundColor(ColorManager.textDefaultColor.color)
