@@ -11,9 +11,9 @@ import LocalAuthentication
 struct BiometricAlert: View {
     
     @Binding var isPresented: Bool
-    
     @State private var scaleEffect: CGFloat = 0.8
     @State private var opacity: Double = 0.0
+    
     var onDismiss: ((Bool) -> Void)?
 
     var body: some View {
@@ -51,27 +51,10 @@ struct BiometricAlert: View {
                             .opacity(0.5)
                             .frame(height: 1)
                         HStack {
-                            Button(action: {
-                                closeAlert(isNeedToSetupBiometric: true)
-                            }) {
-                                Text("Yes")
-                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                    .foregroundColor(ColorManager.textBlueColor.color)
-                                    .cornerRadius(8)
-                                    .font(.custom(FontsManager.SFbold.font, size: 17))
-                            }
-                            Button(action: {
-                                closeAlert()
-                            }) {
-                                Text("No")
-                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                    .foregroundColor(ColorManager.warningTextColor.color)
-                                    .cornerRadius(8)
-                                    .font(.custom(FontsManager.SFRegular.font, size: 17))
-                            }
+                            yesButton()
+                            noButton()
                         }
                         .frame(height:44)
-                        
                     }
                     .frame(maxWidth: .infinity)
                 }
@@ -145,6 +128,30 @@ struct BiometricAlert: View {
             return "No access to your Media Safe and Password Vault?"
         @unknown default:
             return "No access to your Media Safe and Password Vault?"
+        }
+    }
+    
+    private func yesButton() -> some View {
+        Button(action: {
+            closeAlert(isNeedToSetupBiometric: true)
+        }) {
+            Text("Yes")
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .foregroundColor(ColorManager.textBlueColor.color)
+                .cornerRadius(8)
+                .font(.custom(FontsManager.SFbold.font, size: 17))
+        }
+    }
+    
+    private func noButton() -> some View {
+        Button(action: {
+            closeAlert()
+        }) {
+            Text("No")
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .foregroundColor(ColorManager.warningTextColor.color)
+                .cornerRadius(8)
+                .font(.custom(FontsManager.SFRegular.font, size: 17))
         }
     }
     

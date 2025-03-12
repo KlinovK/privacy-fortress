@@ -150,19 +150,10 @@ struct MaliciousSitesProtectionScreen: View {
                         .frame(maxWidth: .infinity, minHeight: 44, maxHeight: 44)
                         .background(Color.white)
                         .cornerRadius(10)
-                        
+                        .padding(.bottom, 12)
                         Spacer()
                         
-                        Text("Go to settings")
-                            .font(.custom(FontsManager.SFSemibold.font, size: 20))
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(ColorManager.buttonActiveColor.color)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                            .onTapGesture {
-                                openAppSettings()
-                            }
+                        gotoSettingsButton()
                     }
                 }
                 .padding(.bottom, 20)
@@ -187,6 +178,19 @@ struct MaliciousSitesProtectionScreen: View {
                 }
             }
         }
+    }
+    
+    private func gotoSettingsButton() -> some View {
+        Text("Go to settings")
+            .font(.custom(FontsManager.SFSemibold.font, size: 20))
+            .padding()
+            .frame(maxWidth: .infinity)
+            .background(ColorManager.buttonActiveColor.color)
+            .foregroundColor(.white)
+            .cornerRadius(10)
+            .onTapGesture {
+                openAppSettings()
+            }
     }
     
     private func openAppSettings() {

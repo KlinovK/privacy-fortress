@@ -26,20 +26,7 @@ struct WifiSecurityCheckScreen: View {
                         .scaledToFit()
                         .frame(width: 270, height: 195)
                     Spacer()
-                    Button(action: {
-                        Task {
-                            _ = await viewModel.startWiFiSecurityCheck()
-                            navigateToResult = true
-                        }
-                    }) {
-                        Text("Scan current network")
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .font(.custom(FontsManager.SFSemibold.font, size: 20))
-                            .background(ColorManager.buttonActiveColor.color)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                    }
+                    scanCurrentNetworkButton()
                     .navigationDestination(isPresented: $navigateToResult) {
                         WifiCheckResultScreen()
                     }
@@ -64,6 +51,23 @@ struct WifiSecurityCheckScreen: View {
                     }
                 }
             }
+        }
+    }
+    
+    private func scanCurrentNetworkButton() -> some View {
+        Button(action: {
+            Task {
+                _ = await viewModel.startWiFiSecurityCheck()
+                navigateToResult = true
+            }
+        }) {
+            Text("Scan current network")
+                .padding()
+                .frame(maxWidth: .infinity)
+                .font(.custom(FontsManager.SFSemibold.font, size: 20))
+                .background(ColorManager.buttonActiveColor.color)
+                .foregroundColor(.white)
+                .cornerRadius(10)
         }
     }
 }

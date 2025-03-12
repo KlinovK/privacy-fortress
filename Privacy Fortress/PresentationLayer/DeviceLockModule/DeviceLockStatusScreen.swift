@@ -36,15 +36,7 @@ struct DeviceLockStatusScreen: View {
                     
                     Spacer()
                     
-                    NavigationLink(destination: DeviceLockDetailsScreen()) {
-                        Text("Details")
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(ColorManager.buttonActiveColor.color)
-                            .foregroundColor(.white)
-                            .font(.custom(FontsManager.SFSemibold.font, size: 20))
-                            .cornerRadius(10)
-                    }
+                    detailsButton()
 
                 }
                 .padding(.bottom, 20)
@@ -108,6 +100,18 @@ struct DeviceLockStatusScreen: View {
         }
 
         return fullText
+    }
+    
+    private func detailsButton() -> some View {
+        NavigationLink(destination: DeviceLockDetailsScreen()) {
+            Text("Details")
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(ColorManager.buttonActiveColor.color)
+                .foregroundColor(.white)
+                .font(.custom(FontsManager.SFSemibold.font, size: 20))
+                .cornerRadius(10)
+        }
     }
 }
 

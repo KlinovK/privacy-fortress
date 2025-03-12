@@ -92,17 +92,16 @@ extension AppDelegate {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
             print("Permission granted: \(granted)")
             
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
                 if granted {
                     Task {
-#warning("Uncomment before release")
-                        //                                                await remoteService.sendFCMToken(UserSessionManager.shared.fcmToken ?? "")
-                        //                                                await remoteService.sendUserData()
+                        await self?.remoteService.sendFCMToken(UserSessionManager.shared.fcmToken ?? "")
+                        await self?.remoteService.sendUserData()
                     }
                     UIApplication.shared.registerForRemoteNotifications()
                 } else {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                        self.checkNotificationAuthorization()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [weak self] in
+                        self?.checkNotificationAuthorization()
                     }
                 }
             }

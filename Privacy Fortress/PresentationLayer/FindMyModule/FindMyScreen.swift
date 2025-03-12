@@ -18,25 +18,13 @@ struct FindMyScreen: View {
                     VStack {
                         createScreenCells()
                         Spacer()
-                        
-                        Text("Go to settings")
-                            .font(.custom(FontsManager.SFSemibold.font, size: 20))
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(ColorManager.buttonActiveColor.color)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                            .onTapGesture {
-                                openAppSettings()
-                            }
-                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 20
-                                                , trailing: 0))
+                        goToSettingsButton()
                     }
                     .padding(.bottom, 20)
                     .padding(.top, Constants.isIPad ? 24 : 16)
                     .padding(.horizontal, Constants.isIPad ? 190 : 16)
-                    .frame(height: geometry.size.height)
                 }
+                .frame(height: geometry.size.height)
                 .scrollIndicators(.hidden)
                 .background(ColorManager.mainBackground.color)
             }
@@ -55,6 +43,21 @@ struct FindMyScreen: View {
                 }
             }
         }
+    }
+    
+    private func goToSettingsButton() -> some View {
+        Text("Go to settings")
+            .font(.custom(FontsManager.SFSemibold.font, size: 20))
+            .padding()
+            .frame(maxWidth: .infinity)
+            .background(ColorManager.buttonActiveColor.color)
+            .foregroundColor(.white)
+            .cornerRadius(10)
+            .onTapGesture {
+                openAppSettings()
+            }
+            .padding(EdgeInsets(top: 0, leading: 0, bottom: 20
+                                , trailing: 0))
     }
     
     private func openAppSettings() {

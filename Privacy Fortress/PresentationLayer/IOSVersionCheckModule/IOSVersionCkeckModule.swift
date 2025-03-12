@@ -113,24 +113,13 @@ struct IOSVersionCkeckModule: View {
                             .font(.custom(FontsManager.SFRegular.font, size: 14))
                             .foregroundColor(ColorManager.textSubtitleDefaultColor.color)
                         
-                        Text("Go to settings")
-                            .font(.custom(FontsManager.SFSemibold.font, size: 20))
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(ColorManager.buttonActiveColor.color)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                            .onTapGesture {
-                                openAppSettings()
-                            }
-                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0
-                                                , trailing: 0))
+                        goToSettingsButton()
                     }
                     .padding(.bottom, 20)
                     .padding(.top, Constants.isIPad ? 88 : 16)
                     .padding(.horizontal, Constants.isIPad ? 190 : 24)
-                    .frame(height: geometry.size.height)
                 }
+                .frame(height: geometry.size.height)
                 .scrollIndicators(.hidden)
                 .background(ColorManager.mainBackground.color)
             }
@@ -149,6 +138,21 @@ struct IOSVersionCkeckModule: View {
                 }
             }
         }
+    }
+    
+    private func goToSettingsButton() -> some View {
+        Text("Go to settings")
+            .font(.custom(FontsManager.SFSemibold.font, size: 20))
+            .padding()
+            .frame(maxWidth: .infinity)
+            .background(ColorManager.buttonActiveColor.color)
+            .foregroundColor(.white)
+            .cornerRadius(10)
+            .onTapGesture {
+                openAppSettings()
+            }
+            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0
+                                , trailing: 0))
     }
     
     private func openAppSettings() {

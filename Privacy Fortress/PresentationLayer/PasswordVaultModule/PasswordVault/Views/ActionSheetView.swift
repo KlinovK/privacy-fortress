@@ -9,8 +9,9 @@ import SwiftUI
 
 struct ActionSheetView: View {
     
-    let item: PasswordItem
     @Environment(\.dismiss) var dismiss
+
+    let item: PasswordItem
     var onCopyUsername: (() -> Void)?
     var onCopyPassword: (() -> Void)?
     var onDelete: (() -> Void)?
@@ -121,7 +122,3 @@ struct ActionSheetView: View {
         .padding(.horizontal, 24)
     }
 }
-
-//#Preview {
-//    ActionSheetView(item: PasswordItem(domainName: "goodle.co,", username: "username", password: "daskdksaf"))
-//}

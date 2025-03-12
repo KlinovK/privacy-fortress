@@ -14,15 +14,7 @@ struct ResultsScreen: View {
             GeometryReader { geometry in
                 ScrollView {
                     updatedHeaderView()
-                    NavigationLink(destination: createDestinationView()) {
-                        Text("Resolve All Issues")
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(ColorManager.buttonActiveColor.color)
-                            .foregroundColor(.white)
-                            .font(.custom(FontsManager.SFSemibold.font, size: 20))
-                            .cornerRadius(10)
-                    }
+                    resolveAllIssuesButton()
                 }
                 .padding(.bottom, 20)
                 .padding(.top, Constants.isIPad ? 88 : 21)
@@ -32,6 +24,18 @@ struct ResultsScreen: View {
             .scrollIndicators(.hidden)
             .background(ColorManager.mainBackground.color)            
             .toolbar(.hidden, for: .navigationBar)
+        }
+    }
+    
+    private func resolveAllIssuesButton() -> some View {
+        NavigationLink(destination: createDestinationView()) {
+            Text("Resolve All Issues")
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(ColorManager.buttonActiveColor.color)
+                .foregroundColor(.white)
+                .font(.custom(FontsManager.SFSemibold.font, size: 20))
+                .cornerRadius(10)
         }
     }
     

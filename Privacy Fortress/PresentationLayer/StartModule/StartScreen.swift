@@ -32,17 +32,7 @@ struct StartScreenView: View {
                                 .foregroundColor(ColorManager.textDefaultColor.color)
                             presentCardViews()
                             Spacer()
-                            Button(action: {
-                                handleStartScan()
-                            }) {
-                                Text("Start Scan")
-                                    .padding()
-                                    .frame(maxWidth: .infinity)
-                                    .font(.custom(FontsManager.SFSemibold.font, size: 20))
-                                    .background(ColorManager.buttonActiveColor.color)
-                                    .foregroundColor(.white)
-                                    .cornerRadius(10)
-                            }
+                            startScanButton()
                             
                         case .isAnalyzing:
                             CircularProgressView(progress: viewModel.progress)
@@ -54,16 +44,7 @@ struct StartScreenView: View {
                             presentAnalyzingCardViews(isNoIssuesState: false)
                             
                             Spacer()
-                            NavigationLink(destination: ResultsScreen()) {
-                                Text("View Results")
-                                    .padding()
-                                    .frame(maxWidth: .infinity)
-                                    .font(.custom(FontsManager.SFSemibold.font, size: 20))
-                                    .background(viewModel.progress < 1 ? ColorManager.buttonDisabledColor.color : ColorManager.buttonActiveColor.color)
-                                    .foregroundColor(.white)
-                                    .cornerRadius(10)
-                            }
-                            .disabled(viewModel.progress < 1)
+                            viewResultsButton()
                             
                         case .isNoIssuesState:
                             Image(IconsManager.icAppLogoStartScreen.image)
@@ -78,17 +59,7 @@ struct StartScreenView: View {
                             presentAnalyzingCardViews(isNoIssuesState: true)
                             
                             Spacer()
-                            Button(action: {
-                                handleStartScan()
-                            }) {
-                                Text("Scan Again")
-                                    .padding()
-                                    .frame(maxWidth: .infinity)
-                                    .font(.custom(FontsManager.SFSemibold.font, size: 20))
-                                    .background(ColorManager.buttonActiveColor.color)
-                                    .foregroundColor(.white)
-                                    .cornerRadius(10)
-                            }
+                            scanAgainButton()
                         case .longTimeNoScan:
                             Image(IconsManager.icAppLogoWarning.image)
                                 .resizable()
@@ -107,17 +78,7 @@ struct StartScreenView: View {
                             setupLongTimeNotScanCardViews()
                             
                             Spacer()
-                            Button(action: {
-                                handleStartScan()
-                            }) {
-                                Text("Scan Again")
-                                    .padding()
-                                    .frame(maxWidth: .infinity)
-                                    .font(.custom(FontsManager.SFSemibold.font, size: 20))
-                                    .background(ColorManager.buttonActiveColor.color)
-                                    .foregroundColor(.white)
-                                    .cornerRadius(10)
-                            }
+                            scanAgainButton()
                         }
                     }
                     .padding(.bottom, 20)
@@ -128,6 +89,47 @@ struct StartScreenView: View {
             }
             .scrollIndicators(.hidden)
             .background(ColorManager.mainBackground.color)
+        }
+    }
+    
+    private func viewResultsButton() -> some View {
+        NavigationLink(destination: ResultsScreen()) {
+            Text("View Results")
+                .padding()
+                .frame(maxWidth: .infinity)
+                .font(.custom(FontsManager.SFSemibold.font, size: 20))
+                .background(viewModel.progress < 1 ? ColorManager.buttonDisabledColor.color : ColorManager.buttonActiveColor.color)
+                .foregroundColor(.white)
+                .cornerRadius(10)
+        }
+        .disabled(viewModel.progress < 1)
+    }
+    
+    private func scanAgainButton() -> some View {
+        Button(action: {
+            handleStartScan()
+        }) {
+            Text("Scan Again")
+                .padding()
+                .frame(maxWidth: .infinity)
+                .font(.custom(FontsManager.SFSemibold.font, size: 20))
+                .background(ColorManager.buttonActiveColor.color)
+                .foregroundColor(.white)
+                .cornerRadius(10)
+        }
+    }
+    
+    private func startScanButton() -> some View {
+        Button(action: {
+            handleStartScan()
+        }) {
+            Text("Start Scan")
+                .padding()
+                .frame(maxWidth: .infinity)
+                .font(.custom(FontsManager.SFSemibold.font, size: 20))
+                .background(ColorManager.buttonActiveColor.color)
+                .foregroundColor(.white)
+                .cornerRadius(10)
         }
     }
     
@@ -191,7 +193,6 @@ struct StartScreenView: View {
             shouldNavigateToDestination = true
         }
     }
-    
     
     // MARK: - Helpers
     

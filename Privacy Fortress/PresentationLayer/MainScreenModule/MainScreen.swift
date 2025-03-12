@@ -19,15 +19,7 @@ struct MainScreen: View {
                 ScrollView {
                     updatedHeaderView()
                     
-                    NavigationLink(destination: PaywallScreen()) {
-                        Text("Activate Your Full Protection Now!")
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(ColorManager.buttonActiveColor.color)
-                            .foregroundColor(.white)
-                            .font(.custom(FontsManager.SFSemibold.font, size: 20))
-                            .cornerRadius(10)
-                    }
+                    activateProtectionButton()
                     
                     navigationLinks
                 }
@@ -39,6 +31,18 @@ struct MainScreen: View {
             .scrollIndicators(.hidden)
             .background(ColorManager.mainBackground.color)
             .toolbar(.hidden, for: .navigationBar)
+        }
+    }
+    
+    private func activateProtectionButton() -> some View {
+        NavigationLink(destination: PaywallScreen()) {
+            Text("Activate Your Full Protection Now!")
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(ColorManager.buttonActiveColor.color)
+                .foregroundColor(.white)
+                .font(.custom(FontsManager.SFSemibold.font, size: 20))
+                .cornerRadius(10)
         }
     }
     

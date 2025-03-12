@@ -33,7 +33,7 @@ class DataProtectionViewModel: ObservableObject {
     
     // MARK: - Public Methods
     
-    func authenticateWithBiometrics() {
+    public func authenticateWithBiometrics() {
         let context = LAContext()
         var error: NSError?
         
@@ -57,7 +57,7 @@ class DataProtectionViewModel: ObservableObject {
         }
     }
     
-    func addNumber(_ number: String) {
+    public func addNumber(_ number: String) {
         switch passcodeViewState {
         case .setUp:
             if enteredPasscode.count < passcodeLength {
@@ -97,7 +97,7 @@ class DataProtectionViewModel: ObservableObject {
         }
     }
     
-    func deleteLastDigit() {
+    public func deleteLastDigit() {
         switch passcodeViewState {
         case .setUp:
             if !enteredPasscode.isEmpty {
@@ -122,7 +122,7 @@ class DataProtectionViewModel: ObservableObject {
         }
     }
 
-    func enteredPasscodeCount() -> Int {
+    public func enteredPasscodeCount() -> Int {
         switch passcodeViewState {
         case .setUp: return enteredPasscode.count
         case .repeatPasscode: return repeatedPasscode.count
@@ -132,7 +132,7 @@ class DataProtectionViewModel: ObservableObject {
         }
     }
     
-    func executeTryAgainAction() {
+    public func executeTryAgainAction() {
         passcodeViewState = .setUp
         enteredPasscode = ""
         repeatedPasscode = ""
@@ -143,7 +143,7 @@ class DataProtectionViewModel: ObservableObject {
         }
     }
     
-    func onViewAppear() {
+    public func onViewAppear() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             if self.passcodeViewState == .setUp {
                 self.isNeedToShowInfoAlert = true
@@ -158,7 +158,7 @@ class DataProtectionViewModel: ObservableObject {
         }
     }
     
-    func onPasscodeViewStateChange(newState: PasscodeViewState) {
+    public func onPasscodeViewStateChange(newState: PasscodeViewState) {
         if newState == .tooManyAttempts {
             remainingSeconds = 30
             startTimer()

@@ -19,20 +19,6 @@ class WiFiSecurityManager: WiFiSecurityManagerProtocol {
             
     // MARK: - Methods
     
-    public func isWifiSafe() async -> Bool {
-        let captivePortalStatus = await checkForCaptivePortal()
-        let wifiSecurityStatus = await checkWiFiSecurity()
-        
-        if captivePortalStatus == true || wifiSecurityStatus == .unsecured {
-            UserSessionManager.shared.isNetworkSecure = false
-            return false
-        } else {
-            UserSessionManager.shared.isNetworkSecure = true
-            return true
-        }
-    }
-    
-    
     private func checkForCaptivePortal() async -> Bool {
         return await withCheckedContinuation { continuation in
             let monitor = NWPathMonitor()
@@ -95,7 +81,19 @@ class WiFiSecurityManager: WiFiSecurityManagerProtocol {
                 print("Content Blocker Enabled: \(state?.isEnabled ?? false)")
             }
         }
-
+    }
+    
+    public func isWifiSafe() async -> Bool {
+        let captivePortalStatus = await checkForCaptivePortal()
+        let wifiSecurityStatus = await checkWiFiSecurity()
+        
+        if captivePortalStatus == true || wifiSecurityStatus == .unsecured {
+            UserSessionManager.shared.isNetworkSecure = false
+            return false
+        } else {
+            UserSessionManager.shared.isNetworkSecure = true
+            return true
+        }
     }
 }
 

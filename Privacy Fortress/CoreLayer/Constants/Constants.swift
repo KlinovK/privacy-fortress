@@ -18,16 +18,12 @@ public struct Constants {
     public static let isIPad = UIDevice.current.userInterfaceIdiom == .pad
     public static let contentBlockerIdentifier = "com.Bridigi.Privacy-Fortress.PrivacyFortressContentBlocker"
     
-#warning("Change before release if needed")
-    
     public static let deepLinkURLPath = ""
     public static let appsFlyerDevKey = ""
     public static let appleFlyerAppID = ""
     public static let appStoreID = "6742862634"
     public static let productIdentifier = "com.Bridigi.Privacy_Fortress.premium"
-    
-#warning("apphud dev key boFRAYgH9xVZi2ASdyNfG8")
-    public static let apphudAPIKey = "app_nGanwHoqFVyJH4umGpM92adVni6GPg"
+    public static let apphudAPIKey = "boFRAYgH9xVZi2ASdyNfG8"
     public static let termsAndConditionsURLString = "https://privacyfortress.com/terms-and-conditions/"
     public static let privacyPolicyURLString = "https://privacyfortress.com/privacy-policy/"
     

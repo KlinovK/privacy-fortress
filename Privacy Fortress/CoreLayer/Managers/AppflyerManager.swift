@@ -7,6 +7,7 @@
 
 import Foundation
 import AppsFlyerLib
+import FirebaseAnalytics
 
 class AppFlyerManager {
     
@@ -30,6 +31,7 @@ class AppFlyerManager {
          let parameters: [String: Any] = [
              AFEventParamContentId: productId
          ]
+         Analytics.logEvent(name, parameters: parameters)
          AppsFlyerLib.shared().logEvent(name, withValues: parameters)
          print("AppsFlyer Event Logged: \(name) with params: \(parameters)")
      }

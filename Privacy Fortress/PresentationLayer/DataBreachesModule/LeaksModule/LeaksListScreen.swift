@@ -54,12 +54,10 @@ struct LeaksListScreen: View {
     private func setupCellView(index: Int) -> some View {
         HStack(spacing: 12) {
             setCellImage(index: index)
-            
             Text(breaches[index].title)
                 .foregroundColor(ColorManager.textDefaultColor.color)
                 .font(.custom(FontsManager.SFRegular.font, size: 14))
             Spacer()
-            
             Image(IconsManager.icChevronRight.image)
                 .resizable()
                 .scaledToFit()

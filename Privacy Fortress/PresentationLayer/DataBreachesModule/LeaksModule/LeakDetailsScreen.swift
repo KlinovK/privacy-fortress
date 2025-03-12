@@ -18,12 +18,10 @@ struct LeakDetailsScreen: View {
             GeometryReader { geometry in
                 ScrollView {
                     VStack(spacing: 12) {
-                        
                         createNotDetectedDataBreackesCheckView(leakCellType: .data, leak: leak)
                         createNotDetectedDataBreackesCheckView(leakCellType: .compromised, leak: leak)
                         createNotDetectedDataBreackesCheckView(leakCellType: .description, leak: leak)
                         createNotDetectedDataBreackesCheckView(leakCellType: .recommendations, leak: leak)
-
                         Spacer()
                         Text("Don’t ignore these breaches. Acting quickly can help minimize the risk of unauthorized access and data misuse.")
                             .font(.custom(FontsManager.SFRegular.font, size: 14))
@@ -32,17 +30,7 @@ struct LeakDetailsScreen: View {
                             .multilineTextAlignment(.center)
                             .padding(.bottom, 4)
                         
-                        Button(action: {
-                            dismiss()
-                        }) {
-                            Text("Close")
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(ColorManager.buttonActiveColor.color)
-                                .foregroundColor(.white)
-                                .font(.custom(FontsManager.SFSemibold.font, size: 20))
-                                .cornerRadius(10)
-                        }
+                        closeButton()
                         
                     }
                     .padding(.bottom, 20)
@@ -119,6 +107,20 @@ struct LeakDetailsScreen: View {
             return IconsManager.icDescriptionLeak.image
         case .recommendations:
             return IconsManager.icDescriptionLeak.image
+        }
+    }
+    
+    private func closeButton() -> some View {
+        Button(action: {
+            dismiss()
+        }) {
+            Text("Close")
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(ColorManager.buttonActiveColor.color)
+                .foregroundColor(.white)
+                .font(.custom(FontsManager.SFSemibold.font, size: 20))
+                .cornerRadius(10)
         }
     }
     

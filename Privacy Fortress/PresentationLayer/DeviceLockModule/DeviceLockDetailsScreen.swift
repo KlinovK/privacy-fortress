@@ -29,18 +29,7 @@ struct DeviceLockDetailsScreen: View {
                         
                         Spacer()
                         
-                        Text("Go to settings")
-                            .font(.custom(FontsManager.SFSemibold.font, size: 20))
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(ColorManager.buttonActiveColor.color)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                            .onTapGesture {
-                                openAppSettings()
-                            }
-                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 34
-                                                , trailing: 0))
+                        goToSettingsButton()
                     }
                     .frame(height: geometry.size.height)
                 }
@@ -138,6 +127,21 @@ struct DeviceLockDetailsScreen: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
 
         }
+    }
+    
+    private func goToSettingsButton() -> some View {
+        Text("Go to settings")
+            .font(.custom(FontsManager.SFSemibold.font, size: 20))
+            .padding()
+            .frame(maxWidth: .infinity)
+            .background(ColorManager.buttonActiveColor.color)
+            .foregroundColor(.white)
+            .cornerRadius(10)
+            .onTapGesture {
+                openAppSettings()
+            }
+            .padding(EdgeInsets(top: 0, leading: 0, bottom: 34
+                                , trailing: 0))
     }
     
     private func createiOS17Tutorial() -> some View {

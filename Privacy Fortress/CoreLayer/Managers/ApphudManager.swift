@@ -54,18 +54,6 @@ final class ApphudManager: NSObject, SKProductsRequestDelegate, SKPaymentTransac
     // MARK: - Restore Purchases
     
     @MainActor
-    public func showManageSubscriptions(in scene: UIWindowScene) async throws {
-
-        let subscriptionURL = URL(string: "https://apps.apple.com/account/subscriptions")!
-
-        if #available(iOS 15.0, *) {
-            try await AppStore.showManageSubscriptions(in: scene)
-        } else {
-            await UIApplication.shared.open(subscriptionURL)
-        }
-    }
-    
-    @MainActor
     func restorePurchases() async throws -> Bool {
         return try await withCheckedThrowingContinuation { continuation in
             Apphud.restorePurchases { purchases, subscriptions, error in
@@ -185,6 +173,20 @@ final class ApphudManager: NSObject, SKProductsRequestDelegate, SKPaymentTransac
                 let idfa = ASIdentifierManager.shared().advertisingIdentifier.uuidString
                 Apphud.setDeviceIdentifiers(idfa: idfa, idfv: UIDevice.current.identifierForVendor?.uuidString)
             }
+        }
+    }
+    
+    // MARK: - Subscriptions
+    
+    @MainActor
+    public func showManageSubscriptions(in scene: UIWindowScene) async throws {
+
+        guard let subscriptionURL = URL(string: "https://apps.apple.com/account/subscriptions") else { return }
+
+        if #available(iOS 15.0, *) {
+            try await AppStore.showManageSubscriptions(in: scene)
+        } else {
+            await UIApplication.shared.open(subscriptionURL)
         }
     }
 }

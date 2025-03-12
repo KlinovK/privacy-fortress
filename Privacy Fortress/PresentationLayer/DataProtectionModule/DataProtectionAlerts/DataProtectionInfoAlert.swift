@@ -10,7 +10,6 @@ import SwiftUI
 struct DataProtectionInfoAlert: View {
     
     @Binding var isPresented: Bool
-    
     @State private var scaleEffect: CGFloat = 0.8
     @State private var opacity: Double = 0.0
 

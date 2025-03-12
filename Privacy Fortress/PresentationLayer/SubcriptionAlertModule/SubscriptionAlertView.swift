@@ -10,10 +10,10 @@ import SwiftUI
 struct SubscriptionAlertView: View {
     
     @Binding var isPresented: Bool
-    var onDismiss: ((Bool) -> Void)?
-    
     @State private var scaleEffect: CGFloat = 0.8
     @State private var opacity: Double = 0.0
+    
+    var onDismiss: ((Bool) -> Void)?
 
     var body: some View {
         ZStack {

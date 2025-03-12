@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct DataBreachesCheckScreen: View {
     
     @Environment(\.dismiss) var dismiss
@@ -25,27 +23,7 @@ struct DataBreachesCheckScreen: View {
                         case .checking:
                             createDataBreachesCheckView(geometry: geometry, scrollProxy: scrollProxy)
                             Spacer()
-
-                            Button(action: {
-                                Task {
-                                    let breaches = await viewModel.geDataBreaches()
-                                    if !breaches.isEmpty {
-                                        navigateToResult = true
-                                    } else {
-                                        viewModel.state = .notDetected
-                                    }
-                                }
-                            }) {
-                                Text("Check")
-                                    .padding()
-                                    .frame(maxWidth: .infinity)
-                                    .font(.custom(FontsManager.SFSemibold.font, size: 20))
-                                    .background(ColorManager.buttonActiveColor.color)
-                                    .foregroundColor(.white)
-                                    .cornerRadius(10)
-                            }
-                            .padding(.horizontal, Constants.isIPad ? 190 : 16)
-                            .padding(.bottom, 20)
+                            checkButton()
                         case .notDetected:
                             createNotDetectedDataBreachesCheckView(geometry: geometry)
                         }
@@ -167,8 +145,30 @@ struct DataBreachesCheckScreen: View {
         .padding(.top, Constants.isIPad ? 284 : 40)
         .padding(.horizontal, Constants.isIPad ? 190 : 16)
     }
+    
+    private func checkButton() -> some View {
+        Button(action: {
+            Task {
+                let breaches = await viewModel.geDataBreaches()
+                if !breaches.isEmpty {
+                    navigateToResult = true
+                } else {
+                    viewModel.state = .notDetected
+                }
+            }
+        }) {
+            Text("Check")
+                .padding()
+                .frame(maxWidth: .infinity)
+                .font(.custom(FontsManager.SFSemibold.font, size: 20))
+                .background(ColorManager.buttonActiveColor.color)
+                .foregroundColor(.white)
+                .cornerRadius(10)
+        }
+        .padding(.horizontal, Constants.isIPad ? 190 : 16)
+        .padding(.bottom, 20)
+    }
 }
-
 
 #Preview {
     DataBreachesCheckScreen()

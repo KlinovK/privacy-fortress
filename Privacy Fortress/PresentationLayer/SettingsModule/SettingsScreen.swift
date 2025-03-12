@@ -27,25 +27,7 @@ struct SettingsScreen: View {
                         returnSettingsCell(cellType: .shareApp)
                         returnSettingsCell(cellType: .privacyPolicy)
                         returnSettingsCell(cellType: .termsOfService)
-                        NavigationLink {
-                            DataProtectionScreen(entryPoint: .settings)
-                        } label: {
-                            HStack(spacing: 10) {
-                                Image(getCellImage(for: .changePassword))
-                                    .frame(width: 24, height: 24)
-                                    .padding(.leading, 20)
-                                Text(getCellTitle(for: .changePassword))
-                                    .font(.custom(FontsManager.SFRegular.font, size: 18))
-                                    .foregroundColor(ColorManager.textDefaultColor.color)
-                                Spacer()
-                                Image(IconsManager.icChevronRight.image)
-                                    .frame(width: 24, height: 24)
-                                    .padding(.trailing, 20)
-                            }
-                            .frame(maxWidth: .infinity, minHeight: 56, maxHeight: 56)
-                            .background(Color.white)
-                            .cornerRadius(10)
-                        }
+                        changePasswordView()
                     }
                 }
                 .padding(.top, Constants.isIPad ? 32 : 20)
@@ -71,6 +53,28 @@ struct SettingsScreen: View {
     }
     
     // MARK: - Helper Functions
+    
+    private func changePasswordView() -> some View {
+        NavigationLink {
+            DataProtectionScreen(entryPoint: .settings)
+        } label: {
+            HStack(spacing: 10) {
+                Image(getCellImage(for: .changePassword))
+                    .frame(width: 24, height: 24)
+                    .padding(.leading, 20)
+                Text(getCellTitle(for: .changePassword))
+                    .font(.custom(FontsManager.SFRegular.font, size: 18))
+                    .foregroundColor(ColorManager.textDefaultColor.color)
+                Spacer()
+                Image(IconsManager.icChevronRight.image)
+                    .frame(width: 24, height: 24)
+                    .padding(.trailing, 20)
+            }
+            .frame(maxWidth: .infinity, minHeight: 56, maxHeight: 56)
+            .background(Color.white)
+            .cornerRadius(10)
+        }
+    }
     
     private func returnSettingsCell(cellType: SettingsCellType) -> some View {
         HStack(spacing: 10) {

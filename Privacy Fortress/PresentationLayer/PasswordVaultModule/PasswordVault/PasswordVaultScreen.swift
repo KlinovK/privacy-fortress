@@ -28,25 +28,7 @@ struct PasswordVaultScreen: View {
                         VStack {
                             switch viewModel.viewState {
                             case .noPassword:
-                                VStack {
-                                    Image(IconsManager.icPasswordVault.image)
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 164, height: 159)
-                                        .padding(.bottom, 32)
-                                        .padding(.top, Constants.isIPad ? 334 : 157)
-                                    Text("Secure your digital life")
-                                        .font(.custom(FontsManager.SFSemibold.font, size: 28))
-                                        .foregroundColor(ColorManager.buttonActiveColor.color)
-                                        .padding(.bottom, 12)
-                                    
-                                    Text("The First Step to Security: Save Your Password")
-                                        .font(.custom(FontsManager.SFRegular.font, size: 18))
-                                        .foregroundColor(ColorManager.textDefaultColor.color)
-                                        .multilineTextAlignment(.center)
-                                        .padding(.horizontal)
-                                }
-                                
+                                noPasswordsView()
                             case .containsPasswords(let passwords):
                                 ForEach(passwords) { item in
                                     PasswordItemCellView(onCopy: {
@@ -74,16 +56,7 @@ struct PasswordVaultScreen: View {
                                 .transition(.move(edge: .bottom).combined(with: .opacity))
                         }
                         
-                        NavigationLink(destination: AddPasswordScreen()) {
-                            Text("Save Password")
-                                .padding()
-                                .frame(height: 64)
-                                .frame(maxWidth: .infinity)
-                                .background(ColorManager.buttonActiveColor.color)
-                                .foregroundColor(.white)
-                                .font(.custom(FontsManager.SFSemibold.font, size: 20))
-                                .cornerRadius(10)
-                        }
+                        savePasswordButton()
                     }
                     .padding(.bottom, 24)
                 }
@@ -139,6 +112,40 @@ struct PasswordVaultScreen: View {
                     })
                 }
             )
+    }
+    
+    private func savePasswordButton() -> some View {
+        NavigationLink(destination: AddPasswordScreen()) {
+            Text("Save Password")
+                .padding()
+                .frame(height: 64)
+                .frame(maxWidth: .infinity)
+                .background(ColorManager.buttonActiveColor.color)
+                .foregroundColor(.white)
+                .font(.custom(FontsManager.SFSemibold.font, size: 20))
+                .cornerRadius(10)
+        }
+    }
+    
+    private func noPasswordsView() -> some View {
+        VStack {
+            Image(IconsManager.icPasswordVault.image)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 164, height: 159)
+                .padding(.bottom, 32)
+                .padding(.top, Constants.isIPad ? 334 : 157)
+            Text("Secure your digital life")
+                .font(.custom(FontsManager.SFSemibold.font, size: 28))
+                .foregroundColor(ColorManager.buttonActiveColor.color)
+                .padding(.bottom, 12)
+            
+            Text("The First Step to Security: Save Your Password")
+                .font(.custom(FontsManager.SFRegular.font, size: 18))
+                .foregroundColor(ColorManager.textDefaultColor.color)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal)
+        }
     }
     
     @ViewBuilder
