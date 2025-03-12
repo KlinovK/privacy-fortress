@@ -29,11 +29,12 @@ To enable universal links, follow these steps:
    ```
    applinks:privacyfortressapp.com
    ```
-Update Deep link handling CoreLayer -> Constants -> deepLinkURLPath
-Add appflyer dev key and appflyer app ID handling CoreLayer -> Constants -> (appsFlyerDevKey, appleFlyerAppID)
-Update App store id if needed CoreLayer -> Constants -> appStoreID
-Update product ID if needed CoreLayer -> Constants -> productIdentifier
-Update apphudAPIKey if needed CoreLayer -> Constants -> apphudAPIKey
+### Constants
+1. Update Deep link handling CoreLayer -> Constants -> deepLinkURLPath
+2. Add appflyer dev key and appflyer app ID handling CoreLayer -> Constants -> (appsFlyerDevKey, appleFlyerAppID)
+3. Update App store id if needed CoreLayer -> Constants -> appStoreID
+4. Update product ID if needed CoreLayer -> Constants -> productIdentifier
+5. Update apphudAPIKey if needed CoreLayer -> Constants -> apphudAPIKey
 Update termsAndConditionsURLString if needed CoreLayer -> Constants -> termsAndConditionsURLString
 Update privacyPolicyURLString if needed CoreLayer -> Constants -> privacyPolicyURLString
 
