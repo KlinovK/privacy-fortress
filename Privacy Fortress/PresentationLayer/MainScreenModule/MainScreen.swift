@@ -69,6 +69,7 @@ struct MainScreen: View {
                     .padding(.bottom, 19)
                 VStack {
                     HStack {
+                        manageSubscriptionsButton()
                         Spacer()
                         settingsButton()
                     }
@@ -97,6 +98,17 @@ struct MainScreen: View {
         }
     }
     
+    private func manageSubscriptionsButton() -> some View {
+        Button(action: {
+            openManageSubscriptions()
+        }) {
+            Image(systemName: "dollarsign.circle")
+                    .resizable()
+                    .frame(width: 24, height: 24)
+                    .foregroundColor(.blue)
+        }
+    }
+    
     private func navigateTo(issueType: IssueType) {
         self.issueType = issueType
         if DetailsButtonIssueHelper.shouldPresentSubscriptionAlert(issueType: issueType) {
@@ -118,6 +130,18 @@ struct MainScreen: View {
                 EmptyView()
             }
             .hidden()
+        }
+    }
+    
+    private func openManageSubscriptions() {
+        Task {
+            do {
+                if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                    try await ApphudManager.shared.showManageSubscriptions(in: scene)
+                }
+            } catch {
+                print("Failed to open subscription management: \(error.localizedDescription)")
+            }
         }
     }
 }

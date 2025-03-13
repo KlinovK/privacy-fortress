@@ -12,7 +12,6 @@ struct PrivacyFortressApp: App {
     
     private let persistenceController = LocalStorageService.shared
 
-    @StateObject private var notificationManager = NotificationManager.shared
     @State private var navigateToPaywall = false
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
@@ -27,11 +26,6 @@ struct PrivacyFortressApp: App {
             }
             .environment(\.managedObjectContext, persistenceController.context)
             .onOpenURL(perform: handleDeepLink)
-            .onChange(of: notificationManager.actionType) { action in
-                if let action = action, action == "special" {
-                    navigateToPaywall = true
-                }
-            }
         }
     }
     

@@ -61,9 +61,8 @@ struct FindMyScreen: View {
     }
     
     private func openAppSettings() {
-        if let url = URL(string: UIApplication.openSettingsURLString) {
-            UIApplication.shared.open(url)
-        }
+        guard let url = URL(string:"App-Prefs:root=General") else { return }
+        UIApplication.shared.open(url)
     }
     
     private func createScreenCells() -> some View {

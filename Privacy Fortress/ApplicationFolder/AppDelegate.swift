@@ -47,6 +47,10 @@ extension AppDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         if let token = fcmToken {
             UserSessionManager.shared.fcmToken = token
+            Task {
+                await remoteService.sendFCMToken(token)
+                await remoteService.sendUserData()
+            }
         }
     }
 }
@@ -65,71 +69,9 @@ extension AppDelegate {
         FirebaseApp.configure()
         Messaging.messaging().delegate = self
         UNUserNotificationCenter.current().delegate = self
-        
-        checkNotificationAuthorization()
+
     }
-    
-    private func checkNotificationAuthorization() {
-        UNUserNotificationCenter.current().getNotificationSettings { [weak self] settings in
-            switch settings.authorizationStatus {
-            case .notDetermined:
-                self?.requestNotificationPermission()
-            case .denied:
-                DispatchQueue.main.async {
-                    self?.showSettingsAlert()
-                }
-            case .authorized, .provisional, .ephemeral:
-                DispatchQueue.main.async {
-                    UIApplication.shared.registerForRemoteNotifications()
-                }
-            @unknown default:
-                break
-            }
-        }
-    }
-    
-    private func requestNotificationPermission() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
-            print("Permission granted: \(granted)")
-            
-            DispatchQueue.main.async { [weak self] in
-                if granted {
-                    Task {
-                        await self?.remoteService.sendFCMToken(UserSessionManager.shared.fcmToken ?? "")
-                        await self?.remoteService.sendUserData()
-                    }
-                    UIApplication.shared.registerForRemoteNotifications()
-                } else {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [weak self] in
-                        self?.checkNotificationAuthorization()
-                    }
-                }
-            }
-        }
-    }
-    
-    private func showSettingsAlert() {
-        let alert = UIAlertController(
-            title: "Enable Notifications",
-            message: "To stay updated, please enable notifications in Settings.",
-            preferredStyle: .alert
-        )
-        
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        alert.addAction(UIAlertAction(title: "Settings", style: .default) { _ in
-            if let url = URL(string: UIApplication.openSettingsURLString) {
-                UIApplication.shared.open(url)
-            }
-        })
-        
-        DispatchQueue.main.async {
-            if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-               let window = scene.windows.first(where: { $0.isKeyWindow }),
-               let rootViewController = window.rootViewController {
-                rootViewController.present(alert, animated: true)
-            }
-        }
-    }
+
 }
 
 // MARK: - AppsFlyer Delegate
@@ -169,7 +111,6 @@ extension AppDelegate {
         withCompletionHandler completionHandler: @escaping () -> Void
     ) {
         let userInfo = response.notification.request.content.userInfo
-        NotificationCenter.default.post(name: Notification.Name("NotificationTapped"), object: userInfo)
         completionHandler()
     }
 }

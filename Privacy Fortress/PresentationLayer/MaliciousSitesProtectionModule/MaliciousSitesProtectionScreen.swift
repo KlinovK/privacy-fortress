@@ -57,7 +57,7 @@ struct MaliciousSitesProtectionScreen: View {
                         HStack(spacing: 10) {
                             Image(IconsManager.icApplications.image)
                                 .frame(width: 24, height: 24)
-                            Text("Applications")
+                            Text("Apps")
                                 .font(.custom(FontsManager.SFRegular.font, size: 14))
                                 .foregroundColor(ColorManager.textDefaultColor.color)
                         }
@@ -96,7 +96,7 @@ struct MaliciousSitesProtectionScreen: View {
                         HStack(spacing: 10) {
                             Image(IconsManager.icFourth.image)
                                 .frame(width: 24, height: 24)
-                            Text("Select Content Blockers / Extension")
+                            Text("Select Extensions")
                                 .font(.custom(FontsManager.SFSemibold.font, size: 14))
                                 .foregroundColor(ColorManager.textDefaultColor.color)
                         }
@@ -104,14 +104,11 @@ struct MaliciousSitesProtectionScreen: View {
                         .padding(.bottom, 24)
                         
                         HStack(spacing: 5) {
-                            Text("Content Blockers")
+                            Text("Extensions")
                                 .font(.custom(FontsManager.SFRegular.font, size: 14))
                                 .foregroundColor(ColorManager.textSubtitleDefaultColor.color)
                                 .padding(.leading, 16)
                             Spacer()
-                            Text("1")
-                                .foregroundColor(ColorManager.textSubtitleDefaultColor.color)
-                                .font(.custom(FontsManager.SFRegular.font, size: 14))
                             Image(IconsManager.icChevronRight.image)
                                 .frame(width: 24, height: 24)
                                 .padding(.trailing, 16)
@@ -127,7 +124,7 @@ struct MaliciousSitesProtectionScreen: View {
                         HStack(spacing: 10) {
                             Image(IconsManager.icFifth.image)
                                 .frame(width: 24, height: 24)
-                            Text("Turn ON")
+                            Text("Turn ON and come back to app")
                                 .font(.custom(FontsManager.SFSemibold.font, size: 14))
                                 .foregroundColor(ColorManager.textDefaultColor.color)
                         }
@@ -143,9 +140,13 @@ struct MaliciousSitesProtectionScreen: View {
                                 .font(.custom(FontsManager.SFRegular.font, size: 14))
                                 .foregroundColor(ColorManager.textSubtitleDefaultColor.color)
                             Spacer()
-                            Image(IconsManager.icSwitcher.image)
+                            Text("Off")
+                                .padding(.leading, 4)
+                                .font(.custom(FontsManager.SFRegular.font, size: 14))
+                                .foregroundColor(ColorManager.textSubtitleDefaultColor.color)
+                            Image(IconsManager.icChevronRight.image)
                                 .frame(width: 24, height: 24)
-                                .padding(.trailing, 32)
+                                .padding(.trailing, 20)
                         }
                         .frame(maxWidth: .infinity, minHeight: 44, maxHeight: 44)
                         .background(Color.white)
@@ -194,9 +195,8 @@ struct MaliciousSitesProtectionScreen: View {
     }
     
     private func openAppSettings() {
-        if let url = URL(string: UIApplication.openSettingsURLString) {
-            UIApplication.shared.open(url)
-        }
+        guard let url = URL(string:"App-Prefs:root=General") else { return }
+        UIApplication.shared.open(url)
     }
 }
 

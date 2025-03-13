@@ -8,7 +8,6 @@
 import Foundation
 import StoreKit
 import ApphudSDK
-import AppTrackingTransparency
 import AdSupport
 
 final class ApphudManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactionObserver {
@@ -46,7 +45,6 @@ final class ApphudManager: NSObject, SKProductsRequestDelegate, SKPaymentTransac
     func setupApphud() async {
         let userID = UserSessionManager.shared.uniqueUserID
         Apphud.start(apiKey: Constants.apphudAPIKey, userID: userID)
-        await fetchIDFA()
         Apphud.setDeviceIdentifiers(idfa: nil, idfv: UIDevice.current.identifierForVendor?.uuidString)
         UserSessionManager.shared.updateSubscriptionStatus()
     }
@@ -54,23 +52,23 @@ final class ApphudManager: NSObject, SKProductsRequestDelegate, SKPaymentTransac
     // MARK: - Restore Purchases
     
     @MainActor
-    func restorePurchases() async throws -> Bool {
-        return try await withCheckedThrowingContinuation { continuation in
-            Apphud.restorePurchases { purchases, subscriptions, error in
-                if let error = error {
-                    print("❌ Restore failed: \(error.localizedDescription)")
-                    continuation.resume(throwing: error)
-                    return
-                }
-                
-                let isActive = (purchases?.contains { $0.isActive() } ?? false) ||
-                               (subscriptions?.contains { $0.isActive() } ?? false)
-                
-                UserSessionManager.shared.isUserSubscribed = isActive
-                print(isActive ? "✅ Purchases restored successfully" : "⚠️ No active purchases found to restore")
-                continuation.resume(returning: isActive)
-            }
-        }
+      func restorePurchases() async throws -> Bool {
+          return try await withCheckedThrowingContinuation { continuation in
+              Apphud.restorePurchases { purchases, subscriptions, error in
+                  if let error = error {
+                      print("❌ Restore failed: \(error.localizedDescription)")
+                      continuation.resume(throwing: error)
+                      return
+                  }
+                  
+                  let isActive = (purchases?.contains { $0.isActive() } ?? false) ||
+                  (subscriptions?.contains { $0.isActive() } ?? false)
+                  
+                  UserSessionManager.shared.isUserSubscribed = isActive
+                  print(isActive ? "✅ Purchases restored successfully" : "⚠️ No active purchases found to restore")
+                  continuation.resume(returning: isActive)
+              }
+          }
     }
     
     // MARK: - Fetch Products
@@ -89,9 +87,9 @@ final class ApphudManager: NSObject, SKProductsRequestDelegate, SKPaymentTransac
     @MainActor
     func makePurchase() async throws -> Bool {
         return try await withCheckedThrowingContinuation { continuation in
-            Apphud.purchase(Constants.productIdentifier) { [weak self] result in
+            Apphud.purchase(Constants.productIdentifierSubscription) { [weak self] result in
                 
-                AppFlyerManager.shared.logEvent(name: "purchase_try", productId: Constants.productIdentifier)
+                AppFlyerManager.shared.logEvent(name: "purchase_try", productId: Constants.productIdentifierSubscription)
                 if let error = result.error {
                     print("❌ Purchase failed: \(error.localizedDescription)")
                     continuation.resume(throwing: error)
@@ -116,7 +114,6 @@ final class ApphudManager: NSObject, SKProductsRequestDelegate, SKPaymentTransac
         UserSessionManager.shared.createOriginalTransactionID(subscription.productId)
         UserSessionManager.shared.isUserSubscribed = true
         AppFlyerManager.shared.logEvent(name: "purchase_success", productId: subscription.productId)
-        
         Task { await remoteService.sendUserData() }
     }
     
@@ -149,7 +146,7 @@ final class ApphudManager: NSObject, SKProductsRequestDelegate, SKPaymentTransac
             UserSessionManager.shared.isUserSubscribed = true
             purchaseCompletion?(.success(true))
         } else {
-            AppFlyerManager.shared.logEvent(name: "purchase_failure", productId: Constants.productIdentifier)
+            AppFlyerManager.shared.logEvent(name: "purchase_failure", productId: Constants.productIdentifierSubscription)
             print("❌ Purchase failed: \(String(describing: transaction.error?.localizedDescription))")
             purchaseCompletion?(.failure(transaction.error ?? PurchaseError.unknown))
         }
@@ -161,19 +158,6 @@ final class ApphudManager: NSObject, SKProductsRequestDelegate, SKPaymentTransac
         print("✅ Restored purchase: \(transaction.payment.productIdentifier)")
         UserSessionManager.shared.isUserSubscribed = true
         SKPaymentQueue.default().finishTransaction(transaction)
-    }
-    
-    // MARK: - IDFA Request
-    
-    @MainActor
-    private func fetchIDFA() async {
-        if #available(iOS 14.5, *) {
-            let status = await ATTrackingManager.requestTrackingAuthorization()
-            if status == .authorized {
-                let idfa = ASIdentifierManager.shared().advertisingIdentifier.uuidString
-                Apphud.setDeviceIdentifiers(idfa: idfa, idfv: UIDevice.current.identifierForVendor?.uuidString)
-            }
-        }
     }
     
     // MARK: - Subscriptions

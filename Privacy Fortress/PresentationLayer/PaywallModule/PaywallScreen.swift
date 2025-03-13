@@ -15,14 +15,6 @@ struct PaywallScreen: View {
                 ScrollView {
                     VStack {
                         HStack {
-                            Button(action: {
-                                openManageSubscriptions()
-                            }) {
-                                Text("Manage Subscriptions")
-                                    .font(.custom(FontsManager.SFRegular.font, size: 16))
-                                    .foregroundColor(Color.blue)
-                                    .underline()
-                            }
                             Spacer()
                             Button(action: {
                                 Task {
@@ -118,7 +110,7 @@ struct PaywallScreen: View {
                                 }
                             
                             Button(action: {
-                                AppFlyerManager.shared.logEvent(name: "paywall_skipped", productId: Constants.productIdentifier)
+                                AppFlyerManager.shared.logEvent(name: "paywall_skipped", productId: Constants.productIdentifierSubscription)
                             }) {
                                 NavigationLink(destination: MainScreen()) {
                                     Text("Skip")
@@ -135,7 +127,7 @@ struct PaywallScreen: View {
                 .padding(.horizontal, Constants.isIPad ? 190 : 24)
                 .frame(height: geometry.size.height)
                 .onAppear(perform: {
-                    AppFlyerManager.shared.logEvent(name: "paywall_shown", productId: Constants.productIdentifier)
+                    AppFlyerManager.shared.logEvent(name: "paywall_shown", productId: Constants.productIdentifierSubscription)
                 })
             }
             .scrollIndicators(.hidden)
@@ -174,18 +166,6 @@ struct PaywallScreen: View {
     private func openURL(_ urlString: String) {
         guard let url = URL(string: urlString) else { return }
         UIApplication.shared.open(url)
-    }
-
-    private func openManageSubscriptions() {
-        Task {
-            do {
-                if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-                    try await ApphudManager.shared.showManageSubscriptions(in: scene)
-                }
-            } catch {
-                print("Failed to open subscription management: \(error.localizedDescription)")
-            }
-        }
     }
 }
 
